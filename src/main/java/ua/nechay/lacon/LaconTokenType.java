@@ -1,6 +1,8 @@
-package ua.nechay;
+package ua.nechay.lacon;
 
-import java.util.regex.Matcher;
+import javax.annotation.Nonnull;
+import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -8,42 +10,70 @@ import java.util.regex.Pattern;
  * @since 03.03.2023
  */
 public enum LaconTokenType {
-    SPACE(
-        Pattern.compile("[ \t\n]"), false
-    ),
     EOF(
-        Pattern.compile("[^\n]*"), false
+        Objects::isNull
+    ),
+    SPACE(
+        LaconUtils::isSpace
+    ),
+    PLUS(
+        character -> character == '+'
+    ),
+    MINUS(
+        character -> character == '-'
     ),
     ASSIGNMENT(
-        Pattern.compile("="), true
+        character -> character == '='
     ),
     LEFT_BRACKET(
-        Pattern.compile("\\("),true
+        character -> character == '('
     ),
     RIGHT_BRACKET(
-        Pattern.compile("\\)"), true
+        character -> character == ')'
     ),
-    NUMBER(
-        Pattern.compile("[0-9]+"), true
-    ),
+    INTEGER(
+        Pattern.compile("[0-9]")
+    ) {
+        @Override
+        public LaconToken toToken(Scanner lexer) {
+            StringBuilder resultBuilder = new StringBuilder();
+            char character;
+            while (lexer.getCurrentChar() != null && matches(character = lexer.getCurrentChar())) { //isDigit?
+                resultBuilder.append(character);
+                lexer.advance();
+            }
+            return new LaconToken(this, resultBuilder.toString());
+        }
+    },
     IDENTIFIER(
-        Pattern.compile("[A-Za-z][A-Za-z0-9_]*"), true
+        Pattern.compile("[A-Za-z]")
     )
     ;
 
-    private final Pattern pattern;
-    private final boolean handle;
+    private final Predicate<Character> matchingPredicate;
 
-    LaconTokenType(Pattern pattern, boolean handle) {
-        this.pattern = pattern;
-        this.handle = handle;
+    LaconTokenType(@Nonnull Predicate<Character> matchingPredicate) {
+        this.matchingPredicate = matchingPredicate;
     }
 
-    public Matcher match(CharSequence characters) {
-        return pattern.matcher(characters);
+    LaconTokenType(@Nonnull Pattern pattern) {
+        this.matchingPredicate = character -> pattern.matcher(String.valueOf(character)).find();
     }
 
-    public boolean isHandle() {
-        return handle;
+    public boolean matches(char character) {
+        return matchingPredicate.test(character);
+    }
+
+    public LaconToken toToken(Scanner lexer) {
+        Character character = lexer.getCurrentChar();
+        if (character == null) {
+            return new LaconToken(EOF, null);
+        }
+        return toToken(lexer.getCurrentChar());
+    }
+
+    public LaconToken toToken(char character) {
+        // simple implementation for single character tokens
+        return new LaconToken(this, String.valueOf(character));
     }
 }

@@ -1,4 +1,4 @@
-package ua.nechay.lacon;
+package ua.nechay.lacon.ast;
 
 /**
  * @author anechaev

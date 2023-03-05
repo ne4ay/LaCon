@@ -1,4 +1,6 @@
-package ua.nechay.lacon;
+package ua.nechay.lacon.ast;
+
+import ua.nechay.lacon.LaconToken;
 
 import javax.annotation.Nonnull;
 

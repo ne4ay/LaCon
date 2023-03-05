@@ -1,6 +1,14 @@
-package ua.nechay.lacon;/**
- * @author anechaev 
+package ua.nechay.lacon;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+/**
+ * @author anechaev
  * @since 06.03.2023
  */
-public class Lexer {
+public interface Lexer {
+
+    @Nonnull
+    LaconToken getNextToken();
 }

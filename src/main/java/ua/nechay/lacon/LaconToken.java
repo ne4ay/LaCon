@@ -1,5 +1,7 @@
-package ua.nechay;
+package ua.nechay.lacon;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 /**
@@ -10,24 +12,20 @@ public class LaconToken {
 
     private final LaconTokenType type;
     private final String text;
-    private final int startPos;
 
-    public LaconToken(LaconTokenType type, String text, int startPos) {
+    public LaconToken(@Nonnull LaconTokenType type, String text) {
         this.type = type;
         this.text = text;
-        this.startPos = startPos;
     }
 
+    @Nonnull
     public LaconTokenType getType() {
         return type;
     }
 
+    @Nullable
     public String getText() {
         return text;
-    }
-
-    public int getStartPos() {
-        return startPos;
     }
 
     @Override
@@ -36,14 +34,12 @@ public class LaconToken {
             return true;
         if (!(o instanceof LaconToken))
             return false;
-        LaconToken that = (LaconToken) o;
-        return startPos == that.startPos && type == that.type && Objects.equals(text, that.text);
+        LaconToken token = (LaconToken) o;
+        return type == token.type && Objects.equals(text, token.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, text, startPos);
+        return Objects.hash(type, text);
     }
-
-
 }
