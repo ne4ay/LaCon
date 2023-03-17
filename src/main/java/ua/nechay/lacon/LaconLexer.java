@@ -2,6 +2,8 @@ package ua.nechay.lacon;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author anechaev
@@ -44,7 +46,30 @@ public class LaconLexer implements Scanner, Lexer {
 
     @Nonnull
     @Override
-    public LaconToken getNextToken() {
-        return null;
+    public LaconToken getNextToken(@Nullable LaconToken previousToken) {
+        while (this.currentChar != null) {
+
+            if (LaconTokenType.SPACE.matches(this.currentChar)) {
+                skipWhiteSpace();
+                continue;
+            }
+            return getStandardToken(List.of(
+                    LaconTokenType.INTEGER, LaconTokenType.PLUS, LaconTokenType.MINUS,
+                    LaconTokenType.MUL, LaconTokenType.DIV, LaconTokenType.LEFT_BRACKET,
+                    LaconTokenType.RIGHT_BRACKET),
+                previousToken
+                )
+                .orElseThrow(() -> new IllegalStateException("Unknown character: " + this.currentChar));
+        }
+        return new LaconToken(LaconTokenType.EOF, "");
     }
+
+    private Optional<LaconToken> getStandardToken(@Nonnull List<LaconTokenType> tokenTypes, LaconToken previousToken) {
+         Optional<LaconToken> maybeToken = tokenTypes.stream()
+            .filter(type -> type.matches(this.currentChar))
+            .findFirst()
+            .map(type -> type.toToken(this, previousToken));
+        return maybeToken;
+    }
+
 }

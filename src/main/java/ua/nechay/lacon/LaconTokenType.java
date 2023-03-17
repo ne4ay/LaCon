@@ -1,6 +1,7 @@
 package ua.nechay.lacon;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -16,6 +17,12 @@ public enum LaconTokenType {
     SPACE(
         LaconUtils::isSpace
     ),
+    MUL(
+        character -> character == '*'
+    ),
+    DIV(
+        character -> character == '/'
+    ),
     PLUS(
         character -> character == '+'
     ),
@@ -27,7 +34,15 @@ public enum LaconTokenType {
     ),
     LEFT_BRACKET(
         character -> character == '('
-    ),
+    ) {
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            if (previousToken != null && previousToken.getType() == RIGHT_BRACKET) {
+                throw new IllegalStateException("Unable to put '(' after ')'");
+            }
+            return super.toToken(lexer, previousToken);
+        }
+    },
     RIGHT_BRACKET(
         character -> character == ')'
     ),
@@ -35,7 +50,7 @@ public enum LaconTokenType {
         Pattern.compile("[0-9]")
     ) {
         @Override
-        public LaconToken toToken(Scanner lexer) {
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
             StringBuilder resultBuilder = new StringBuilder();
             char character;
             while (lexer.getCurrentChar() != null && matches(character = lexer.getCurrentChar())) { //isDigit?
@@ -64,12 +79,13 @@ public enum LaconTokenType {
         return matchingPredicate.test(character);
     }
 
-    public LaconToken toToken(Scanner lexer) {
+    public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
         Character character = lexer.getCurrentChar();
         if (character == null) {
             return new LaconToken(EOF, null);
         }
-        return toToken(lexer.getCurrentChar());
+        lexer.advance();
+        return toToken(character);
     }
 
     public LaconToken toToken(char character) {

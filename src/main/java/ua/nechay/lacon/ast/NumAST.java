@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
  * @author anechaev
  * @since 06.03.2023
  */
-public class NumAST {
+public class NumAST implements AST {
 
     private final LaconToken token;
 
@@ -25,5 +25,10 @@ public class NumAST {
             throw new NullPointerException();
         }
         return Integer.parseInt(token.getText());
+    }
+
+    @Override
+    public int interpret() {
+        return getValue();
     }
 }

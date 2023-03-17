@@ -5,4 +5,6 @@ package ua.nechay.lacon.ast;
  * @since 05.03.2023
  */
 public interface AST {
+
+    int interpret();
 }

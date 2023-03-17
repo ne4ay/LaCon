@@ -10,5 +10,5 @@ import javax.annotation.Nullable;
 public interface Lexer {
 
     @Nonnull
-    LaconToken getNextToken();
+    LaconToken getNextToken(@Nullable LaconToken previousToken);
 }

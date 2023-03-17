@@ -3,6 +3,7 @@ package ua.nechay.lacon;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * @author anechaev
@@ -41,5 +42,13 @@ public class LaconToken {
     @Override
     public int hashCode() {
         return Objects.hash(type, text);
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", LaconToken.class.getSimpleName() + "[", "]")
+            .add("type=" + type)
+            .add("text='" + text + "'")
+            .toString();
     }
 }
