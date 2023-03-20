@@ -54,6 +54,12 @@ public class LexerTest {
         assertNotNull(exception);
     }
 
+    @Test
+    public void testUnaryOperation() {
+        LaconLexer lexer = new LaconLexer("7 + 3 * (10 / (12 / (3 + 1) - 1))");
+        List<LaconToken> tokens = getTokens(lexer);
+    }
+
     private List<LaconToken> getTokens(@Nonnull Lexer lexer) {
         LaconToken token = null;
         List<LaconToken> tokens = new ArrayList<>();

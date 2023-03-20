@@ -46,6 +46,12 @@ public enum LaconTokenType {
     RIGHT_BRACKET(
         character -> character == ')'
     ),
+    LEFT_CURLY_BRACKET(
+        character -> character == '{'
+    ),
+    RIGHT_CURLY_BRACKET(
+      character -> character == '}'
+    ),
     INTEGER(
         Pattern.compile("[0-9]")
     ) {

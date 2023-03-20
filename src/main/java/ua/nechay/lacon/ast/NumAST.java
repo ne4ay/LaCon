@@ -3,6 +3,7 @@ package ua.nechay.lacon.ast;
 import ua.nechay.lacon.LaconToken;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * @author anechaev
@@ -30,5 +31,20 @@ public class NumAST implements AST {
     @Override
     public int interpret() {
         return getValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof NumAST))
+            return false;
+        NumAST numAST = (NumAST) o;
+        return Objects.equals(token, numAST.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(token);
     }
 }

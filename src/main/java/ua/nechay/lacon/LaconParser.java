@@ -3,6 +3,7 @@ package ua.nechay.lacon;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
 import ua.nechay.lacon.ast.NumAST;
+import ua.nechay.lacon.ast.UnaryOperationAST;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
@@ -48,6 +49,14 @@ public class LaconParser implements Parser {
     public AST factor() {
         LaconToken token = this.currentToken;
         LaconTokenType type = token.getType();
+        if (type == LaconTokenType.PLUS) {
+            eat(LaconTokenType.PLUS);
+            return new UnaryOperationAST(token, factor());
+        }
+        if (type == LaconTokenType.MINUS) {
+            eat(LaconTokenType.MINUS);
+            return new UnaryOperationAST(token, factor());
+        }
         if (type == LaconTokenType.INTEGER) {
             eat(LaconTokenType.INTEGER);
             return new NumAST(token);

@@ -3,11 +3,7 @@ package ua.nechay.lacon.ast;
 import ua.nechay.lacon.LaconToken;
 
 import javax.annotation.Nonnull;
-
-import static ua.nechay.lacon.LaconTokenType.DIV;
-import static ua.nechay.lacon.LaconTokenType.MINUS;
-import static ua.nechay.lacon.LaconTokenType.MUL;
-import static ua.nechay.lacon.LaconTokenType.PLUS;
+import java.util.Objects;
 
 /**
  * @author anechaev
@@ -54,5 +50,21 @@ public class BinaryOperationAST implements AST {
     @Nonnull
     public AST getRight() {
         return right;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof BinaryOperationAST))
+            return false;
+        BinaryOperationAST that = (BinaryOperationAST) o;
+        return Objects.equals(left, that.left) && Objects.equals(operation, that.operation) && Objects.equals(
+            right, that.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, operation, right);
     }
 }
