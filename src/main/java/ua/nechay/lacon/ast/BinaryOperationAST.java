@@ -33,7 +33,7 @@ public class BinaryOperationAST implements AST {
         case DIV:
             return getLeft().interpret() / getRight().interpret();
         default:
-            throw new IllegalStateException("Unknown operation type: " + getOperation());
+            throw new IllegalStateException("Unknown operation type: " + getOperation().getText() + " at position: " + getOperation().getStartPos());
         }
     }
 

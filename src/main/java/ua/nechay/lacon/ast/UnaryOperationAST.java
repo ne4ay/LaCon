@@ -29,7 +29,7 @@ public class UnaryOperationAST implements AST {
         case MINUS:
             return - expression.interpret();
         default:
-            throw new IllegalStateException("Unknown type: " + type);
+            throw new IllegalStateException("Unknown type: " + type + " at position " + getOperation().getStartPos());
         }
     }
 

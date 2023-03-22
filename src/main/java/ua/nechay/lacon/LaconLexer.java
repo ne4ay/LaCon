@@ -27,6 +27,11 @@ public class LaconLexer implements Scanner, Lexer {
         return currentChar;
     }
 
+    @Override
+    public int getCurrentPosition() {
+        return position;
+    }
+
     /**
      * Advance the `position` pointer and set the `currentChar` variable.
      */
@@ -61,7 +66,7 @@ public class LaconLexer implements Scanner, Lexer {
                 )
                 .orElseThrow(() -> new IllegalStateException("Unknown character: " + this.currentChar));
         }
-        return new LaconToken(LaconTokenType.EOF, "");
+        return new LaconToken(LaconTokenType.EOF, "", position);
     }
 
     private Optional<LaconToken> getStandardToken(@Nonnull List<LaconTokenType> tokenTypes, LaconToken previousToken) {

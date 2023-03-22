@@ -39,7 +39,7 @@ public class LaconParser implements Parser {
             this.previousToken = this.currentToken;
             this.currentToken = lexer.getNextToken(this.previousToken);
         } else {
-            throw new IllegalStateException("Illegal syntax: " + currentToken);
+            throw new IllegalStateException("Illegal syntax: " + currentToken + " at position: " + currentToken.getStartPos());
         }
     }
 

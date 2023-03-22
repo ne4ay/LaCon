@@ -13,10 +13,12 @@ public class LaconToken {
 
     private final LaconTokenType type;
     private final String text;
+    private final int startPos;
 
-    public LaconToken(@Nonnull LaconTokenType type, String text) {
+    public LaconToken(@Nonnull LaconTokenType type, String text, int startPos) {
         this.type = type;
         this.text = text;
+        this.startPos = startPos;
     }
 
     @Nonnull
@@ -29,6 +31,10 @@ public class LaconToken {
         return text;
     }
 
+    public int getStartPos() {
+        return startPos;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -36,12 +42,12 @@ public class LaconToken {
         if (!(o instanceof LaconToken))
             return false;
         LaconToken token = (LaconToken) o;
-        return type == token.type && Objects.equals(text, token.text);
+        return startPos == token.startPos && type == token.type && Objects.equals(text, token.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, text);
+        return Objects.hash(type, text, startPos);
     }
 
     @Override
@@ -49,6 +55,7 @@ public class LaconToken {
         return new StringJoiner(", ", LaconToken.class.getSimpleName() + "[", "]")
             .add("type=" + type)
             .add("text='" + text + "'")
+            .add("startPos=" + startPos)
             .toString();
     }
 }

@@ -38,7 +38,7 @@ public enum LaconTokenType {
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
             if (previousToken != null && previousToken.getType() == RIGHT_BRACKET) {
-                throw new IllegalStateException("Unable to put '(' after ')'");
+                throw new IllegalStateException("Unable to put '(' after ')' at position: " + lexer.getCurrentPosition());
             }
             return super.toToken(lexer, previousToken);
         }
@@ -58,12 +58,13 @@ public enum LaconTokenType {
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
             StringBuilder resultBuilder = new StringBuilder();
+            int position = lexer.getCurrentPosition();
             char character;
             while (lexer.getCurrentChar() != null && matches(character = lexer.getCurrentChar())) { //isDigit?
                 resultBuilder.append(character);
                 lexer.advance();
             }
-            return new LaconToken(this, resultBuilder.toString());
+            return new LaconToken(this, resultBuilder.toString(), position);
         }
     },
     IDENTIFIER(
@@ -88,14 +89,15 @@ public enum LaconTokenType {
     public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
         Character character = lexer.getCurrentChar();
         if (character == null) {
-            return new LaconToken(EOF, null);
+            return new LaconToken(EOF, null, lexer.getCurrentPosition());
         }
+        int position = lexer.getCurrentPosition();
         lexer.advance();
-        return toToken(character);
+        return toToken(character, position);
     }
 
-    public LaconToken toToken(char character) {
+    public LaconToken toToken(char character, int currentPosition) {
         // simple implementation for single character tokens
-        return new LaconToken(this, String.valueOf(character));
+        return new LaconToken(this, String.valueOf(character), currentPosition);
     }
 }

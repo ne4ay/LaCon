@@ -12,5 +12,7 @@ public interface Scanner {
     @Nullable
     Character getCurrentChar();
 
+    int getCurrentPosition();
+
     void advance();
 }
