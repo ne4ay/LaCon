@@ -17,6 +17,9 @@ public enum LaconTokenType {
     SPACE(
         LaconUtils::isSpace
     ),
+    SEMICOLON(
+        character -> character == ';'
+    ),
     MUL(
         character -> character == '*'
     ),
@@ -29,9 +32,53 @@ public enum LaconTokenType {
     MINUS(
         character -> character == '-'
     ),
+    EQUALS(
+        character -> character == '='
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+            Character nextChar = lexer.peek(1);
+            if (nextChar == null) {
+                throw new IllegalStateException("Unable to assign to nothing!");
+            }
+            Character afterNextChar = lexer.peek(2);
+            if (afterNextChar == null || afterNextChar.equals('=')) {
+                throw new IllegalStateException("Illegal character: " + afterNextChar + " at " + lexer.getCurrentPosition() + 2);
+            }
+            return super.matches(lexer) && nextChar.equals('=');
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            StringBuilder resultBuilder = new StringBuilder();
+            int position = lexer.getCurrentPosition();
+            Character character1 = lexer.getCurrentChar();
+            if (character1 == null) {
+                throw new NullPointerException("Unable to construct Equals!");
+            }
+            resultBuilder.append(character1);
+            lexer.advance();
+            Character character2 = lexer.getCurrentChar();
+            if (character2 == null || !character2.equals('=')) {
+                throw new IllegalStateException("Illegal character: " + character2 + " at " + lexer.getCurrentPosition());
+            }
+            resultBuilder.append(character2);
+            lexer.advance();
+            return new LaconToken(this, resultBuilder.toString(), position);
+        }
+    },
     ASSIGNMENT(
         character -> character == '='
-    ),
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+            Character nextChar = lexer.peek(1);
+            if (nextChar == null) {
+                throw new IllegalStateException("Unable to assign to nothing!");
+            }
+            return super.matches(lexer) && !nextChar.equals('=');
+        }
+    },
     LEFT_BRACKET(
         character -> character == '('
     ) {
@@ -53,7 +100,7 @@ public enum LaconTokenType {
       character -> character == '}'
     ),
     INTEGER(
-        Pattern.compile("[0-9]")
+        Pattern.compile("[1-9][0-9]")
     ) {
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
@@ -68,7 +115,7 @@ public enum LaconTokenType {
         }
     },
     IDENTIFIER(
-        Pattern.compile("[A-Za-z]")
+        Pattern.compile("[A-Za-z][A-Za-z0-9_$]")
     )
     ;
 
@@ -82,7 +129,15 @@ public enum LaconTokenType {
         this.matchingPredicate = character -> pattern.matcher(String.valueOf(character)).find();
     }
 
-    public boolean matches(char character) {
+    public boolean matches(@Nonnull Scanner lexer) {
+        Character currentCharacter = lexer.getCurrentChar();
+        if (currentCharacter == null) {
+            return false;
+        }
+        return matches(currentCharacter);
+    }
+
+    protected boolean matches(char character) {
         return matchingPredicate.test(character);
     }
 
@@ -96,7 +151,7 @@ public enum LaconTokenType {
         return toToken(character, position);
     }
 
-    public LaconToken toToken(char character, int currentPosition) {
+    private LaconToken toToken(char character, int currentPosition) {
         // simple implementation for single character tokens
         return new LaconToken(this, String.valueOf(character), currentPosition);
     }

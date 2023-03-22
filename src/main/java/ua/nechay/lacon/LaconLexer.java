@@ -27,6 +27,17 @@ public class LaconLexer implements Scanner, Lexer {
         return currentChar;
     }
 
+    @Nullable
+    @Override
+    public Character peek(int i) {
+        int nextPosition = position + i;
+        if (nextPosition >= text.length()) {
+            return null;
+        } else {
+            return text.charAt(nextPosition);
+        }
+    }
+
     @Override
     public int getCurrentPosition() {
         return position;
@@ -54,7 +65,7 @@ public class LaconLexer implements Scanner, Lexer {
     public LaconToken getNextToken(@Nullable LaconToken previousToken) {
         while (this.currentChar != null) {
 
-            if (LaconTokenType.SPACE.matches(this.currentChar)) {
+            if (LaconTokenType.SPACE.matches(this)) {
                 skipWhiteSpace();
                 continue;
             }
