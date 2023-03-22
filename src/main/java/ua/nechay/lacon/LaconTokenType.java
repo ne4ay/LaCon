@@ -97,11 +97,11 @@ public enum LaconTokenType {
         character -> character == '{'
     ),
     RIGHT_CURLY_BRACKET(
-      character -> character == '}'
+        character -> character == '}'
     ),
     INTEGER(
-        Pattern.compile("[1-9][0-9]")
-    ) {
+        Pattern.compile("[1-9]")
+    ) {//TODO: override matches method
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
             StringBuilder resultBuilder = new StringBuilder();
@@ -116,7 +116,7 @@ public enum LaconTokenType {
     },
     IDENTIFIER(
         Pattern.compile("[A-Za-z][A-Za-z0-9_$]")
-    )
+    ) ////TODO: override matches method
     ;
 
     private final Predicate<Character> matchingPredicate;

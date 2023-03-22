@@ -25,7 +25,12 @@ public class NumAST implements AST {
         if (token.getText() == null) {
             throw new NullPointerException();
         }
-        return Integer.parseInt(token.getText());
+        return Integer.parseInt(removeRedundantCharacters(token.getText()));
+    }
+
+    @Nonnull
+    private String removeRedundantCharacters(@Nonnull String text) {
+        return text.replace("_", "");
     }
 
     @Override
