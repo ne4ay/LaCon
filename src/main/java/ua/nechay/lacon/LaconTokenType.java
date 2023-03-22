@@ -2,7 +2,9 @@ package ua.nechay.lacon;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -11,6 +13,7 @@ import java.util.regex.Pattern;
  * @since 03.03.2023
  */
 public enum LaconTokenType {
+    //TODO change from predicate to Char
     EOF(
         Objects::isNull
     ),
@@ -101,7 +104,32 @@ public enum LaconTokenType {
     ),
     INTEGER(
         Pattern.compile("[1-9]")
-    ) {//TODO: override matches method
+    ) {
+        private final Set<Character> appropriateFirstSymbols = Set.of('1', '2', '3', '4', '5', '6', '7', '8', '9');
+        private final Set<Character> appropriateNSymbols = Set.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_');
+
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+
+            Character character1 = lexer.getCurrentChar();
+            if (character1 == null) {
+                throw new NullPointerException("Illegal!!!");
+            }
+            if (!appropriateFirstSymbols.contains(character1)) {
+                return false;
+            }
+            int shift = 1;
+            Character nChar;
+            while ((nChar = lexer.peek(shift)) != null) {
+                if (appropriateNSymbols.contains(nChar)) {
+                    shift++;
+                    continue;
+                }
+                Character nPlus1Char = lexer.peek(shift + 1);
+                return nPlus1Char != null && nPlus1Char.equals()
+            }
+        }
+
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
             StringBuilder resultBuilder = new StringBuilder();
@@ -118,6 +146,7 @@ public enum LaconTokenType {
         Pattern.compile("[A-Za-z][A-Za-z0-9_$]")
     ) ////TODO: override matches method
     ;
+    private static final EnumSet<LaconTokenType> OPERATORS = EnumSet.of(MUL, DIV, PLUS, MINUS);
 
     private final Predicate<Character> matchingPredicate;
 
@@ -154,5 +183,13 @@ public enum LaconTokenType {
     private LaconToken toToken(char character, int currentPosition) {
         // simple implementation for single character tokens
         return new LaconToken(this, String.valueOf(character), currentPosition);
+    }
+
+    private static boolean isOperator(@Nullable Character character) {
+        if (character == null) {
+            return false;
+        }
+        return OPERATORS.stream()
+            .anyMatch(operatorType -> operatorType.matches(character));
     }
 }
