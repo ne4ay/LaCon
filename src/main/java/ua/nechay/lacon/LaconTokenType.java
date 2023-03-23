@@ -109,8 +109,12 @@ public enum LaconTokenType {
         private final Set<Character> appropriateNSymbols = Set.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_');
 
         @Override
-        public boolean matches(@Nonnull Scanner lexer) {
+        protected boolean matches(char character) {
+            return appropriateNSymbols.contains(character);
+        }
 
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
             Character character1 = lexer.getCurrentChar();
             if (character1 == null) {
                 throw new NullPointerException("Illegal!!!");
@@ -126,8 +130,11 @@ public enum LaconTokenType {
                     continue;
                 }
                 Character nPlus1Char = lexer.peek(shift + 1);
-                return nPlus1Char != null && nPlus1Char.equals()
+                return nPlus1Char != null &&
+                    (SEMICOLON.matches(nPlus1Char) || SPACE.matches(nPlus1Char)
+                        || LaconTokenType.isOperator(nPlus1Char) || RIGHT_BRACKET.matches(nPlus1Char));
             }
+            throw new IllegalStateException("Unable to parse!!");
         }
 
         @Override
