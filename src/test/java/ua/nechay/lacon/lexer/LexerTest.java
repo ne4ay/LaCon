@@ -1,9 +1,9 @@
-package ua.nechay.lacon;
+package ua.nechay.lacon.lexer;
 
 import org.junit.Test;
+import ua.nechay.lacon.LaconLexer;
+import ua.nechay.lacon.LaconToken;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
  * @author anechaev
  * @since 16.03.2023
  */
-public class LexerTest {
+public class LexerTest extends AbstractLexerTestBase {
 
     @Test
     public void testSomeExpression() {
@@ -58,14 +58,5 @@ public class LexerTest {
     public void testUnaryOperation() {
         LaconLexer lexer = new LaconLexer("7 + 3 * (10 / (12 / (3 + 1) - 1))");
         List<LaconToken> tokens = getTokens(lexer);
-    }
-
-    private List<LaconToken> getTokens(@Nonnull Lexer lexer) {
-        LaconToken token = null;
-        List<LaconToken> tokens = new ArrayList<>();
-        while ((token = lexer.getNextToken(token)).getType() != LaconTokenType.EOF) {
-            tokens.add(token);
-        }
-        return tokens;
     }
 }

@@ -70,7 +70,7 @@ public class LaconLexer implements Scanner, Lexer {
                 continue;
             }
             return getStandardToken(List.of(
-                    LaconTokenType.INTEGER, LaconTokenType.PLUS, LaconTokenType.MINUS,
+                    LaconTokenType.COMMENT, LaconTokenType.INTEGER, LaconTokenType.PLUS, LaconTokenType.MINUS,
                     LaconTokenType.MUL, LaconTokenType.DIV, LaconTokenType.LEFT_BRACKET,
                     LaconTokenType.RIGHT_BRACKET),
                 previousToken

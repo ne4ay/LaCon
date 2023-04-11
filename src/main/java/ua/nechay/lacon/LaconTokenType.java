@@ -17,6 +17,30 @@ public enum LaconTokenType {
     EOF(
         Objects::isNull
     ),
+    COMMENT(
+        character -> character == '/'
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+            Character nextChar = lexer.peek(1);
+            if (nextChar == null) {
+                throw new IllegalStateException("Unable to assign to nothing!");
+            }
+            return super.matches(lexer) && nextChar.equals('/');
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            StringBuilder resultBuilder = new StringBuilder();
+            int position = lexer.getCurrentPosition();
+            char character;
+            while (lexer.getCurrentChar() != null && (character = lexer.getCurrentChar()) != '\n') {
+                resultBuilder.append(character);
+                lexer.advance();
+            }
+            return new LaconToken(this, resultBuilder.toString(), position);
+        }
+    },
     SPACE(
         LaconUtils::isSpace
     ),
@@ -150,7 +174,7 @@ public enum LaconTokenType {
         }
     },
     IDENTIFIER(
-        Pattern.compile("[A-Za-z][A-Za-z0-9_$]")
+        Pattern.compile("[A-Za-z]")
     ) ////TODO: override matches method
     ;
     private static final EnumSet<LaconTokenType> OPERATORS = EnumSet.of(MUL, DIV, PLUS, MINUS);

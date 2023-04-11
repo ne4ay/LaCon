@@ -4,9 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="reworked">
+    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="Integers reworked">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/AssignmentAST.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/CompoundAST.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconProgramState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconVariable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/AbstractLexerTestBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/CommentLexerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/parser/IntegerParserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/AST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/AST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/LexerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/LexerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/ParserTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +40,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Amazon Corretto/jdk11.0.16_9/lib/src.zip!/java.base/java/lang/StringBuilder.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Amazon Corretto/jdk11.0.16_9/lib/src.zip!/java.base/java/util/Queue.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Amazon Corretto/jdk11.0.16_9/lib/src.zip!/java.base/java/util/regex/Matcher.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Amazon Corretto/jdk11.0.16_9/lib/src.zip!/java.base/java/util/regex/Pattern.java" root0="SKIP_INSPECTION" />
   </component>
@@ -49,7 +63,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/anechaev/IdeaProjects/gkg&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/anechaev/IdeaProjects/LaCon&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
@@ -57,12 +71,28 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.InterpreterTest.testIntegers">
+  <component name="RunManager" selected="JUnit.CommentLexerTest.testSimpleComment">
+    <configuration name="CommentLexerTest.testSimpleComment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LaCon" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nechay.lacon.lexer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ua.nechay.lacon.lexer" />
+      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.lexer.CommentLexerTest" />
+      <option name="METHOD_NAME" value="testSimpleComment" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="InterpreterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.*" />
+          <option name="PATTERN" value="ua.nechay.lacon.parser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -77,7 +107,7 @@
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.*" />
+          <option name="PATTERN" value="ua.nechay.lacon.parser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -93,7 +123,7 @@
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.*" />
+          <option name="PATTERN" value="ua.nechay.lacon.parser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -109,7 +139,7 @@
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.*" />
+          <option name="PATTERN" value="ua.nechay.lacon.parser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -121,29 +151,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LexerTest.testRightBracketAfterLeftBracketThrowsAnException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="LaCon" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ua.nechay.lacon" />
-      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.LexerTest" />
-      <option name="METHOD_NAME" value="testRightBracketAfterLeftBracketThrowsAnException" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CommentLexerTest.testSimpleComment" />
         <item itemvalue="JUnit.InterpreterTest.testIntegers" />
         <item itemvalue="JUnit.InterpreterTest" />
         <item itemvalue="JUnit.InterpreterTest.testUnaryOperation" />
         <item itemvalue="JUnit.InterpreterTest.test" />
-        <item itemvalue="JUnit.LexerTest.testRightBracketAfterLeftBracketThrowsAnException" />
       </list>
     </recent_temporary>
   </component>
@@ -164,7 +178,11 @@
       <workItem from="1679297261849" duration="5767000" />
       <workItem from="1679381173299" duration="2381000" />
       <workItem from="1679485846889" duration="6449000" />
-      <workItem from="1679557571222" duration="1152000" />
+      <workItem from="1679557571222" duration="1862000" />
+      <workItem from="1680375689066" duration="7883000" />
+      <workItem from="1680590547078" duration="2254000" />
+      <workItem from="1681063226181" duration="1198000" />
+      <workItem from="1681152458786" duration="7127000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1678048715564</created>
@@ -201,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679505789387</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Integers reworked">
+      <created>1679559846824</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1679559846824</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,13 +249,14 @@
     <MESSAGE value="Exceptions  have been improved" />
     <MESSAGE value="peek function added" />
     <MESSAGE value="reworked" />
-    <option name="LAST_COMMIT_MESSAGE" value="reworked" />
+    <MESSAGE value="Integers reworked" />
+    <option name="LAST_COMMIT_MESSAGE" value="Integers reworked" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ua/nechay/lacon/LexerTest.java</url>
+          <url>file://$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/LexerTest.java</url>
           <line>22</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
@@ -250,7 +276,7 @@
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ua/nechay/lacon/LexerTest.java</url>
+          <url>file://$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/LexerTest.java</url>
           <line>46</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
