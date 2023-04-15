@@ -1,12 +1,17 @@
 package ua.nechay.lacon;
 
+import ua.nechay.lacon.core.LaconType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author anechaev
@@ -15,16 +20,16 @@ import java.util.regex.Pattern;
 public enum LaconTokenType {
     //TODO change from predicate to Char
     EOF(
-        Objects::isNull
+        Objects::isNull, true
     ),
     COMMENT(
-        character -> character == '/'
+        character -> character == '/' , true
     ) {
         @Override
         public boolean matches(@Nonnull Scanner lexer) {
             Character nextChar = lexer.peek(1);
             if (nextChar == null) {
-                throw new IllegalStateException("Unable to assign to nothing!");
+               return false;
             }
             return super.matches(lexer) && nextChar.equals('/');
         }
@@ -42,7 +47,13 @@ public enum LaconTokenType {
         }
     },
     SPACE(
-        LaconUtils::isSpace
+        LaconUtils::isSpace, false
+    ),
+    NEXT_LINE(
+        LaconUtils::isNextLine, false
+    ),
+    COLON(
+      character -> character == ':'
     ),
     SEMICOLON(
         character -> character == ';'
@@ -65,14 +76,14 @@ public enum LaconTokenType {
         @Override
         public boolean matches(@Nonnull Scanner lexer) {
             Character nextChar = lexer.peek(1);
-            if (nextChar == null) {
-                throw new IllegalStateException("Unable to assign to nothing!");
+            if (nextChar == null || !nextChar.equals('=')) {
+                return false;
             }
             Character afterNextChar = lexer.peek(2);
             if (afterNextChar == null || afterNextChar.equals('=')) {
                 throw new IllegalStateException("Illegal character: " + afterNextChar + " at " + lexer.getCurrentPosition() + 2);
             }
-            return super.matches(lexer) && nextChar.equals('=');
+            return super.matches(lexer);
         }
 
         @Override
@@ -101,7 +112,7 @@ public enum LaconTokenType {
         public boolean matches(@Nonnull Scanner lexer) {
             Character nextChar = lexer.peek(1);
             if (nextChar == null) {
-                throw new IllegalStateException("Unable to assign to nothing!");
+                return false;
             }
             return super.matches(lexer) && !nextChar.equals('=');
         }
@@ -153,40 +164,131 @@ public enum LaconTokenType {
                     shift++;
                     continue;
                 }
-                Character nPlus1Char = lexer.peek(shift + 1);
-                return nPlus1Char != null &&
-                    (SEMICOLON.matches(nPlus1Char) || SPACE.matches(nPlus1Char)
-                        || LaconTokenType.isOperator(nPlus1Char) || RIGHT_BRACKET.matches(nPlus1Char));
+                return SEMICOLON.matches(nChar)
+                    || SPACE.matches(nChar)
+                    || NEXT_LINE.matches(nChar)
+                    || LaconTokenType.isOperator(nChar)
+                    || RIGHT_BRACKET.matches(nChar);
             }
-            throw new IllegalStateException("Unable to parse!!");
+            return true;
         }
 
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            StringBuilder resultBuilder = new StringBuilder();
-            int position = lexer.getCurrentPosition();
-            char character;
-            while (lexer.getCurrentChar() != null && matches(character = lexer.getCurrentChar())) { //isDigit?
-                resultBuilder.append(character);
-                lexer.advance();
+            return LaconUtils.eatToken(lexer, this::matches, this);
+        }
+    },
+    REAL(
+        Pattern.compile("[0-9.]")
+    ) {
+        private final Set<Character> appropriateFirstSymbols = Set.of('.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        private final Set<Character> appropriateNSymbols = Set.of('.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_');
+        private final Pattern doublePattern = Pattern.compile("(\\d+[\\d_]*\\d+\\.\\d+[\\d_]*\\d+)|(\\d+[\\d_]*\\d+\\.\\d*)|(\\d*\\.\\d+[\\d_]*\\d+)|(\\d+\\.\\d+)");
+
+        @Override
+        protected boolean matches(char character) {
+            return appropriateNSymbols.contains(character);
+        }
+
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+            StringBuilder builder = new StringBuilder();
+            Character character1 = lexer.getCurrentChar();
+            if (character1 == null) {
+                throw new NullPointerException("Illegal!!!");
             }
-            return new LaconToken(this, resultBuilder.toString(), position);
+            builder.append(character1);
+            if (!appropriateFirstSymbols.contains(character1)) {
+                return false;
+            }
+            int shift = 1;
+            Character nChar;
+            while ((nChar = lexer.peek(shift)) != null) {
+                if (appropriateNSymbols.contains(nChar)) {
+                    builder.append(nChar);
+                    shift++;
+                    continue;
+                }
+                if (SEMICOLON.matches(nChar)
+                    || SPACE.matches(nChar)
+                    || NEXT_LINE.matches(nChar)
+                    || LaconTokenType.isOperator(nChar)
+                    || RIGHT_BRACKET.matches(nChar))
+                {
+                    return doublePattern.matcher(builder.toString()).matches();
+                }
+            }
+            return doublePattern.matcher(builder.toString()).matches();
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+           return LaconUtils.eatToken(lexer, this::matches, this);
+        }
+    },
+    TYPE(
+        Pattern.compile("[a-z]")
+    ) {
+        private final Pattern pattern = Pattern.compile(Arrays.stream(LaconType.values())
+            .map(LaconType::getRepresentation)
+            .collect(Collectors.joining("|")));
+
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+            return pattern.matcher(LaconUtils.examineUntil(lexer, this::matches)).matches();
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.eatToken(lexer, this::matches, this);
         }
     },
     IDENTIFIER(
-        Pattern.compile("[A-Za-z]")
-    ) ////TODO: override matches method
+        Pattern.compile("[_A-Za-z]")
+    ) {
+        private final Pattern pattern = Pattern.compile("(?=.*[A-Za-z])_*[_A-Za-z0-9]+");
+
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+            return pattern.matcher(LaconUtils.examineUntil(lexer, this::matches)).matches();
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.eatToken(lexer, this::matches, this);
+        }
+    }
     ;
     private static final EnumSet<LaconTokenType> OPERATORS = EnumSet.of(MUL, DIV, PLUS, MINUS);
 
-    private final Predicate<Character> matchingPredicate;
+    protected final Predicate<Character> matchingPredicate;
+    protected final boolean isStandardToken;
 
     LaconTokenType(@Nonnull Predicate<Character> matchingPredicate) {
         this.matchingPredicate = matchingPredicate;
+        this.isStandardToken = true;
     }
 
     LaconTokenType(@Nonnull Pattern pattern) {
-        this.matchingPredicate = character -> pattern.matcher(String.valueOf(character)).find();
+        this.matchingPredicate = character -> pattern.matcher(String.valueOf(character)).matches();
+        this.isStandardToken = true;
+    }
+
+    LaconTokenType(@Nonnull Predicate<Character> matchingPredicate, boolean isStandardToken) {
+        this.matchingPredicate = matchingPredicate;
+        this.isStandardToken = isStandardToken;
+    }
+
+    LaconTokenType(@Nonnull Pattern pattern, boolean isStandardToken) {
+        this.matchingPredicate = character -> pattern.matcher(String.valueOf(character)).matches();
+        this.isStandardToken = isStandardToken;
+    }
+
+    /**
+     * @return not-skippable types
+     */
+    public static List<LaconTokenType> getStandardTypes() {
+        return Arrays.asList(values());
     }
 
     public boolean matches(@Nonnull Scanner lexer) {

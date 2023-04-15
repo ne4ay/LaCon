@@ -1,6 +1,6 @@
 package ua.nechay.lacon;
 
-import ua.nechay.lacon.ast.AST;
+import ua.nechay.lacon.core.LaconProgramState;
 
 import javax.annotation.Nonnull;
 
@@ -16,11 +16,7 @@ public class LaconInterpreter {
         this.parser = parser;
     }
 
-    int visit(@Nonnull AST ast) {
-        throw new IllegalStateException("Illegal!");
-    }
-
-    int interpret() {
-        return parser.parse().interpret();
+    LaconProgramState interpret() {
+        return parser.parse().beginInterpret();
     }
 }

@@ -2,7 +2,8 @@ package ua.nechay.lacon;
 
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
-import ua.nechay.lacon.ast.NumAST;
+import ua.nechay.lacon.ast.IntNumAST;
+import ua.nechay.lacon.ast.RealNumAST;
 import ua.nechay.lacon.ast.UnaryOperationAST;
 
 import javax.annotation.Nonnull;
@@ -59,7 +60,11 @@ public class LaconParser implements Parser {
         }
         if (type == LaconTokenType.INTEGER) {
             eat(LaconTokenType.INTEGER);
-            return new NumAST(token);
+            return new IntNumAST(token);
+        }
+        if (type == LaconTokenType.REAL) {
+            eat(LaconTokenType.REAL);
+            return new RealNumAST(token);
         }
         if (type == LaconTokenType.LEFT_BRACKET) {
             eat(LaconTokenType.LEFT_BRACKET);
@@ -78,9 +83,9 @@ public class LaconParser implements Parser {
         while (TERM_TYPES.contains(this.currentToken.getType())) {
             LaconToken token = this.currentToken;
             if (token.getType() == LaconTokenType.MUL) {
-                this.eat(LaconTokenType.MUL);
+                eat(LaconTokenType.MUL);
             } else if (token.getType() == LaconTokenType.DIV) {
-                this.eat(LaconTokenType.DIV);
+                eat(LaconTokenType.DIV);
             }
             node = new BinaryOperationAST(node, token, factor());
         }

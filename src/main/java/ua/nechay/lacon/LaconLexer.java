@@ -30,7 +30,7 @@ public class LaconLexer implements Scanner, Lexer {
     @Nullable
     @Override
     public Character peek(int i) {
-        int nextPosition = position + i;
+        int nextPosition = this.position + i;
         if (nextPosition >= text.length()) {
             return null;
         } else {
@@ -55,7 +55,7 @@ public class LaconLexer implements Scanner, Lexer {
     }
 
     public void skipWhiteSpace() {
-        while (this.currentChar != null && LaconUtils.isSpace(this.currentChar)) {
+        while (this.currentChar != null && (LaconUtils.isSpace(this.currentChar) || LaconUtils.isNextLine(this.currentChar))) {
             this.advance();
         }
     }
@@ -69,23 +69,17 @@ public class LaconLexer implements Scanner, Lexer {
                 skipWhiteSpace();
                 continue;
             }
-            return getStandardToken(List.of(
-                    LaconTokenType.COMMENT, LaconTokenType.INTEGER, LaconTokenType.PLUS, LaconTokenType.MINUS,
-                    LaconTokenType.MUL, LaconTokenType.DIV, LaconTokenType.LEFT_BRACKET,
-                    LaconTokenType.RIGHT_BRACKET),
-                previousToken
-                )
+            return getStandardToken(LaconTokenType.getStandardTypes(), previousToken)
                 .orElseThrow(() -> new IllegalStateException("Unknown character: " + this.currentChar));
         }
         return new LaconToken(LaconTokenType.EOF, "", position);
     }
 
     private Optional<LaconToken> getStandardToken(@Nonnull List<LaconTokenType> tokenTypes, LaconToken previousToken) {
-         Optional<LaconToken> maybeToken = tokenTypes.stream()
-            .filter(type -> type.matches(this.currentChar))
-            .findFirst()
-            .map(type -> type.toToken(this, previousToken));
-        return maybeToken;
+        return tokenTypes.stream()
+           .filter(type -> type.matches(this))
+           .findFirst()
+           .map(type -> type.toToken(this, previousToken));
     }
 
 }

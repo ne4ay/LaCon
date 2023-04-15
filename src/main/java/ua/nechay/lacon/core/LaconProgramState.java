@@ -1,5 +1,7 @@
 package ua.nechay.lacon.core;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -11,6 +13,35 @@ import java.util.Map;
  */
 public class LaconProgramState {
 
-    private final Deque<LaconValue> valueStack = new ArrayDeque<>();
+    private final Deque<LaconValue<?>> valueStack = new ArrayDeque<>();
     private final Map<String, LaconVariable> variables = new HashMap<>();
+
+    private LaconProgramState() {
+
+    }
+
+    public static LaconProgramState create() {
+        return new LaconProgramState();
+    }
+
+    public LaconProgramState putVar(@Nonnull String varName, @Nonnull LaconVariable var) {
+        variables.put(varName, var);
+        return this;
+    }
+
+    @Nullable
+    public LaconVariable getVar(@Nonnull String name) {
+        return variables.get(name);
+    }
+
+    @Nonnull
+    public LaconProgramState pushValue(@Nonnull LaconValue<?> value) {
+        valueStack.push(value);
+        return this;
+    }
+
+    @Nonnull
+    public LaconValue<?> popValue() {
+        return valueStack.pop();
+    }
 }

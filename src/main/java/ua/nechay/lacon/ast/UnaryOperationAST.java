@@ -2,6 +2,8 @@ package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.LaconTokenType;
+import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconValue;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -21,13 +23,15 @@ public class UnaryOperationAST implements AST {
     }
 
     @Override
-    public int interpret() {
+    public LaconProgramState interpret(@Nonnull LaconProgramState state) {
+        var newState = expression.interpret(state);
+        var value = newState.popValue();
         LaconTokenType type = operation.getType();
         switch (type) {
         case PLUS:
-            return + expression.interpret();
+            return newState.pushValue(value.unaryPlus());
         case MINUS:
-            return - expression.interpret();
+            return newState.pushValue(value.unaryMinus());
         default:
             throw new IllegalStateException("Unknown type: " + type + " at position " + getOperation().getStartPos());
         }

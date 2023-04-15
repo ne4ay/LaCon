@@ -21,8 +21,9 @@ public class AssignmentAST implements AST {
         this.right = right;
     }
 
+    @Nonnull
     @Override
-    public LaconProgramState interpret() {
+    public LaconProgramState interpret(@Nonnull LaconProgramState state) {
         return null;
     }
 }
