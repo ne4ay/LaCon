@@ -26,10 +26,11 @@ public class IntNumAST implements AST {
     }
 
     public long getValue() {
-        if (token.getText() == null) {
+        String text = getToken().getText();
+        if (text == null) {
             throw new NullPointerException();
         }
-        return Long.parseLong(removeRedundantCharacters(token.getText()));
+        return Long.parseLong(removeRedundantCharacters(text));
     }
 
     @Nonnull

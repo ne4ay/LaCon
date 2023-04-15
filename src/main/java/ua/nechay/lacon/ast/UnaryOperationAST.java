@@ -24,9 +24,9 @@ public class UnaryOperationAST implements AST {
 
     @Override
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
-        var newState = expression.interpret(state);
+        var newState = getExpression().interpret(state);
         var value = newState.popValue();
-        LaconTokenType type = operation.getType();
+        LaconTokenType type = getOperation().getType();
         switch (type) {
         case PLUS:
             return newState.pushValue(value.unaryPlus());

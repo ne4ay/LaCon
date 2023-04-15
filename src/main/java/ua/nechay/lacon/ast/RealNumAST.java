@@ -26,10 +26,11 @@ public class RealNumAST implements AST {
     }
 
     public double getValue() {
-        if (token.getText() == null) {
+        String text = getToken().getText();
+        if (text == null) {
             throw new NullPointerException();
         }
-        return Double.parseDouble(removeRedundantCharacters(token.getText()));
+        return Double.parseDouble(removeRedundantCharacters(text));
     }
 
     @Nonnull
