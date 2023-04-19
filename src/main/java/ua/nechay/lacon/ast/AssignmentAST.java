@@ -2,6 +2,7 @@ package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconValue;
 
 import javax.annotation.Nonnull;
 
@@ -24,6 +25,13 @@ public class AssignmentAST implements AST {
     @Nonnull
     @Override
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
-        return null;
+        if (!(left instanceof AssignableAST)) {
+            throw new IllegalStateException("Unable to assign to non-assignable entity. Assign index: " + assignment.getStartPos());
+        }
+        AssignableAST assignableLeftPart = (AssignableAST) left;
+        var afterRightState = right.interpret(state);
+        LaconValue<?> value = afterRightState.popValue();
+        var afterLeftState = assignableLeftPart.interpret(afterRightState);
+        return assignableLeftPart.assign(afterLeftState, value);
     }
 }

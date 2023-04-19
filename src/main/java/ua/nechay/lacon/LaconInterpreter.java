@@ -16,7 +16,7 @@ public class LaconInterpreter {
         this.parser = parser;
     }
 
-    LaconProgramState interpret() {
+    public LaconProgramState interpret() {
         return parser.parse().beginInterpret();
     }
 }

@@ -1,5 +1,7 @@
 package ua.nechay.lacon;
 
+import ua.nechay.lacon.utils.LaconUtils;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
@@ -64,7 +66,6 @@ public class LaconLexer implements Scanner, Lexer {
     @Override
     public LaconToken getNextToken(@Nullable LaconToken previousToken) {
         while (this.currentChar != null) {
-
             if (LaconTokenType.SPACE.matches(this)) {
                 skipWhiteSpace();
                 continue;

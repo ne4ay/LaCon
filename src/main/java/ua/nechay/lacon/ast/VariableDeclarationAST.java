@@ -1,0 +1,53 @@
+package ua.nechay.lacon.ast;
+
+import ua.nechay.lacon.LaconToken;
+import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.var.LaconInitializedVariable;
+import ua.nechay.lacon.core.var.LaconVariable;
+
+import javax.annotation.Nonnull;
+
+/**
+ * @author anechaev
+ * @since 18.04.2023
+ */
+public class VariableDeclarationAST implements AST, AssignableAST {
+    private final LaconToken identifier;
+    private final LaconToken type;
+
+    public VariableDeclarationAST(@Nonnull LaconToken identifier, @Nonnull LaconToken type) {
+        this.identifier = identifier;
+        this.type = type;
+    }
+
+    @Nonnull
+    @Override
+    public LaconProgramState interpret(@Nonnull LaconProgramState state) {
+        String variableName = identifier.getText();
+        LaconVariable existingVariable = state.getVar(variableName);
+        if (existingVariable != null) {
+            throw new IllegalStateException("The variable " + variableName + " is already defined");
+        }
+        String typeRepresentation = this.type.getText();
+        LaconType type = LaconType.getForRepresentation(typeRepresentation);
+        if (type == null) {
+            throw new IllegalStateException();
+        }
+        LaconVariable variable = new LaconInitializedVariable(type, type.getNoneObject());
+        return state.putVar(variableName, variable);
+    }
+
+    @Nonnull
+    @Override
+    public LaconProgramState assign(@Nonnull LaconProgramState state, @Nonnull LaconValue<?> value) {
+        String variableName = identifier.getText();
+        LaconVariable existingVariable = state.getVar(variableName);
+        if (existingVariable == null) {
+            throw new IllegalStateException("The variable " + variableName + " is already defined");
+        }
+        return state.putVar(variableName, existingVariable.setValue(value));
+    }
+
+}

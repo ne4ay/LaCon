@@ -1,6 +1,7 @@
 package ua.nechay.lacon;
 
 import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.utils.LaconUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

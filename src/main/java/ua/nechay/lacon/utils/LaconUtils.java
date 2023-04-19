@@ -1,5 +1,11 @@
-package ua.nechay.lacon;
+package ua.nechay.lacon.utils;
 
+import ua.nechay.lacon.LaconInterpreter;
+import ua.nechay.lacon.LaconLexer;
+import ua.nechay.lacon.LaconParser;
+import ua.nechay.lacon.LaconToken;
+import ua.nechay.lacon.LaconTokenType;
+import ua.nechay.lacon.Scanner;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconType;
 

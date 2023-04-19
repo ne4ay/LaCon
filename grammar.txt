@@ -1,0 +1,30 @@
+program : compound_statement
+
+compound_statement : { statement_list }
+
+statement_list : statement
+    | statement SEMI statement_list
+
+statement : assignment_statement
+    | variable_declaration
+    | empty
+
+empty :
+
+assignment_statement : variable_declaration = expr
+    | variable = expr
+
+variable declaration : variable : type
+
+expr : term ((PLUS | MINUS) term)*
+
+term : factor ((MUL | DIV) factor)*
+
+ factor : PLUS factor
+    | MINUS factor
+    | INTEGER
+    | REAL
+    | LPAREN expr RPAREN
+    | variable
+
+variable: ID

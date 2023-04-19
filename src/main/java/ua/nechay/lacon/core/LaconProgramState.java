@@ -1,5 +1,7 @@
 package ua.nechay.lacon.core;
 
+import ua.nechay.lacon.core.var.LaconVariable;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayDeque;
@@ -24,6 +26,13 @@ public class LaconProgramState {
         return new LaconProgramState();
     }
 
+    @Nonnull
+    public LaconProgramState clearValueStack() {
+        valueStack.clear();
+        return this;
+    }
+
+    @Nonnull
     public LaconProgramState putVar(@Nonnull String varName, @Nonnull LaconVariable var) {
         variables.put(varName, var);
         return this;

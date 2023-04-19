@@ -1,6 +1,6 @@
 package ua.nechay.lacon;
 
-import java.util.Queue;
+import ua.nechay.lacon.utils.LaconUtils;
 
 public class Main {
     public static void main(String[] args) {

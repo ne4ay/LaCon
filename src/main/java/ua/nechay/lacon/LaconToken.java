@@ -1,7 +1,6 @@
 package ua.nechay.lacon;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -15,7 +14,7 @@ public class LaconToken {
     private final String text;
     private final int startPos;
 
-    public LaconToken(@Nonnull LaconTokenType type, String text, int startPos) {
+    public LaconToken(@Nonnull LaconTokenType type, @Nonnull String text, int startPos) {
         this.type = type;
         this.text = text;
         this.startPos = startPos;
@@ -26,7 +25,7 @@ public class LaconToken {
         return type;
     }
 
-    @Nullable
+    @Nonnull
     public String getText() {
         return text;
     }

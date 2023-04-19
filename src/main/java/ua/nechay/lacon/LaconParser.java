@@ -1,13 +1,21 @@
 package ua.nechay.lacon;
 
 import ua.nechay.lacon.ast.AST;
+import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
+import ua.nechay.lacon.ast.EmptyAST;
+import ua.nechay.lacon.ast.SemicolonAST;
+import ua.nechay.lacon.ast.VariableDeclarationAST;
 import ua.nechay.lacon.ast.IntNumAST;
 import ua.nechay.lacon.ast.RealNumAST;
+import ua.nechay.lacon.ast.StatementListAST;
 import ua.nechay.lacon.ast.UnaryOperationAST;
+import ua.nechay.lacon.ast.VariableReferenceAST;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -112,9 +120,86 @@ public class LaconParser implements Parser {
         return node;
     }
 
+    public AST assignOrDeclarationStatement() {
+        LaconToken identifier = getCurrentToken();
+        AST left = new VariableReferenceAST(identifier);
+        eat(LaconTokenType.IDENTIFIER);
+        if (getCurrentToken().getType() == LaconTokenType.COLON) {
+            eat(LaconTokenType.COLON);
+            if (getCurrentToken().getType() != LaconTokenType.TYPE) {
+                throw new IllegalStateException("Type expected! Has been gotten instead: " + getCurrentToken());
+            }
+            LaconToken type = getCurrentToken();
+            left = new VariableDeclarationAST(identifier, type);
+            eat(LaconTokenType.TYPE);
+            if (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
+                return left;
+            }
+        }
+        if (getCurrentToken().getType() == LaconTokenType.ASSIGNMENT) {
+            LaconToken assignment = getCurrentToken();
+            eat(LaconTokenType.ASSIGNMENT);
+            return new AssignmentAST(left, assignment, expression());
+        } else {
+            throw new IllegalStateException("Unexpected token: " + getCurrentToken() + ". '=' expected");
+        }
+    }
+
+    public AST statement() {
+        if (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
+            eat(LaconTokenType.SEMICOLON);
+            return new SemicolonAST();
+        }
+        if (getCurrentToken().getType() == LaconTokenType.RIGHT_CURLY_BRACKET) {
+            return new EmptyAST();
+        }
+        if (getCurrentToken().getType() != LaconTokenType.IDENTIFIER) {
+            return expression();
+        }
+        return assignOrDeclarationStatement();
+    }
+
+    public List<AST> statementList() {
+        List<AST> results = new ArrayList<>();
+        AST firstStatement = statement();
+        results.add(firstStatement);
+
+        while (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
+            eat(LaconTokenType.SEMICOLON);
+            results.add(statement());
+        }
+        if (getCurrentToken().getType() == LaconTokenType.IDENTIFIER) {
+            throw new IllegalStateException("Unexpected token: " + getCurrentToken() + ". It should be the }");
+        }
+        return results;
+    }
+
+    public AST compoundStatement() {
+        eat(LaconTokenType.LEFT_CURLY_BRACKET);
+        List<AST> nodes = statementList();
+        eat(LaconTokenType.RIGHT_CURLY_BRACKET);
+        return new StatementListAST(nodes);
+    }
+
+    public AST program() {
+        return compoundStatement();
+    }
+
     @Nonnull
     @Override
     public AST parse() {
-        return expression();
+        var resultNode = program();
+        if (this.currentToken.getType() != LaconTokenType.EOF) {
+            throw new IllegalStateException("Unexpected token: " + getCurrentToken());
+        }
+        return resultNode;
+    }
+
+    public LaconToken getCurrentToken() {
+        return currentToken;
+    }
+
+    public LaconToken getPreviousToken() {
+        return previousToken;
     }
 }

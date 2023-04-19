@@ -1,10 +1,7 @@
 package ua.nechay.lacon.parser;
 
 import org.junit.Test;
-import ua.nechay.lacon.LaconLexer;
 import ua.nechay.lacon.LaconTokenType;
-import ua.nechay.lacon.LaconUtils;
-import ua.nechay.lacon.Scanner;
 import ua.nechay.lacon.mock.MockScanner;
 
 import static org.junit.Assert.assertFalse;

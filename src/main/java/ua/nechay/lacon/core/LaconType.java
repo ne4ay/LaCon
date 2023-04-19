@@ -1,8 +1,5 @@
 package ua.nechay.lacon.core;
 
-import ua.nechay.lacon.LaconToken;
-import ua.nechay.lacon.LaconTokenType;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -14,8 +11,8 @@ import java.util.stream.Collectors;
  * @since 15.04.2023
  */
 public enum LaconType {
-    INT("int"),
-    REAL("real")
+    INT("int", 0L),
+    REAL("real", 0.0)
     ;
     private static final Map<String, LaconType> ACCESS_MAP = Arrays.stream(values())
         .collect(Collectors.toMap(
@@ -24,9 +21,11 @@ public enum LaconType {
         ));
 
     private final String representation;
+    private final Object noneObject;
 
-    LaconType(@Nonnull String representation) {
+    LaconType(@Nonnull String representation, @Nonnull Object noneObject) {
         this.representation = representation;
+        this.noneObject = noneObject;
     }
 
     @Nullable
@@ -37,5 +36,10 @@ public enum LaconType {
     @Nonnull
     public String getRepresentation() {
         return representation;
+    }
+
+    @Nonnull
+    public Object getNoneObject() {
+        return noneObject;
     }
 }
