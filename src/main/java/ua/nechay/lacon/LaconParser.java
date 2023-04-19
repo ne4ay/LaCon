@@ -74,6 +74,10 @@ public class LaconParser implements Parser {
             eat(LaconTokenType.REAL);
             return new RealNumAST(token);
         }
+        if (type == LaconTokenType.IDENTIFIER) {
+            eat(LaconTokenType.IDENTIFIER);
+            return new VariableReferenceAST(token);
+        }
         if (type == LaconTokenType.LEFT_BRACKET) {
             eat(LaconTokenType.LEFT_BRACKET);
             AST node = expression();

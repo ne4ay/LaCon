@@ -41,6 +41,21 @@ public class IntegerInterpreterTest {
 
     @Test
     public void testDeclarationWithoutAssignment() {
+        LaconProgramState result = LaconUtils.exec("{"
+            + "a : int = -1 + 4 * (2 + 1);"
+            + "some_var : int = -(2 + 4) * 5 / 6 + 1;"
+            + "kek : int = a * some_var;"
+            + "}");
+        LaconVariable aVariable = result.getVar("a");
+        assertNotNull(aVariable);
+        assertThat(aVariable.getValue(), equalTo(11L));
 
+        LaconVariable some_varVariable = result.getVar("some_var");
+        assertNotNull(some_varVariable);
+        assertThat(some_varVariable.getValue(), equalTo(-4L));
+
+        LaconVariable kekVariable = result.getVar("kek");
+        assertNotNull(kekVariable);
+        assertThat(kekVariable.getValue(), equalTo(-44L));
     }
 }
