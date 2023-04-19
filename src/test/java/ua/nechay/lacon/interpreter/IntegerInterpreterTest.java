@@ -1,10 +1,9 @@
 package ua.nechay.lacon.interpreter;
 
 import org.junit.Test;
-import ua.nechay.lacon.core.var.LaconInitializedVariable;
+import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.var.LaconVariable;
 import ua.nechay.lacon.utils.LaconUtils;
-import ua.nechay.lacon.core.LaconProgramState;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
