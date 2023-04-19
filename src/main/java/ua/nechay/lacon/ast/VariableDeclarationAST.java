@@ -35,7 +35,7 @@ public class VariableDeclarationAST implements AST, AssignableAST {
         if (type == null) {
             throw new IllegalStateException();
         }
-        LaconVariable variable = new LaconInitializedVariable(type, type.getNoneObject());
+        LaconVariable variable = new LaconVariable(type);
         return state.putVar(variableName, variable);
     }
 

@@ -2,52 +2,47 @@ package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-import static ua.nechay.lacon.core.LaconType.REAL;
-
 /**
  * @author anechaev
- * @since 15.04.2023
+ * @since 19.04.2023
  */
-public class RealNumAST implements AST {
+public class StringAST implements AST {
 
     private final LaconToken token;
 
-    public RealNumAST(@Nonnull LaconToken token) {
+    public StringAST(@Nonnull LaconToken token) {
         this.token = token;
     }
 
+    @Nonnull
     public LaconToken getToken() {
         return token;
     }
 
-    public double getValue() {
-        String text = getToken().getText();
-        return Double.parseDouble(removeRedundantCharacters(text));
+    public String getValue() {
+        return getToken().getText();
     }
 
     @Nonnull
-    private String removeRedundantCharacters(@Nonnull String text) {
-        return text.replace("_", "");
-    }
-
-    @Override @Nonnull
+    @Override
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
-        return state.pushValue(LaconValue.create(getValue(), REAL));
+        return state.pushValue(LaconValue.create(getValue(), LaconType.STRING));
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof RealNumAST))
+        if (!(o instanceof StringAST))
             return false;
-        RealNumAST that = (RealNumAST) o;
-        return Objects.equals(token, that.token);
+        StringAST stringAST = (StringAST) o;
+        return Objects.equals(token, stringAST.token);
     }
 
     @Override

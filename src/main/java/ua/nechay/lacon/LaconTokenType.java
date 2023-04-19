@@ -53,27 +53,14 @@ public enum LaconTokenType {
     NEXT_LINE(
         LaconUtils::isNextLine, false
     ),
-    COLON(
-      character -> character == ':'
-    ),
-    SEMICOLON(
-        character -> character == ';'
-    ),
-    MUL(
-        character -> character == '*'
-    ),
-    DIV(
-        character -> character == '/'
-    ),
-    PLUS(
-        character -> character == '+'
-    ),
-    MINUS(
-        character -> character == '-'
-    ),
-    EQUALS(
-        character -> character == '='
-    ) {
+    QUOTE('"'),
+    COLON(':'),
+    SEMICOLON(';'),
+    MUL('*'),
+    DIV('/'),
+    PLUS('+'),
+    MINUS('-'),
+    EQUALS('=') {
         @Override
         public boolean matches(@Nonnull Scanner lexer) {
             Character nextChar = lexer.peek(1);
@@ -129,15 +116,9 @@ public enum LaconTokenType {
             return super.toToken(lexer, previousToken);
         }
     },
-    RIGHT_BRACKET(
-        character -> character == ')'
-    ),
-    LEFT_CURLY_BRACKET(
-        character -> character == '{'
-    ),
-    RIGHT_CURLY_BRACKET(
-        character -> character == '}'
-    ),
+    RIGHT_BRACKET(')'),
+    LEFT_CURLY_BRACKET('{'),
+    RIGHT_CURLY_BRACKET('}'),
     INTEGER(
         Pattern.compile("[1-9]")
     ) {
@@ -265,6 +246,10 @@ public enum LaconTokenType {
     protected final Predicate<Character> matchingPredicate;
     protected final boolean isStandardToken;
 
+    LaconTokenType(char expectedCharacter) {
+        this(character -> character == expectedCharacter);
+    }
+
     LaconTokenType(@Nonnull Predicate<Character> matchingPredicate) {
         this.matchingPredicate = matchingPredicate;
         this.isStandardToken = true;
@@ -300,6 +285,10 @@ public enum LaconTokenType {
         return matches(currentCharacter);
     }
 
+    public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+        return matches(lexer);
+    }
+
     protected boolean matches(char character) {
         return matchingPredicate.test(character);
     }
@@ -307,7 +296,7 @@ public enum LaconTokenType {
     public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
         Character character = lexer.getCurrentChar();
         if (character == null) {
-            return new LaconToken(EOF, null, lexer.getCurrentPosition());
+            return new LaconToken(EOF, "", lexer.getCurrentPosition());
         }
         int position = lexer.getCurrentPosition();
         lexer.advance();

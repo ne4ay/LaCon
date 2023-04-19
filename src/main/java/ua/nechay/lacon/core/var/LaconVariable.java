@@ -40,7 +40,7 @@ public class LaconVariable {
         if (value.getType() != getType()) {
             throw new IllegalStateException("Type mismatch! Unable to put " + value.getType() + " into " + getType() + " var!");
         }
-        return new LaconInitializedVariable(getType(), value);
+        return new LaconInitializedVariable(getType(), value.getValue());
     }
 
     @Nonnull

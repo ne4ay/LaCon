@@ -21,15 +21,13 @@ public class IntNumAST implements AST {
         this.token = token;
     }
 
+    @Nonnull
     public LaconToken getToken() {
         return token;
     }
 
     public long getValue() {
         String text = getToken().getText();
-        if (text == null) {
-            throw new NullPointerException();
-        }
         return Long.parseLong(removeRedundantCharacters(text));
     }
 

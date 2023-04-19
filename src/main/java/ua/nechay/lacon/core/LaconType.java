@@ -11,8 +11,9 @@ import java.util.stream.Collectors;
  * @since 15.04.2023
  */
 public enum LaconType {
-    INT("int", 0L),
-    REAL("real", 0.0)
+    INT("int"),
+    REAL("real"),
+    STRING("str")
     ;
     private static final Map<String, LaconType> ACCESS_MAP = Arrays.stream(values())
         .collect(Collectors.toMap(
@@ -21,11 +22,9 @@ public enum LaconType {
         ));
 
     private final String representation;
-    private final Object noneObject;
 
-    LaconType(@Nonnull String representation, @Nonnull Object noneObject) {
+    LaconType(@Nonnull String representation) {
         this.representation = representation;
-        this.noneObject = noneObject;
     }
 
     @Nullable
@@ -36,10 +35,5 @@ public enum LaconType {
     @Nonnull
     public String getRepresentation() {
         return representation;
-    }
-
-    @Nonnull
-    public Object getNoneObject() {
-        return noneObject;
     }
 }
