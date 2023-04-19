@@ -4,32 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="reference has been changed to getter">
-      <change afterPath="$PROJECT_DIR$/grammar.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/AssignableAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/EmptyAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/SemicolonAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/StatementListAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableReferenceAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconInitializedVariable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconVariable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="variables introduced">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconInterpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconInterpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/utils/LaconUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/AssignmentAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/AssignmentAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconProgramState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconProgramState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconVariable.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/IntegerInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/IntegerInterpreterTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/RealInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/RealInterpreterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/parser/RealParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/parser/RealParserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +66,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.RealInterpreterTest.testUnaryOperation">
+  <component name="RunManager" selected="JUnit.IntegerInterpreterTest.testDeclarationWithoutAssignment">
     <configuration name="IntegerInterpreterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
@@ -99,6 +78,22 @@
       <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
       <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.IntegerInterpreterTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IntegerInterpreterTest.testDeclarationWithoutAssignment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LaCon" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nechay.lacon.interpreter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
+      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.IntegerInterpreterTest" />
+      <option name="METHOD_NAME" value="testDeclarationWithoutAssignment" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -151,29 +146,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RealParserTest.testParsingNumbersWithUnderscore" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="LaCon" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.parser.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ua.nechay.lacon.parser" />
-      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.parser.RealParserTest" />
-      <option name="METHOD_NAME" value="testParsingNumbersWithUnderscore" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IntegerInterpreterTest.testDeclarationWithoutAssignment" />
         <item itemvalue="JUnit.RealInterpreterTest.testUnaryOperation" />
         <item itemvalue="JUnit.IntegerInterpreterTest.testUnaryOperation" />
         <item itemvalue="JUnit.IntegerInterpreterTest.testIntegers" />
         <item itemvalue="JUnit.IntegerInterpreterTest" />
-        <item itemvalue="JUnit.RealParserTest.testParsingNumbersWithUnderscore" />
       </list>
     </recent_temporary>
   </component>
@@ -201,7 +180,7 @@
       <workItem from="1681152458786" duration="24388000" />
       <workItem from="1681569525256" duration="16559000" />
       <workItem from="1681665064868" duration="14097000" />
-      <workItem from="1681890356243" duration="12028000" />
+      <workItem from="1681890356243" duration="12390000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1678048715564</created>
@@ -259,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681598026854</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="variables introduced">
+      <created>1681930397417</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1681930397417</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,7 +272,8 @@
     <MESSAGE value="Program state has been introduced" />
     <MESSAGE value="types introduced" />
     <MESSAGE value="reference has been changed to getter" />
-    <option name="LAST_COMMIT_MESSAGE" value="reference has been changed to getter" />
+    <MESSAGE value="variables introduced" />
+    <option name="LAST_COMMIT_MESSAGE" value="variables introduced" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -323,12 +310,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>162</line>
+          <line>166</line>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>148</line>
+          <line>152</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
