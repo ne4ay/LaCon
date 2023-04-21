@@ -30,7 +30,7 @@ public enum LaconTokenType {
         public boolean matches(@Nonnull Scanner lexer) {
             Character nextChar = lexer.peek(1);
             if (nextChar == null) {
-               return false;
+                return false;
             }
             return super.matches(lexer) && nextChar.equals('/');
         }
@@ -53,7 +53,36 @@ public enum LaconTokenType {
     NEXT_LINE(
         LaconUtils::isNextLine, false
     ),
-    QUOTE('"'),
+    STRING(Pattern.compile(".")) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return previousToken != null && previousToken.getType() == QUOTE && lexer.getState().isInsideQuotes();
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            // TODO: add a state for lexer
+            Character currentChar = lexer.getCurrentChar();
+            if (currentChar == null) {
+                throw new NullPointerException("Illegal!!");
+            }
+            if (QUOTE.matches(currentChar)) {
+                int position = lexer.getCurrentPosition();
+                return new LaconToken(this, "", position);
+            }
+
+            return LaconUtils.eatToken(lexer, character -> !QUOTE.matches(character), this);
+        }
+    },
+    // String should be higher than quote to give a possibility of creating empty strings
+    QUOTE('"') {
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            LaconToken quoteToken = super.toToken(lexer, previousToken);
+            lexer.getState().acceptNextQuote(quoteToken);
+            return quoteToken;
+        }
+    },
     COLON(':'),
     SEMICOLON(';'),
     MUL('*'),
@@ -205,7 +234,7 @@ public enum LaconTokenType {
 
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-           return LaconUtils.eatToken(lexer, this::matches, this);
+            return LaconUtils.eatToken(lexer, this::matches, this);
         }
     },
     TYPE(

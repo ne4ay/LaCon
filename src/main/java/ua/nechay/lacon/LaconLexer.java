@@ -1,5 +1,6 @@
 package ua.nechay.lacon;
 
+import ua.nechay.lacon.utils.LaconScannerState;
 import ua.nechay.lacon.utils.LaconUtils;
 
 import javax.annotation.Nonnull;
@@ -14,11 +15,13 @@ import java.util.Optional;
 public class LaconLexer implements Scanner, Lexer {
 
     private final String text;
+    private final LaconScannerState state;
     private int position;
     private Character currentChar;
 
     public LaconLexer(@Nonnull String text) {
         this.text = text;
+        this.state = LaconScannerState.create();
         this.position = 0;
         this.currentChar = text.charAt(position);
     }
@@ -38,6 +41,12 @@ public class LaconLexer implements Scanner, Lexer {
         } else {
             return text.charAt(nextPosition);
         }
+    }
+
+    @Nonnull
+    @Override
+    public LaconScannerState getState() {
+        return state;
     }
 
     @Override
@@ -66,7 +75,7 @@ public class LaconLexer implements Scanner, Lexer {
     @Override
     public LaconToken getNextToken(@Nullable LaconToken previousToken) {
         while (this.currentChar != null) {
-            if (LaconTokenType.SPACE.matches(this)) {
+            if (LaconTokenType.SPACE.matches(this, previousToken)) {
                 skipWhiteSpace();
                 continue;
             }
@@ -78,7 +87,7 @@ public class LaconLexer implements Scanner, Lexer {
 
     private Optional<LaconToken> getStandardToken(@Nonnull List<LaconTokenType> tokenTypes, LaconToken previousToken) {
         return tokenTypes.stream()
-           .filter(type -> type.matches(this))
+           .filter(type -> type.matches(this, previousToken))
            .findFirst()
            .map(type -> type.toToken(this, previousToken));
     }

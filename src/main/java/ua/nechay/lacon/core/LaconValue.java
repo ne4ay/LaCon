@@ -4,6 +4,7 @@ import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.IntLaconValue;
 import ua.nechay.lacon.core.val.RealLaconValue;
+import ua.nechay.lacon.core.val.StringLaconValue;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -25,7 +26,8 @@ public abstract class LaconValue<T> {
     public static LaconValue<?> create(Object value, @Nonnull LaconType type) {
         return TypeTouch.touch(type, SimpleTypeTouch.create(
             () -> new IntLaconValue((long) value),
-            () -> new RealLaconValue((double) value)
+            () -> new RealLaconValue((double) value),
+            () -> new StringLaconValue((String) value)
         ));
     }
 

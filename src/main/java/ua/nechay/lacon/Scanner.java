@@ -1,6 +1,9 @@
 package ua.nechay.lacon;
 
 
+import ua.nechay.lacon.utils.LaconScannerState;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -24,6 +27,9 @@ public interface Scanner {
      */
     @Nullable
     Character peek(int i);
+
+    @Nonnull
+    LaconScannerState getState();
 
     int getCurrentPosition();
 

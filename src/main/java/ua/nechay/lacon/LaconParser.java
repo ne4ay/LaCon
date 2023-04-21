@@ -5,6 +5,7 @@ import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
 import ua.nechay.lacon.ast.EmptyAST;
 import ua.nechay.lacon.ast.SemicolonAST;
+import ua.nechay.lacon.ast.StringAST;
 import ua.nechay.lacon.ast.VariableDeclarationAST;
 import ua.nechay.lacon.ast.IntNumAST;
 import ua.nechay.lacon.ast.RealNumAST;
@@ -56,7 +57,7 @@ public class LaconParser implements Parser {
      * INTEGER | LPAREN expr RPAREN
      */
     public AST factor() {
-        LaconToken token = this.currentToken;
+        LaconToken token = getCurrentToken();
         LaconTokenType type = token.getType();
         if (type == LaconTokenType.PLUS) {
             eat(LaconTokenType.PLUS);
@@ -77,6 +78,16 @@ public class LaconParser implements Parser {
         if (type == LaconTokenType.IDENTIFIER) {
             eat(LaconTokenType.IDENTIFIER);
             return new VariableReferenceAST(token);
+        }
+        if (type == LaconTokenType.QUOTE) {
+            eat(LaconTokenType.QUOTE);
+            LaconToken strToken = getCurrentToken();
+            if (strToken.getType() != LaconTokenType.STRING) {
+                throw new IllegalStateException("Illegal token: " + strToken);
+            }
+            eat(LaconTokenType.STRING);
+            eat(LaconTokenType.QUOTE);
+            return new StringAST(strToken);
         }
         if (type == LaconTokenType.LEFT_BRACKET) {
             eat(LaconTokenType.LEFT_BRACKET);

@@ -7,6 +7,8 @@ import ua.nechay.lacon.core.touch.TypeTouch;
 
 import javax.annotation.Nonnull;
 
+import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
+
 /**
  * @author anechaev
  * @since 15.04.2023
@@ -20,7 +22,8 @@ public class RealLaconValue extends LaconValue<Double> {
     public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() + (double) value.getValue()),
-            () -> new RealLaconValue(getValue() + (double) value.getValue())
+            () -> new RealLaconValue(getValue() + (double) value.getValue()),
+            () -> new StringLaconValue(getValue() + (String) value.getValue())
         ));
     }
 
@@ -28,7 +31,8 @@ public class RealLaconValue extends LaconValue<Double> {
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() - (double) value.getValue()),
-            () -> new RealLaconValue(getValue() - (double) value.getValue())
+            () -> new RealLaconValue(getValue() - (double) value.getValue()),
+            () -> unsupportedOperation("-", "real", "string")
         ));
     }
 
@@ -36,7 +40,8 @@ public class RealLaconValue extends LaconValue<Double> {
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() * (double) value.getValue()),
-            () -> new RealLaconValue(getValue() * (double) value.getValue())
+            () -> new RealLaconValue(getValue() * (double) value.getValue()),
+            () -> unsupportedOperation("*", "real", "string")
         ));
     }
 
@@ -44,7 +49,8 @@ public class RealLaconValue extends LaconValue<Double> {
     public LaconValue<?> div(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() / (double) value.getValue()),
-            () -> new RealLaconValue(getValue() / (double) value.getValue())
+            () -> new RealLaconValue(getValue() / (double) value.getValue()),
+            () -> unsupportedOperation("/", "real", "string")
         ));
     }
 

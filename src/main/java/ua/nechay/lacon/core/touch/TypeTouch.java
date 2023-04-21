@@ -14,6 +14,7 @@ public interface TypeTouch<R> {
 
     R integer();
     R real();
+    R string();
 
     default R switcher(@Nonnull LaconType type) {
         switch (type) {
@@ -21,6 +22,8 @@ public interface TypeTouch<R> {
             return integer();
         case REAL:
             return real();
+        case STRING:
+            return string();
         default:
             throw new IllegalArgumentException("Unknown type: " + type);
         }

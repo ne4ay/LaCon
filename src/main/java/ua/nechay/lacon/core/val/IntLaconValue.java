@@ -7,6 +7,9 @@ import ua.nechay.lacon.core.touch.TypeTouch;
 
 import javax.annotation.Nonnull;
 
+import static ua.nechay.lacon.core.val.LaconValueUtils.multipleStrings;
+import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
+
 /**
  * @author anechaev
  * @since 15.04.2023
@@ -20,7 +23,8 @@ public class IntLaconValue extends LaconValue<Long> {
     public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() + (long) value.getValue()),
-            () -> new RealLaconValue((double) getValue() + (double) value.getValue())
+            () -> new RealLaconValue((double) getValue() + (double) value.getValue()),
+            () -> new StringLaconValue(getValue() + (String) value.getValue())
         ));
     }
 
@@ -28,7 +32,8 @@ public class IntLaconValue extends LaconValue<Long> {
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() - (long) value.getValue()),
-            () -> new RealLaconValue((double) getValue() - (double) value.getValue())
+            () -> new RealLaconValue((double) getValue() - (double) value.getValue()),
+            () -> unsupportedOperation("-", "int", "string")
         ));
     }
 
@@ -36,7 +41,8 @@ public class IntLaconValue extends LaconValue<Long> {
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() * (long) value.getValue()),
-            () -> new RealLaconValue((double) getValue() * (double) value.getValue())
+            () -> new RealLaconValue((double) getValue() * (double) value.getValue()),
+            () -> new StringLaconValue(multipleStrings((String)value.getValue(), getValue()))
         ));
     }
 
@@ -44,7 +50,8 @@ public class IntLaconValue extends LaconValue<Long> {
     public LaconValue<?> div(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() / (long) value.getValue()),
-            () -> new RealLaconValue((double) getValue() / (double) value.getValue())
+            () -> new RealLaconValue((double) getValue() / (double) value.getValue()),
+            () -> unsupportedOperation("/", "int", "string")
         ));
     }
 
@@ -59,4 +66,6 @@ public class IntLaconValue extends LaconValue<Long> {
     public LaconValue<?> unaryMinus() {
         return new IntLaconValue(-getValue());
     }
+
+
 }
