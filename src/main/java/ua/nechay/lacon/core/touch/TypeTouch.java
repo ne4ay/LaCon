@@ -15,6 +15,7 @@ public interface TypeTouch<R> {
     R integer();
     R real();
     R string();
+    R bool();
 
     default R switcher(@Nonnull LaconType type) {
         switch (type) {
@@ -24,6 +25,8 @@ public interface TypeTouch<R> {
             return real();
         case STRING:
             return string();
+        case BOOLEAN:
+            return bool();
         default:
             throw new IllegalArgumentException("Unknown type: " + type);
         }

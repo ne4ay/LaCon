@@ -15,7 +15,7 @@ import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsup
  * @since 15.04.2023
  */
 public class IntLaconValue extends LaconValue<Long> {
-    public IntLaconValue(@Nonnull Long value) {
+    public IntLaconValue(long value) {
         super(value, LaconType.INT);
     }
 
@@ -24,7 +24,8 @@ public class IntLaconValue extends LaconValue<Long> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() + (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() + (double) value.getValue()),
-            () -> new StringLaconValue(getValue() + (String) value.getValue())
+            () -> new StringLaconValue(getValue() + (String) value.getValue()),
+            () -> new IntLaconValue(getValue() + BooleanLaconValue.castToInt((boolean) value.getValue()))
         ));
     }
 
@@ -33,7 +34,8 @@ public class IntLaconValue extends LaconValue<Long> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() - (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() - (double) value.getValue()),
-            () -> unsupportedOperation("-", "int", "string")
+            () -> unsupportedOperation("-", LaconType.INT.getRepresentation(), LaconType.STRING.getRepresentation()),
+            () -> new IntLaconValue(getValue() - BooleanLaconValue.castToInt((boolean) value.getValue()))
         ));
     }
 
@@ -42,7 +44,8 @@ public class IntLaconValue extends LaconValue<Long> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() * (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() * (double) value.getValue()),
-            () -> new StringLaconValue(multipleStrings((String)value.getValue(), getValue()))
+            () -> new StringLaconValue(multipleStrings((String)value.getValue(), getValue())),
+            () -> new IntLaconValue(getValue() * BooleanLaconValue.castToInt((boolean) value.getValue()))
         ));
     }
 
@@ -51,7 +54,8 @@ public class IntLaconValue extends LaconValue<Long> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() / (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() / (double) value.getValue()),
-            () -> unsupportedOperation("/", "int", "string")
+            () -> unsupportedOperation("/", LaconType.INT.getRepresentation(), LaconType.STRING.getRepresentation()),
+            () -> unsupportedOperation("/", LaconType.INT.getRepresentation(), LaconType.BOOLEAN.getRepresentation())
         ));
     }
 
@@ -67,5 +71,17 @@ public class IntLaconValue extends LaconValue<Long> {
         return new IntLaconValue(-getValue());
     }
 
+    @Nonnull
+    @Override
+    public LaconValue<?> unaryNot() {
+        return new BooleanLaconValue(!castToBool(getValue()));
+    }
 
+    public static double castToReal(long value) {
+        return (double) value;
+    }
+
+    public static boolean castToBool(long value) {
+        return value != 0;
+    }
 }

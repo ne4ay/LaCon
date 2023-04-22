@@ -1,6 +1,7 @@
-package ua.nechay.lacon.ast;
+package ua.nechay.lacon.ast.value;
 
 import ua.nechay.lacon.LaconToken;
+import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
@@ -10,13 +11,13 @@ import java.util.Objects;
 
 /**
  * @author anechaev
- * @since 19.04.2023
+ * @since 21.04.2023
  */
-public class StringAST implements AST {
+public abstract class AbstractValueAST implements AST {
 
     private final LaconToken token;
 
-    public StringAST(@Nonnull LaconToken token) {
+    protected AbstractValueAST(@Nonnull LaconToken token) {
         this.token = token;
     }
 
@@ -25,24 +26,22 @@ public class StringAST implements AST {
         return token;
     }
 
-    public String getValue() {
-        return getToken().getText();
+    @Override @Nonnull
+    public LaconProgramState interpret(@Nonnull LaconProgramState state) {
+        return state.pushValue(LaconValue.create(getValue(), getType()));
     }
 
-    @Nonnull
-    @Override
-    public LaconProgramState interpret(@Nonnull LaconProgramState state) {
-        return state.pushValue(LaconValue.create(getValue(), LaconType.STRING));
-    }
+    @Nonnull public abstract Object getValue();
+    @Nonnull public abstract LaconType getType();
 
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof StringAST))
+        if (!(o instanceof AbstractValueAST))
             return false;
-        StringAST stringAST = (StringAST) o;
-        return Objects.equals(token, stringAST.token);
+        AbstractValueAST that = (AbstractValueAST) o;
+        return Objects.equals(token, that.token);
     }
 
     @Override

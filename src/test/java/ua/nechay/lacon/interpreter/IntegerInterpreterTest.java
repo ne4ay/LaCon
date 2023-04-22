@@ -1,6 +1,7 @@
 package ua.nechay.lacon.interpreter;
 
 import org.junit.Test;
+import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.var.LaconVariable;
 import ua.nechay.lacon.utils.LaconUtils;
@@ -33,9 +34,10 @@ public class IntegerInterpreterTest {
     @Test
     public void testIntegers() {
         LaconProgramState result = LaconUtils.exec("{"
-            + "a : int = -1_000 + 4 * (20 + 1);}"
-            + "");
-        assertThat(result.popValue().getValue(), equalTo(-916L));
+            + "a : int = -1_000 + 4 * (20 + 1);"
+            + "}");
+        LaconVariable aVariable = result.getVar("a");
+        assertThat(aVariable.getValue(), equalTo(-916L));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package ua.nechay.lacon.core;
+package ua.nechay.lacon;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -8,28 +8,32 @@ import java.util.stream.Collectors;
 
 /**
  * @author anechaev
- * @since 15.04.2023
+ * @since 21.04.2023
  */
-public enum LaconType {
-    INT("int"),
-    REAL("real"),
-    STRING("str"),
-    BOOLEAN("bool")
+public enum LaconReservedWord {
+    TRUE("true"),
+    FALSE("false"),
+    AND("and"),
+    AMPERSAND_AND("&&"),
+    OR("or"),
+    LINE_OR("||"),
+    NOT_EQUALS("!=")
     ;
-    private static final Map<String, LaconType> ACCESS_MAP = Arrays.stream(values())
+
+    private static final Map<String, LaconReservedWord> ACCESS_MAP = Arrays.stream(values())
         .collect(Collectors.toMap(
-            LaconType::getRepresentation,
+            LaconReservedWord::getRepresentation,
             type -> type
         ));
 
     private final String representation;
 
-    LaconType(@Nonnull String representation) {
+    LaconReservedWord(@Nonnull String representation) {
         this.representation = representation;
     }
 
     @Nullable
-    public static LaconType getForRepresentation(@Nonnull String representation) {
+    public static LaconReservedWord getForRepresentation(@Nonnull String representation) {
         return ACCESS_MAP.get(representation);
     }
 
@@ -37,4 +41,5 @@ public enum LaconType {
     public String getRepresentation() {
         return representation;
     }
+
 }

@@ -46,6 +46,10 @@ public class LaconScannerState {
         return !openedQuotes.isEmpty();
     }
 
+    public boolean isInsideBraces() {
+        return !openedBraces.isEmpty();
+    }
+
     @Nonnull
     public LaconScannerState pushCurlBracket(@Nonnull LaconToken curlBracket) {
         return pushToken(curlBracket, LaconTokenType.LEFT_CURLY_BRACKET, openedCurlBrackets);

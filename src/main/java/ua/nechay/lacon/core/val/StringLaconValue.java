@@ -25,6 +25,7 @@ public class StringLaconValue extends LaconValue<String> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
+            () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue())
         ));
     }
@@ -33,9 +34,10 @@ public class StringLaconValue extends LaconValue<String> {
     @Override
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> unsupportedOperation("-", "string", "int"),
-            () -> unsupportedOperation("-", "string", "real"),
-            () -> new StringLaconValue(subtractStrings(getValue(), (String) value.getValue()))
+            () -> unsupportedOperation("-", LaconType.STRING.getRepresentation(), LaconType.INT.getRepresentation()),
+            () -> unsupportedOperation("-", LaconType.STRING.getRepresentation(), LaconType.REAL.getRepresentation()),
+            () -> new StringLaconValue(subtractStrings(getValue(), (String) value.getValue())),
+            () -> unsupportedOperation("-", LaconType.STRING.getRepresentation(), LaconType.BOOLEAN.getRepresentation())
         ));
     }
 
@@ -49,8 +51,9 @@ public class StringLaconValue extends LaconValue<String> {
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new StringLaconValue(multipleStrings(getValue(), (long)value.getValue())),
-            () -> unsupportedOperation("*", "string", "real"),
-            () -> unsupportedOperation("*", "string", "string")
+            () -> unsupportedOperation("*", LaconType.STRING.getRepresentation(), LaconType.REAL.getRepresentation()),
+            () -> unsupportedOperation("*", LaconType.STRING.getRepresentation(), LaconType.STRING.getRepresentation()),
+            () -> unsupportedOperation("*", LaconType.STRING.getRepresentation(), LaconType.BOOLEAN.getRepresentation())
         ));
     }
 
@@ -58,9 +61,10 @@ public class StringLaconValue extends LaconValue<String> {
     @Override
     public LaconValue<?> div(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> unsupportedOperation("/", "string", "int"),
-            () -> unsupportedOperation("/", "string", "real"),
-            () -> unsupportedOperation("/", "string", "string")
+            () -> unsupportedOperation("/", LaconType.STRING.getRepresentation(), LaconType.INT.getRepresentation()),
+            () -> unsupportedOperation("/", LaconType.STRING.getRepresentation(), LaconType.REAL.getRepresentation()),
+            () -> unsupportedOperation("/", LaconType.STRING.getRepresentation(), LaconType.STRING.getRepresentation()),
+            () -> unsupportedOperation("/", LaconType.STRING.getRepresentation(), LaconType.BOOLEAN.getRepresentation())
         ));
     }
 
@@ -74,5 +78,11 @@ public class StringLaconValue extends LaconValue<String> {
     @Override
     public LaconValue<?> unaryMinus() {
         return new StringLaconValue(new StringBuilder(getValue()).reverse().toString());
+    }
+
+    @Nonnull
+    @Override
+    public LaconValue<?> unaryNot() {
+        return new BooleanLaconValue(!getValue().isBlank());
     }
 }

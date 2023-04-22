@@ -38,6 +38,14 @@ public class BinaryOperationAST implements AST {
             return afterRightState.pushValue(leftValue.mul(rightValue));
         case DIV:
             return afterRightState.pushValue(leftValue.div(rightValue));
+        case EQUALS:
+            return afterRightState.pushValue(leftValue.equal(rightValue));
+        case NOT_EQUALS:
+            return afterRightState.pushValue(leftValue.notEqual(rightValue));
+        case OR:
+            return afterRightState.pushValue(leftValue.or(rightValue));
+        case AND:
+            return afterRightState.pushValue(leftValue.and(rightValue));
         default:
             throw new IllegalStateException("Unknown operation type: " + getOperation().getText() + " at position: " + getOperation().getStartPos());
         }

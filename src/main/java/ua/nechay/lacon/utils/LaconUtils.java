@@ -3,13 +3,14 @@ package ua.nechay.lacon.utils;
 import ua.nechay.lacon.LaconInterpreter;
 import ua.nechay.lacon.LaconLexer;
 import ua.nechay.lacon.LaconParser;
+import ua.nechay.lacon.LaconReservedWord;
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.Scanner;
 import ua.nechay.lacon.core.LaconProgramState;
-import ua.nechay.lacon.core.LaconType;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.function.Predicate;
 
 /**
@@ -46,6 +47,44 @@ public class LaconUtils {
             lexer.advance();
         }
         return new LaconToken(type, resultBuilder.toString(), position);
+    }
+
+    public static boolean matchesText(@Nonnull Scanner scanner, @Nonnull String text) {
+        boolean matches = true;
+        for (int i = 0; i < text.length(); i++) {
+            Character nextChar = scanner.peek(0);
+            char textChar = text.charAt(i);
+            matches &= nextChar != null && nextChar == textChar;
+        }
+        return matches;
+    }
+
+    public static boolean matchesAnyTexts(@Nonnull Scanner scanner, @Nonnull String... words) {
+        return Arrays.stream(words)
+            .anyMatch(text -> matchesText(scanner, text));
+    }
+
+    public static boolean matchesAnyTexts(@Nonnull Scanner scanner, @Nonnull LaconReservedWord... words) {
+        return Arrays.stream(words)
+            .map(LaconReservedWord::getRepresentation)
+            .anyMatch(text -> matchesText(scanner, text));
+    }
+
+    public static LaconToken eatWord(@Nonnull Scanner scanner, @Nonnull LaconReservedWord word, @Nonnull LaconTokenType type) {
+        StringBuilder builder = new StringBuilder();
+        String representation = word.getRepresentation();
+        int position = scanner.getCurrentPosition();
+        Character character;
+        int i = 0;
+        while ((character = scanner.getCurrentChar()) != null && i < representation.length()) {
+            char sampleChar = representation.charAt(i++);
+            if (character != sampleChar) {
+                throw new IllegalStateException("Unable to eat word " + builder + " as a word " + representation);
+            }
+            builder.append(character);
+            scanner.advance();
+        }
+        return new LaconToken(type, builder.toString(), position);
     }
 
     public static LaconProgramState exec(@Nonnull String text) {

@@ -30,7 +30,12 @@ public class MockScanner implements Scanner {
     @Nullable
     @Override
     public Character peek(int i) {
-        return text.charAt(pos + i);
+        int nextPosition = this.pos + i;
+        if (nextPosition >= text.length()) {
+            return null;
+        } else {
+            return text.charAt(nextPosition);
+        }
     }
 
     @Nonnull

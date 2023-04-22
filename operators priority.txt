@@ -1,0 +1,8 @@
+priority:
+1. (), cast()   factor
+2. *, /         term
+3. +, -         notion
+4. ==, !=       allegation
+5. or, &&		assumption
+6. and, ||      expression
+

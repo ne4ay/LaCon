@@ -1,6 +1,7 @@
 package ua.nechay.lacon;
 
 import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.utils.LaconScannerState;
 import ua.nechay.lacon.utils.LaconUtils;
 
 import javax.annotation.Nonnull;
@@ -89,6 +90,57 @@ public enum LaconTokenType {
     DIV('/'),
     PLUS('+'),
     MINUS('-'),
+    NOT('!'),
+    AND(
+        character -> character == '&' || character == 'a'
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesAnyTexts(lexer,
+                LaconReservedWord.AND, LaconReservedWord.AMPERSAND_AND);
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            Character character = lexer.getCurrentChar();
+            if (character == null) {
+                throw new NullPointerException("Unexpected!");
+            }
+            switch (character) {
+            case '&':
+                return LaconUtils.eatWord(lexer, LaconReservedWord.AMPERSAND_AND, this);
+            case 'a':
+                return LaconUtils.eatWord(lexer, LaconReservedWord.AND, this);
+            default:
+                throw new IllegalStateException("Unexpected character: " + character + ". 'true' or 'false' expected");
+            }
+        }
+    },
+    OR(
+        character -> character == '|' || character == 'o'
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesAnyTexts(lexer,
+                LaconReservedWord.OR, LaconReservedWord.LINE_OR);
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            Character character = lexer.getCurrentChar();
+            if (character == null) {
+                throw new NullPointerException("Unexpected!");
+            }
+            switch (character) {
+            case '|':
+                return LaconUtils.eatWord(lexer, LaconReservedWord.LINE_OR, this);
+            case 'o':
+                return LaconUtils.eatWord(lexer, LaconReservedWord.OR, this);
+            default:
+                throw new IllegalStateException("Unexpected character: " + character + ". 'true' or 'false' expected");
+            }
+        }
+    },
     EQUALS('=') {
         @Override
         public boolean matches(@Nonnull Scanner lexer) {
@@ -122,6 +174,17 @@ public enum LaconTokenType {
             return new LaconToken(this, resultBuilder.toString(), position);
         }
     },
+    NOT_EQUALS('!') {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesText(lexer, LaconReservedWord.NOT_EQUALS.getRepresentation());
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.eatWord(lexer, LaconReservedWord.NOT_EQUALS, this);
+        }
+    },
     ASSIGNMENT(
         character -> character == '='
     ) {
@@ -148,6 +211,31 @@ public enum LaconTokenType {
     RIGHT_BRACKET(')'),
     LEFT_CURLY_BRACKET('{'),
     RIGHT_CURLY_BRACKET('}'),
+    BOOLEAN(
+        character -> character == 't' || character == 'f'
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesAnyTexts(lexer,
+                LaconReservedWord.TRUE, LaconReservedWord.FALSE);
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            Character character = lexer.getCurrentChar();
+            if (character == null) {
+                throw new NullPointerException("Unexpected!");
+            }
+            switch (character) {
+            case 't':
+                return LaconUtils.eatWord(lexer, LaconReservedWord.TRUE, this);
+            case 'f':
+                return LaconUtils.eatWord(lexer, LaconReservedWord.FALSE, this);
+            default:
+                throw new IllegalStateException("Unexpected character: " + character + ". 'true' or 'false' expected");
+            }
+        }
+    },
     INTEGER(
         Pattern.compile("[1-9]")
     ) {
@@ -235,6 +323,36 @@ public enum LaconTokenType {
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
             return LaconUtils.eatToken(lexer, this::matches, this);
+        }
+    },
+    CAST(
+        Pattern.compile("[a-z(]")
+    ) {
+        private final Pattern pattern = Pattern.compile(Arrays.stream(LaconType.values())
+            .map(type -> type.getRepresentation() + "\\s*\\(")
+            .collect(Collectors.joining("|")));
+
+        @Override
+        public boolean matches(@Nonnull Scanner lexer) {
+            LaconScannerState tokenScanState = LaconScannerState.create();
+            StringBuilder resultBuilder = new StringBuilder();
+            int counter = 0;
+            Character character;
+            while ((character = lexer.peek(counter)) != null && matches(character)) {
+                if (LEFT_BRACKET.matches(character)) {
+                    tokenScanState.pushBrace(new LaconToken(LEFT_BRACKET, String.valueOf(character), -1));
+                } else if (tokenScanState.isInsideBraces()) {
+                    break;
+                }
+                resultBuilder.append(character);
+                counter++;
+            }
+            return pattern.matcher(resultBuilder.toString()).matches();
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.eatToken(lexer, TYPE::matches, this);
         }
     },
     TYPE(
