@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="'list' type added">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/utils/LaconUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/utils/LaconUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ListInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ListInterpreterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/BinaryOperationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/BinaryOperationAST.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="add-lists" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
