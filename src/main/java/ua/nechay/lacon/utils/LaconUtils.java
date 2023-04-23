@@ -49,6 +49,10 @@ public class LaconUtils {
         return new LaconToken(type, resultBuilder.toString(), position);
     }
 
+    public static boolean matchesWord(@Nonnull Scanner scanner, @Nonnull LaconReservedWord word) {
+        return matchesText(scanner, word.getRepresentation());
+    }
+
     public static boolean matchesText(@Nonnull Scanner scanner, @Nonnull String text) {
         for (int i = 0; i < text.length(); i++) {
             Character nextChar = scanner.peek(i);
@@ -57,7 +61,8 @@ public class LaconUtils {
                 return false;
             }
         }
-        return true;
+        Character characterAfterText = scanner.peek(text.length() + 1);
+        return characterAfterText == null || !LaconTokenType.IDENTIFIER.matches(characterAfterText);
     }
 
     public static boolean matchesAnyTexts(@Nonnull Scanner scanner, @Nonnull String... words) {

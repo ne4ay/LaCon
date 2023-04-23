@@ -216,6 +216,39 @@ public enum LaconTokenType {
     RIGHT_SQUARE_BRACKET(']'),
     LEFT_CURLY_BRACKET('{'),
     RIGHT_CURLY_BRACKET('}'),
+    IF('i') {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesWord(lexer, LaconReservedWord.IF);
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.eatWord(lexer, LaconReservedWord.IF, this);
+        }
+    },
+    ELIF('e') {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesWord(lexer, LaconReservedWord.ELIF);
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.eatWord(lexer, LaconReservedWord.ELIF, this);
+        }
+    },
+    ELSE('e') {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesWord(lexer, LaconReservedWord.ELSE);
+        }
+
+        @Override
+        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.eatWord(lexer, LaconReservedWord.ELSE, this);
+        }
+    },
     BOOLEAN(
         character -> character == 't' || character == 'f'
     ) {
@@ -248,7 +281,7 @@ public enum LaconTokenType {
         private final Set<Character> appropriateNSymbols = Set.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_');
 
         @Override
-        protected boolean matches(char character) {
+        public boolean matches(char character) {
             return appropriateNSymbols.contains(character);
         }
 
@@ -286,7 +319,7 @@ public enum LaconTokenType {
         private final Pattern doublePattern = Pattern.compile("(\\d+[\\d_]*\\d+\\.\\d+[\\d_]*\\d+)|(\\d+[\\d_]*\\d+\\.\\d*)|(\\d*\\.\\d+[\\d_]*\\d+)|(\\d+\\.\\d+)");
 
         @Override
-        protected boolean matches(char character) {
+        public boolean matches(char character) {
             return appropriateNSymbols.contains(character);
         }
 
@@ -430,7 +463,7 @@ public enum LaconTokenType {
         return matches(lexer);
     }
 
-    protected boolean matches(char character) {
+    public boolean matches(char character) {
         return matchingPredicate.test(character);
     }
 

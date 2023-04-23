@@ -52,4 +52,36 @@ public class ListInterpreterTest {
         assertTrue(el3 instanceof Boolean);
         assertFalse((boolean) el3);
     }
+
+    @Test
+    public void addingElementsToList() {
+        LaconProgramState result = LaconUtils.exec("{"
+            + "a : list = 1 + [2, 3];"
+            + "b : list = [1, 2] + 3;"
+            + "}");
+        LaconVariable aVariable = result.getVar("a");
+        assertNotNull(aVariable);
+        assertThat(aVariable.getType(), equalTo(LaconBuiltInType.LIST));
+
+        List<Object> varContent = (List<Object>) aVariable.getValue();
+        assertThat(varContent.size(), equalTo(3));
+
+        Object aEl0 = varContent.get(0);
+        assertThat(aEl0, equalTo(1L));
+
+        Object aEl1 = varContent.get(1);
+        assertThat(aEl1, equalTo(2L));
+
+        Object aEl2 = varContent.get(2);
+        assertThat(aEl2, equalTo(3L));
+
+        Object bEl0 = varContent.get(0);
+        assertThat(bEl0, equalTo(1L));
+
+        Object bEl1 = varContent.get(1);
+        assertThat(bEl1, equalTo(2L));
+
+        Object bEl2 = varContent.get(2);
+        assertThat(bEl2, equalTo(3L));
+    }
 }

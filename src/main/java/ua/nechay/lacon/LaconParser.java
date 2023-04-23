@@ -57,6 +57,10 @@ public class LaconParser implements Parser {
         }
     }
 
+    public AST condition() {
+        return null;
+    }
+
     /**
      * INTEGER | LPAREN expr RPAREN
      */

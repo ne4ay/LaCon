@@ -17,7 +17,10 @@ public enum LaconReservedWord {
     AMPERSAND_AND("&&"),
     OR("or"),
     LINE_OR("||"),
-    NOT_EQUALS("!=")
+    NOT_EQUALS("!="),
+    IF("if"),
+    ELIF("elif"),
+    ELSE("else")
     ;
 
     private static final Map<String, LaconReservedWord> ACCESS_MAP = Arrays.stream(values())
