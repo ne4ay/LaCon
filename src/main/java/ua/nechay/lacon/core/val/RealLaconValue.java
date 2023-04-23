@@ -25,7 +25,7 @@ public class RealLaconValue extends LaconValue<Double> {
             () -> new RealLaconValue(getValue() + (double) value.getValue()),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> unsupportedOperation("+", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
-            () -> ListLaconValue.addElement((ListLaconValue)value.getValue(), getValue())
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue)value.getValue(), getValue())
         ));
     }
 

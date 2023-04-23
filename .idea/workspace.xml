@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="'list' type added">
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/BinaryOperationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/BinaryOperationAST.java" afterDir="false" />
+    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="modulus has been fixed">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/exception/LaconUnsupportedOperationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/exception/LaconUnsupportedOperationException.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="add-lists" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,7 +73,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.ListInterpreterTest.testSimpleExample">
+  <component name="RunManager" selected="JUnit.ua.nechay.lacon in LaCon">
     <configuration name="CastInterpreterTest.testFromRealCasting" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
@@ -148,8 +153,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ListInterpreterTest.testSimpleExample" />
         <item itemvalue="JUnit.ua.nechay.lacon in LaCon" />
+        <item itemvalue="JUnit.ListInterpreterTest.testSimpleExample" />
         <item itemvalue="JUnit.CastLexerTest.testCasting" />
         <item itemvalue="JUnit.CastLexerTest" />
         <item itemvalue="JUnit.CastInterpreterTest.testFromRealCasting" />
@@ -271,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682270484941</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="modulus has been fixed">
+      <created>1682271775926</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1682271775926</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,7 +314,8 @@
     <MESSAGE value="strings have been added" />
     <MESSAGE value="bools and casts have been added" />
     <MESSAGE value="'list' type added" />
-    <option name="LAST_COMMIT_MESSAGE" value="'list' type added" />
+    <MESSAGE value="modulus has been fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="modulus has been fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -376,6 +389,9 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/LaCon$Main.ic" NAME="Main Coverage Results" MODIFIED="1678950233506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>ua.nechay.lacon.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/LaCon$ua_nechay_lacon_in_LaCon.ic" NAME="ua.nechay.lacon in LaCon Coverage Results" MODIFIED="1682278416855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>ua.nechay.lacon.*</FILTER>
     </SUITE>
   </component>

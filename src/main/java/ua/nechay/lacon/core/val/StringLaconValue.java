@@ -28,7 +28,7 @@ public class StringLaconValue extends LaconValue<String> {
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
-            () -> ListLaconValue.addElement((ListLaconValue) value, getValue())
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, getValue())
         ));
     }
 

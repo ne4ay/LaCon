@@ -32,7 +32,7 @@ public class VariableDeclarationAST implements AST, AssignableAST {
         String typeRepresentation = this.type.getText();
         LaconBuiltInType type = LaconBuiltInType.getForRepresentation(typeRepresentation);
         if (type == null) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Unknown type: " + typeRepresentation);
         }
         LaconVariable variable = new LaconVariable(type);
         return state.putVar(variableName, variable);

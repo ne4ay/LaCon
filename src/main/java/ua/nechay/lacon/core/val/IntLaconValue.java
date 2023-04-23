@@ -27,7 +27,7 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> new RealLaconValue((double) getValue() + (double) value.getValue()),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> new IntLaconValue(getValue() + BooleanLaconValue.castToIntValue(value)),
-            () -> ListLaconValue.addElement((ListLaconValue) value, getValue())
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, getValue())
         ));
     }
 

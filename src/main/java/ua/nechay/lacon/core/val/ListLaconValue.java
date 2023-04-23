@@ -106,6 +106,11 @@ public class ListLaconValue extends LaconValue<List<Object>> {
         return objects.isEmpty();
     }
 
+    public static ListLaconValue addElementAtTheStart(@Nonnull ListLaconValue list, @Nonnull Object object) {
+        list.getValue().add(0, object);
+        return list;
+    }
+
     public static ListLaconValue addElement(@Nonnull ListLaconValue list, @Nonnull Object object) {
         list.getValue().add(object);
         return list;
