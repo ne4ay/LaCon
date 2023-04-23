@@ -10,7 +10,11 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static ua.nechay.lacon.TestUtils.EPSILON;
 
 /**
  * @author anechaev
@@ -31,5 +35,21 @@ public class ListInterpreterTest {
 
         List<Object> varContent = (List<Object>) some_varVariable.getValue();
         assertThat(varContent.size(), equalTo(4));
+
+        Object el0 = varContent.get(0);
+        assertTrue(el0 instanceof Long);
+        assertThat(el0, equalTo(9L));
+
+        Object el1 = varContent.get(1);
+        assertTrue(el1 instanceof Double);
+        assertThat((double)el1, closeTo(42.5, EPSILON));
+
+        Object el2 = varContent.get(2);
+        assertTrue(el2 instanceof String);
+        assertThat(el2, equalTo("ke,kke,k"));
+
+        Object el3 = varContent.get(3);
+        assertTrue(el3 instanceof Boolean);
+        assertFalse((boolean) el3);
     }
 }

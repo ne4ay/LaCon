@@ -4,37 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="bools and casts have been added">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/ListAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconBuiltInType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/UnsupportedOperationTypeTouch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ListInterpreterTest.java" afterDir="false" />
+    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="'list' type added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/CastAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/CastAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableReferenceAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableReferenceAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/AbstractValueAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/AbstractValueAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/BooleanAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/BooleanAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/IntNumAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/IntNumAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/RealNumAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/RealNumAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/StringAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/value/StringAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/SimpleTypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/SimpleTypeTouch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/TypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/TypeTouch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/BooleanLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/BooleanLaconValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/LaconValueUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/LaconValueUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/RealLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/RealLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconInitializedVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconInitializedVariable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconVariable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/exception/LaconUnsupportedOperationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/exception/LaconUnsupportedOperationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/CastInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/CastInterpreterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/utils/LaconUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/utils/LaconUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ListInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ListInterpreterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,7 +190,7 @@
       <workItem from="1681993132905" duration="23526000" />
       <workItem from="1682102605387" duration="22836000" />
       <workItem from="1682241846712" duration="5600000" />
-      <workItem from="1682257797338" duration="9339000" />
+      <workItem from="1682257797338" duration="10503000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1678048715564</created>
@@ -293,7 +269,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682159404640</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="'list' type added">
+      <created>1682270484941</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682270484941</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,7 +306,8 @@
     <MESSAGE value="variables introduced" />
     <MESSAGE value="strings have been added" />
     <MESSAGE value="bools and casts have been added" />
-    <option name="LAST_COMMIT_MESSAGE" value="bools and casts have been added" />
+    <MESSAGE value="'list' type added" />
+    <option name="LAST_COMMIT_MESSAGE" value="'list' type added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -377,6 +361,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableReferenceAST.java</url>
           <line>25</line>
           <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java</url>
+          <line>223</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java</url>
+          <line>229</line>
+          <option name="timeStamp" value="73" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />

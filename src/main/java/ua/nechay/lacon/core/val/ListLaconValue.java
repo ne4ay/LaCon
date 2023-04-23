@@ -2,6 +2,8 @@ package ua.nechay.lacon.core.val;
 
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.touch.SimpleTypeTouch;
+import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.touch.UnsupportedOperationTypeTouch;
 
 import javax.annotation.Nonnull;
@@ -26,13 +28,37 @@ public class ListLaconValue extends LaconValue<List<Object>> {
     @Nonnull
     @Override
     public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
-        return ListLaconValue.addElement(this, value.getValue());
+        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
+            () -> addElement(this, value.getValue()),
+            () -> addElement(this, value.getValue()),
+            () -> addElement(this, value.getValue()),
+            () -> addElement(this, value.getValue()),
+            () -> concat(this, (ListLaconValue) value)
+        ));
+    }
+
+    public static ListLaconValue concat(@Nonnull ListLaconValue list1, @Nonnull ListLaconValue list2) {
+        List<Object> res = list1.getValue();
+        res.addAll(list2.getValue());
+        return new ListLaconValue(res);
     }
 
     @Nonnull
     @Override
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
-        return ListLaconValue.removeElement(this, value.getValue());
+        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
+            () -> removeElement(this, value.getValue()),
+            () -> removeElement(this, value.getValue()),
+            () -> removeElement(this, value.getValue()),
+            () -> removeElement(this, value.getValue()),
+            () -> removeAll(this, (ListLaconValue) value)
+        ));
+    }
+
+    public static ListLaconValue removeAll(@Nonnull ListLaconValue list1, @Nonnull ListLaconValue list2) {
+        List<Object> res = list1.getValue();
+        res.removeAll(list2.getValue());
+        return new ListLaconValue(res);
     }
 
     @Nonnull
@@ -67,10 +93,6 @@ public class ListLaconValue extends LaconValue<List<Object>> {
 
     public static String castToStrValue(@Nonnull LaconValue<?> laconValue) {
         return laconValue.getValue().toString();
-    }
-
-    public static String castToStrValue(@Nonnull List<Object> objects) {
-        return objects.toString();
     }
 
     public static boolean castToBoolValue(@Nonnull LaconValue<?> laconValue) {

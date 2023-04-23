@@ -19,40 +19,44 @@ public class IntLaconValue extends LaconValue<Long> {
         super(value, LaconBuiltInType.INT);
     }
 
-    @Nonnull @Override
+    @Nonnull
+    @Override
     public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() + (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() + (double) value.getValue()),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> new IntLaconValue(getValue() + BooleanLaconValue.castToIntValue(value)),
-            () -> ListLaconValue.addElement((ListLaconValue)value.getValue(), getValue())
+            () -> ListLaconValue.addElement((ListLaconValue) value, getValue())
         ));
     }
 
-    @Nonnull @Override
+    @Nonnull
+    @Override
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() - (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() - (double) value.getValue()),
             () -> unsupportedOperation("-", LaconBuiltInType.INT.getRepresentation(), LaconBuiltInType.STRING.getRepresentation()),
             () -> new IntLaconValue(getValue() - BooleanLaconValue.castToIntValue((boolean) value.getValue())),
-            () -> ListLaconValue.removeElement((ListLaconValue)value.getValue(), getValue())
+            () -> ListLaconValue.removeElement((ListLaconValue) value, getValue())
         ));
     }
 
-    @Nonnull @Override
+    @Nonnull
+    @Override
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() * (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() * (double) value.getValue()),
-            () -> new StringLaconValue(multipleStrings((String)value.getValue(), getValue())),
+            () -> new StringLaconValue(multipleStrings((String) value.getValue(), getValue())),
             () -> new IntLaconValue(getValue() * BooleanLaconValue.castToIntValue((boolean) value.getValue())),
             () -> unsupportedOperation("*", LaconBuiltInType.INT, LaconBuiltInType.LIST)
         ));
     }
 
-    @Nonnull @Override
+    @Nonnull
+    @Override
     public LaconValue<?> div(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() / (long) value.getValue()),

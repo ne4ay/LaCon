@@ -50,13 +50,14 @@ public class LaconUtils {
     }
 
     public static boolean matchesText(@Nonnull Scanner scanner, @Nonnull String text) {
-        boolean matches = true;
         for (int i = 0; i < text.length(); i++) {
-            Character nextChar = scanner.peek(0);
+            Character nextChar = scanner.peek(i);
             char textChar = text.charAt(i);
-            matches &= nextChar != null && nextChar == textChar;
+            if (!(nextChar != null && nextChar == textChar)) {
+                return false;
+            }
         }
-        return matches;
+        return true;
     }
 
     public static boolean matchesAnyTexts(@Nonnull Scanner scanner, @Nonnull String... words) {
