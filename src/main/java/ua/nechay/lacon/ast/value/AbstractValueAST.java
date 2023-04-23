@@ -3,7 +3,7 @@ package ua.nechay.lacon.ast.value;
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.core.LaconProgramState;
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
 
 import javax.annotation.Nonnull;
@@ -32,7 +32,7 @@ public abstract class AbstractValueAST implements AST {
     }
 
     @Nonnull public abstract Object getValue();
-    @Nonnull public abstract LaconType getType();
+    @Nonnull public abstract LaconBuiltInType getType();
 
     @Override
     public boolean equals(Object o) {

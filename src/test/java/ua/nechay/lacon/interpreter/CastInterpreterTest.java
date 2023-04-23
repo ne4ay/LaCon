@@ -2,7 +2,7 @@ package ua.nechay.lacon.interpreter;
 
 import org.junit.Test;
 import ua.nechay.lacon.core.LaconProgramState;
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.var.LaconVariable;
 import ua.nechay.lacon.utils.LaconUtils;
 
@@ -23,28 +23,28 @@ public class CastInterpreterTest {
             LaconVariable aVariable = result.getVar("a");
             assertNotNull(aVariable);
             assertThat(aVariable.getValue(), equalTo(-4L));
-            assertThat(aVariable.getType(), equalTo(LaconType.INT));
+            assertThat(aVariable.getType(), equalTo(LaconBuiltInType.INT));
         }
         {
             LaconProgramState result = LaconUtils.exec("{a : real = real(-4);}");
             LaconVariable aVariable = result.getVar("a");
             assertNotNull(aVariable);
             assertThat(aVariable.getValue(), equalTo(-4.));
-            assertThat(aVariable.getType(), equalTo(LaconType.REAL));
+            assertThat(aVariable.getType(), equalTo(LaconBuiltInType.REAL));
         }
         {
             LaconProgramState result = LaconUtils.exec("{a : str = str(-4);}");
             LaconVariable aVariable = result.getVar("a");
             assertNotNull(aVariable);
             assertThat(aVariable.getValue(), equalTo("-4"));
-            assertThat(aVariable.getType(), equalTo(LaconType.STRING));
+            assertThat(aVariable.getType(), equalTo(LaconBuiltInType.STRING));
         }
         {
             LaconProgramState result = LaconUtils.exec("{a : bool = bool(-4);}");
             LaconVariable aVariable = result.getVar("a");
             assertNotNull(aVariable);
             assertThat(aVariable.getValue(), equalTo(true));
-            assertThat(aVariable.getType(), equalTo(LaconType.BOOLEAN));
+            assertThat(aVariable.getType(), equalTo(LaconBuiltInType.BOOLEAN));
         }
     }
 
@@ -55,21 +55,21 @@ public class CastInterpreterTest {
             LaconVariable aVariable = result.getVar("a");
             assertNotNull(aVariable);
             assertThat(aVariable.getValue(), equalTo(12L));
-            assertThat(aVariable.getType(), equalTo(LaconType.INT));
+            assertThat(aVariable.getType(), equalTo(LaconBuiltInType.INT));
         }
         {
             LaconProgramState result = LaconUtils.exec("{a : real = real(12.34);}");
             LaconVariable aVariable = result.getVar("a");
             assertNotNull(aVariable);
             assertThat(aVariable.getValue(), equalTo(12.34));
-            assertThat(aVariable.getType(), equalTo(LaconType.REAL));
+            assertThat(aVariable.getType(), equalTo(LaconBuiltInType.REAL));
         }
         {
             LaconProgramState result = LaconUtils.exec("{a : str = str(12.34);}");
             LaconVariable aVariable = result.getVar("a");
             assertNotNull(aVariable);
             assertThat(aVariable.getValue(), equalTo("12.34"));
-            assertThat(aVariable.getType(), equalTo(LaconType.STRING));
+            assertThat(aVariable.getType(), equalTo(LaconBuiltInType.STRING));
         }
         {
             try {

@@ -1,9 +1,10 @@
 package ua.nechay.lacon.core.val;
 
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
+import ua.nechay.lacon.core.touch.UnsupportedOperationTypeTouch;
 
 import javax.annotation.Nonnull;
 
@@ -15,7 +16,7 @@ import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsup
  */
 public class BooleanLaconValue extends LaconValue<Boolean> {
     public BooleanLaconValue(@Nonnull Boolean value) {
-        super(value, LaconType.BOOLEAN);
+        super(value, LaconBuiltInType.BOOLEAN);
     }
 
     @Nonnull
@@ -23,9 +24,10 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
     public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(toInt() + (long) value.getValue()),
-            () -> unsupportedOperation("+", LaconType.BOOLEAN.getRepresentation(), LaconType.REAL.getRepresentation()),
+            () -> unsupportedOperation("+", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
-            () -> new BooleanLaconValue(plus(getValue(), (boolean) value.getValue()))
+            () -> new BooleanLaconValue(plus(getValue(), (boolean) value.getValue())),
+            () -> ListLaconValue.addElement((ListLaconValue) value, getValue())
         ));
     }
 
@@ -38,9 +40,10 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(toInt() - (long) value.getValue()),
-            () -> unsupportedOperation("-", LaconType.BOOLEAN.getRepresentation(), LaconType.REAL.getRepresentation()),
-            () -> unsupportedOperation("-", LaconType.BOOLEAN.getRepresentation(), LaconType.STRING.getRepresentation()),
-            () -> new BooleanLaconValue(minus(getValue(), (boolean) value.getValue()))
+            () -> unsupportedOperation("-", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
+            () -> unsupportedOperation("-", LaconBuiltInType.BOOLEAN, LaconBuiltInType.STRING),
+            () -> new BooleanLaconValue(minus(getValue(), (boolean) value.getValue())),
+            () -> ListLaconValue.removeElement((ListLaconValue) value, getValue())
         ));
     }
 
@@ -56,31 +59,28 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(toInt() * (long) value.getValue()),
-            () -> unsupportedOperation("*", LaconType.BOOLEAN.getRepresentation(), LaconType.REAL.getRepresentation()),
-            () -> unsupportedOperation("*", LaconType.BOOLEAN.getRepresentation(), LaconType.STRING.getRepresentation()),
-            () -> new BooleanLaconValue(getValue() && (boolean) value.getValue())
+            () -> unsupportedOperation("*", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
+            () -> unsupportedOperation("*", LaconBuiltInType.BOOLEAN.getRepresentation(), LaconBuiltInType.STRING.getRepresentation()),
+            () -> new BooleanLaconValue(getValue() && (boolean) value.getValue()),
+            () -> unsupportedOperation("*", LaconBuiltInType.BOOLEAN, LaconBuiltInType.LIST)
         ));
     }
 
     @Nonnull
     @Override
     public LaconValue<?> div(@Nonnull LaconValue<?> value) {
-        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> unsupportedOperation("/", LaconType.BOOLEAN.getRepresentation(), LaconType.INT.getRepresentation()),
-            () -> unsupportedOperation("/", LaconType.BOOLEAN.getRepresentation(), LaconType.REAL.getRepresentation()),
-            () -> unsupportedOperation("/", LaconType.BOOLEAN.getRepresentation(), LaconType.STRING.getRepresentation()),
-            () -> unsupportedOperation("/", LaconType.BOOLEAN.getRepresentation(), LaconType.BOOLEAN.getRepresentation())
-        ));
+        return UnsupportedOperationTypeTouch.unsupported("/", value, getType());
     }
 
     @Nonnull
     @Override
     public LaconValue<?> or(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> unsupportedOperation("'or'", LaconType.BOOLEAN.getRepresentation(), LaconType.INT.getRepresentation()),
-            () -> unsupportedOperation("'or'", LaconType.BOOLEAN.getRepresentation(), LaconType.REAL.getRepresentation()),
-            () -> unsupportedOperation("'or'", LaconType.BOOLEAN.getRepresentation(), LaconType.STRING.getRepresentation()),
-            () -> new BooleanLaconValue(getValue() || (boolean) value.getValue())
+            () -> new BooleanLaconValue(getValue() || IntLaconValue.castToBoolValue(value)),
+            () -> unsupportedOperation("'or'", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
+            () -> new BooleanLaconValue(getValue() || StringLaconValue.castToBoolValue(value)),
+            () -> new BooleanLaconValue(getValue() || (boolean) value.getValue()),
+            () -> new BooleanLaconValue(getValue() || ListLaconValue.castToBoolValue(value))
         ));
     }
 
@@ -88,10 +88,11 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
     @Override
     public LaconValue<?> and(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> unsupportedOperation("'and'", LaconType.BOOLEAN.getRepresentation(), LaconType.INT.getRepresentation()),
-            () -> unsupportedOperation("'and'", LaconType.BOOLEAN.getRepresentation(), LaconType.REAL.getRepresentation()),
-            () -> unsupportedOperation("'and'", LaconType.BOOLEAN.getRepresentation(), LaconType.STRING.getRepresentation()),
-            () -> new BooleanLaconValue(getValue() && (boolean) value.getValue())
+            () -> new BooleanLaconValue(getValue() && IntLaconValue.castToBoolValue(value)),
+            () -> unsupportedOperation("'and'", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
+            () -> new BooleanLaconValue(getValue() && StringLaconValue.castToBoolValue(value)),
+            () -> new BooleanLaconValue(getValue() && (boolean) value.getValue()),
+            () -> new BooleanLaconValue(getValue() && ListLaconValue.castToBoolValue(value))
         ));
     }
 
@@ -113,7 +114,7 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
         return new BooleanLaconValue(!getValue());
     }
 
-    public static Long castToInt(boolean logicValue) {
+    public static Long castToIntValue(boolean logicValue) {
         if (logicValue) {
             return 1L;
         } else {
@@ -121,9 +122,16 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
         }
     }
 
+    public static Long castToIntValue(@Nonnull LaconValue<?> laconValue) {
+        if (laconValue.getType() != LaconBuiltInType.BOOLEAN) {
+            throw new IllegalStateException("Unexpected type: " + laconValue.getType() + ". Expected: " + LaconBuiltInType.BOOLEAN);
+        }
+        return castToIntValue((boolean) laconValue.getValue());
+    }
+
 
     private Long toInt() {
-        return castToInt(getValue());
+        return castToIntValue(getValue());
     }
 
 }

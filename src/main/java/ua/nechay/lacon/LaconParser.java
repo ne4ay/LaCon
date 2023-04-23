@@ -6,14 +6,15 @@ import ua.nechay.lacon.ast.BinaryOperationAST;
 import ua.nechay.lacon.ast.CastAST;
 import ua.nechay.lacon.ast.EmptyAST;
 import ua.nechay.lacon.ast.SemicolonAST;
-import ua.nechay.lacon.ast.value.BooleanAST;
-import ua.nechay.lacon.ast.value.StringAST;
-import ua.nechay.lacon.ast.VariableDeclarationAST;
-import ua.nechay.lacon.ast.value.IntNumAST;
-import ua.nechay.lacon.ast.value.RealNumAST;
 import ua.nechay.lacon.ast.StatementListAST;
 import ua.nechay.lacon.ast.UnaryOperationAST;
+import ua.nechay.lacon.ast.VariableDeclarationAST;
 import ua.nechay.lacon.ast.VariableReferenceAST;
+import ua.nechay.lacon.ast.value.BooleanAST;
+import ua.nechay.lacon.ast.value.IntNumAST;
+import ua.nechay.lacon.ast.value.ListAST;
+import ua.nechay.lacon.ast.value.RealNumAST;
+import ua.nechay.lacon.ast.value.StringAST;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -113,6 +114,25 @@ public class LaconParser implements Parser {
             eat(LaconTokenType.RIGHT_BRACKET);
             return node;
         }
+        if (type == LaconTokenType.LEFT_SQUARE_BRACKET) {;
+            eat(LaconTokenType.LEFT_SQUARE_BRACKET);
+            LaconToken nextToken = getCurrentToken();
+            if (nextToken.getType() == LaconTokenType.RIGHT_SQUARE_BRACKET) {
+                eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
+                return new ListAST();
+            }
+            List<AST> listNodes = new ArrayList<>();
+            listNodes.add(expression());
+            while (getCurrentToken().getType() == LaconTokenType.COMA) {
+                eat(LaconTokenType.COMA);
+                if (getCurrentToken().getType() == LaconTokenType.RIGHT_BRACKET) {
+                    break;
+                }
+                listNodes.add(expression());
+            }
+            eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
+            return new ListAST(listNodes);
+        }
         return null;
     }
 
@@ -121,8 +141,8 @@ public class LaconParser implements Parser {
      */
     public AST term() {
         AST node = factor();
-        while (TERM_TYPES.contains(this.currentToken.getType())) {
-            LaconToken token = this.currentToken;
+        while (TERM_TYPES.contains(getCurrentToken().getType())) {
+            LaconToken token = getCurrentToken();
             if (token.getType() == LaconTokenType.MUL) {
                 eat(LaconTokenType.MUL);
             } else if (token.getType() == LaconTokenType.DIV) {
@@ -258,7 +278,7 @@ public class LaconParser implements Parser {
     @Override
     public AST parse() {
         var resultNode = program();
-        if (this.currentToken.getType() != LaconTokenType.EOF) {
+        if (getCurrentToken().getType() != LaconTokenType.EOF) {
             throw new IllegalStateException("Unexpected token: " + getCurrentToken());
         }
         return resultNode;

@@ -1,5 +1,6 @@
 package ua.nechay.lacon.exception;
 
+import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 

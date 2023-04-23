@@ -2,7 +2,7 @@ package ua.nechay.lacon.ast.value;
 
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.ast.AST;
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +25,7 @@ public class BooleanAST extends AbstractValueAST implements AST {
 
     @Nonnull
     @Override
-    public LaconType getType() {
-        return LaconType.BOOLEAN;
+    public LaconBuiltInType getType() {
+        return LaconBuiltInType.BOOLEAN;
     }
 }

@@ -2,12 +2,13 @@ package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.LaconProgramState;
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
+import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.RealLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
 
@@ -35,9 +36,9 @@ public class CastAST implements AST {
         var newState = getExpression().interpret(state);
         var value = newState.popValue();
 
-        LaconType fromType = value.getType();
+        LaconBuiltInType fromType = value.getType();
         String castOperation = getCastOperation().getText();
-        LaconType toType = LaconType.getForRepresentation(castOperation);
+        LaconBuiltInType toType = LaconBuiltInType.getForRepresentation(castOperation);
         if (toType == null) {
             throw new IllegalStateException("Unknown type: " + castOperation);
         }
@@ -46,24 +47,35 @@ public class CastAST implements AST {
                 () -> value,
                 () -> new IntLaconValue(RealLaconValue.castToInt((double)value.getValue())),
                 () -> new IntLaconValue(Long.parseLong((String)value.getValue())),
-                () -> new IntLaconValue(BooleanLaconValue.castToInt((boolean)value.getValue()))
+                () -> new IntLaconValue(BooleanLaconValue.castToIntValue(value)),
+                () -> unsupportedOperation("cast", LaconBuiltInType.LIST, LaconBuiltInType.INT)
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> new RealLaconValue(IntLaconValue.castToReal((long)value.getValue())),
                 () -> value,
                 () -> new RealLaconValue(Double.parseDouble((String)value.getValue())),
-                () -> unsupportedOperation("cast", LaconType.BOOLEAN, LaconType.REAL)
+                () -> unsupportedOperation("cast", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
+                () -> unsupportedOperation("cast", LaconBuiltInType.LIST, LaconBuiltInType.REAL)
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> new StringLaconValue(String.valueOf((long)value.getValue())),
                 () -> new StringLaconValue(String.valueOf((double)value.getValue())),
                 () -> value,
-                () -> new StringLaconValue(String.valueOf((boolean) value.getValue()))
+                () -> new StringLaconValue(String.valueOf((boolean) value.getValue())),
+                () -> new StringLaconValue(ListLaconValue.castToStrValue(value))
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> new BooleanLaconValue(IntLaconValue.castToBool((long)value.getValue())),
-                () -> unsupportedOperation("cast", LaconType.REAL, LaconType.BOOLEAN),
+                () -> new BooleanLaconValue(IntLaconValue.castToBoolValue((long)value.getValue())),
+                () -> unsupportedOperation("cast", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
                 () -> new BooleanLaconValue(Boolean.valueOf((String) value.getValue())),
+                () -> value,
+                () -> new BooleanLaconValue(ListLaconValue.castToBoolValue(value))
+            )),
+            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
+                () -> ListLaconValue.create(value),
+                () -> ListLaconValue.create(value),
+                () -> ListLaconValue.create(value),
+                () -> ListLaconValue.create(value),
                 () -> value
             ))
         ));

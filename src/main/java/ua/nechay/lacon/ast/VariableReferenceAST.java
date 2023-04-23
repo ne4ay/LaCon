@@ -25,7 +25,7 @@ public class VariableReferenceAST implements AST, AssignableAST {
         String variableName = getIdentifier().getText();
         LaconVariable existingVariable = state.getVar(variableName);
         if (existingVariable == null) {
-            throw new IllegalStateException("The variable " + variableName + " is already defined");
+            throw new IllegalStateException("The variable " + variableName + " is not defined");
         }
         return state.pushValue(existingVariable.getValueObject());
     }

@@ -1,6 +1,11 @@
 package ua.nechay.lacon.core.val;
 
+import ua.nechay.lacon.core.LaconValue;
+
 import javax.annotation.Nonnull;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author anechaev
@@ -24,5 +29,16 @@ public final class LaconValueUtils {
             builderToMultiply.append(textToMultiply);
         }
         return builderToMultiply.toString();
+    }
+
+    public static ListLaconValue collect(@Nonnull List<LaconValue<?>> values) {
+        return new ListLaconValue(values.stream()
+            .map(LaconValue::getValue)
+            .collect(Collectors.toList()));
+    }
+
+    public static List<Object> revert(@Nonnull List<Object> list) {
+        Collections.reverse(list);
+        return list;
     }
 }

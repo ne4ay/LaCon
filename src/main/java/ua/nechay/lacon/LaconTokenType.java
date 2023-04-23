@@ -1,6 +1,6 @@
 package ua.nechay.lacon;
 
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.utils.LaconScannerState;
 import ua.nechay.lacon.utils.LaconUtils;
 
@@ -86,10 +86,12 @@ public enum LaconTokenType {
     },
     COLON(':'),
     SEMICOLON(';'),
+    COMA(','),
     MUL('*'),
     DIV('/'),
     PLUS('+'),
     MINUS('-'),
+    MODULUS('%'),
     NOT('!'),
     AND(
         character -> character == '&' || character == 'a'
@@ -202,6 +204,7 @@ public enum LaconTokenType {
     ) {
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            //todo: remove this check if it will be decided to make callable functions as a result of expression :))
             if (previousToken != null && previousToken.getType() == RIGHT_BRACKET) {
                 throw new IllegalStateException("Unable to put '(' after ')' at position: " + lexer.getCurrentPosition());
             }
@@ -209,6 +212,8 @@ public enum LaconTokenType {
         }
     },
     RIGHT_BRACKET(')'),
+    LEFT_SQUARE_BRACKET('['),
+    RIGHT_SQUARE_BRACKET(']'),
     LEFT_CURLY_BRACKET('{'),
     RIGHT_CURLY_BRACKET('}'),
     BOOLEAN(
@@ -263,11 +268,7 @@ public enum LaconTokenType {
                     shift++;
                     continue;
                 }
-                return SEMICOLON.matches(nChar)
-                    || SPACE.matches(nChar)
-                    || NEXT_LINE.matches(nChar)
-                    || LaconTokenType.isOperator(nChar)
-                    || RIGHT_BRACKET.matches(nChar);
+                return nChar != '.';
             }
             return true;
         }
@@ -308,14 +309,7 @@ public enum LaconTokenType {
                     shift++;
                     continue;
                 }
-                if (SEMICOLON.matches(nChar)
-                    || SPACE.matches(nChar)
-                    || NEXT_LINE.matches(nChar)
-                    || LaconTokenType.isOperator(nChar)
-                    || RIGHT_BRACKET.matches(nChar))
-                {
-                    return doublePattern.matcher(builder.toString()).matches();
-                }
+                return doublePattern.matcher(builder.toString()).matches();
             }
             return doublePattern.matcher(builder.toString()).matches();
         }
@@ -328,7 +322,7 @@ public enum LaconTokenType {
     CAST(
         Pattern.compile("[a-z(]")
     ) {
-        private final Pattern pattern = Pattern.compile(Arrays.stream(LaconType.values())
+        private final Pattern pattern = Pattern.compile(Arrays.stream(LaconBuiltInType.values())
             .map(type -> type.getRepresentation() + "\\s*\\(")
             .collect(Collectors.joining("|")));
 
@@ -358,8 +352,8 @@ public enum LaconTokenType {
     TYPE(
         Pattern.compile("[a-z]")
     ) {
-        private final Pattern pattern = Pattern.compile(Arrays.stream(LaconType.values())
-            .map(LaconType::getRepresentation)
+        private final Pattern pattern = Pattern.compile(Arrays.stream(LaconBuiltInType.values())
+            .map(LaconBuiltInType::getRepresentation)
             .collect(Collectors.joining("|")));
 
         @Override

@@ -79,17 +79,23 @@ public class LaconLexer implements Scanner, Lexer {
                 skipWhiteSpace();
                 continue;
             }
-            return getStandardToken(LaconTokenType.getStandardTypes(), previousToken)
-                .orElseThrow(() -> new IllegalStateException("Unknown character: " + this.currentChar));
+            return getStandardToken(LaconTokenType.getStandardTypes(), previousToken);
         }
-        return new LaconToken(LaconTokenType.EOF, "", position);
+        return new LaconToken(LaconTokenType.EOF, "", getCurrentPosition());
     }
 
-    private Optional<LaconToken> getStandardToken(@Nonnull List<LaconTokenType> tokenTypes, LaconToken previousToken) {
-        return tokenTypes.stream()
-           .filter(type -> type.matches(this, previousToken))
-           .findFirst()
-           .map(type -> type.toToken(this, previousToken));
+    private LaconToken getStandardToken(@Nonnull List<LaconTokenType> tokenTypes, LaconToken previousToken) {
+        LaconTokenType appropriateType = null;
+        for (var type : tokenTypes) {
+            if (type.matches(this, previousToken)) {
+                appropriateType = type;
+                break;
+            }
+        }
+        if (appropriateType == null) {
+            throw new IllegalStateException("Unable to parse at char " + getCurrentChar() + " at position: " + getCurrentPosition());
+        }
+        return appropriateType.toToken(this, previousToken);
     }
 
 }

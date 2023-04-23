@@ -1,6 +1,6 @@
 package ua.nechay.lacon.core.touch;
 
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 
 import javax.annotation.Nonnull;
 
@@ -16,8 +16,9 @@ public interface TypeTouch<R> {
     R real();
     R string();
     R bool();
+    R list();
 
-    default R switcher(@Nonnull LaconType type) {
+    default R switcher(@Nonnull LaconBuiltInType type) {
         switch (type) {
         case INT:
             return integer();
@@ -27,12 +28,14 @@ public interface TypeTouch<R> {
             return string();
         case BOOLEAN:
             return bool();
+        case LIST:
+            return list();
         default:
             throw new IllegalArgumentException("Unknown type: " + type);
         }
     }
 
-    static <R> R touch(@Nonnull LaconType type, TypeTouch<R> touch) {
+    static <R> R touch(@Nonnull LaconBuiltInType type, TypeTouch<R> touch) {
         return touch.switcher(type);
     }
 }

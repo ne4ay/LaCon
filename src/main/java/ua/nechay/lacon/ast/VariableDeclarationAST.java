@@ -2,9 +2,8 @@ package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.LaconProgramState;
-import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
-import ua.nechay.lacon.core.var.LaconInitializedVariable;
 import ua.nechay.lacon.core.var.LaconVariable;
 
 import javax.annotation.Nonnull;
@@ -31,7 +30,7 @@ public class VariableDeclarationAST implements AST, AssignableAST {
             throw new IllegalStateException("The variable " + variableName + " is already defined");
         }
         String typeRepresentation = this.type.getText();
-        LaconType type = LaconType.getForRepresentation(typeRepresentation);
+        LaconBuiltInType type = LaconBuiltInType.getForRepresentation(typeRepresentation);
         if (type == null) {
             throw new IllegalStateException();
         }
