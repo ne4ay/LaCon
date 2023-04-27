@@ -4,6 +4,7 @@ import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
 import ua.nechay.lacon.ast.CastAST;
+import ua.nechay.lacon.ast.ConditionsAST;
 import ua.nechay.lacon.ast.EmptyAST;
 import ua.nechay.lacon.ast.SemicolonAST;
 import ua.nechay.lacon.ast.StatementListAST;
@@ -15,6 +16,7 @@ import ua.nechay.lacon.ast.value.IntNumAST;
 import ua.nechay.lacon.ast.value.ListAST;
 import ua.nechay.lacon.ast.value.RealNumAST;
 import ua.nechay.lacon.ast.value.StringAST;
+import ua.nechay.lacon.utils.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -57,8 +59,30 @@ public class LaconParser implements Parser {
         }
     }
 
+    private Pair<AST,AST> parseChainedCondition() {
+        AST ifCondition = expression();
+        eat(LaconTokenType.LEFT_CURLY_BRACKET);
+        AST ifStatement = new StatementListAST(statementList());
+        eat(LaconTokenType.RIGHT_CURLY_BRACKET);
+        return Pair.of(ifCondition, ifStatement);
+    }
+
     public AST condition() {
-        return null;
+        eat(LaconTokenType.IF);
+        List<Pair<AST,AST>> chainedConditions = new ArrayList<>();
+        chainedConditions.add(parseChainedCondition());
+        while (getCurrentToken().getType() == LaconTokenType.ELIF) {
+            eat(LaconTokenType.ELIF);
+            chainedConditions.add(parseChainedCondition());
+        }
+        AST elseStatement = null;
+        if (getCurrentToken().getType() == LaconTokenType.ELSE) {
+            eat(LaconTokenType.ELSE);
+            eat(LaconTokenType.LEFT_CURLY_BRACKET);
+            elseStatement = new StatementListAST(statementList());
+            eat(LaconTokenType.RIGHT_CURLY_BRACKET);
+        }
+        return new ConditionsAST(chainedConditions, elseStatement);
     }
 
     /**
@@ -67,6 +91,9 @@ public class LaconParser implements Parser {
     public AST factor() {
         LaconToken token = getCurrentToken();
         LaconTokenType type = token.getType();
+        if (type == LaconTokenType.IF) {
+            return condition();
+        }
         if (type == LaconTokenType.PLUS) {
             eat(LaconTokenType.PLUS);
             return new UnaryOperationAST(token, factor());

@@ -1,0 +1,10 @@
+{
+    a : int = 1 + 3;
+    if a == 3 {
+        b : int = 0;
+    } elif a == 5 {
+        c : int = 1;
+    } else {
+        d : int = 2;
+    }
+}

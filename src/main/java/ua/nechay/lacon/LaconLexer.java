@@ -92,7 +92,7 @@ public class LaconLexer implements Scanner, Lexer {
             }
         }
         if (appropriateType == null) {
-            throw new IllegalStateException("Unable to parse at char " + getCurrentChar() + " at position: " + getCurrentPosition());
+            throw new IllegalStateException("Unable to parse at char " + String.valueOf(getCurrentChar()) + " at position: " + getCurrentPosition());
         }
         return appropriateType.toToken(this, previousToken);
     }

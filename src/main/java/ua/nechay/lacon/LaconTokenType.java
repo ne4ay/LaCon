@@ -275,9 +275,9 @@ public enum LaconTokenType {
         }
     },
     INTEGER(
-        Pattern.compile("[1-9]")
+        Pattern.compile("[0-9]")
     ) {
-        private final Set<Character> appropriateFirstSymbols = Set.of('1', '2', '3', '4', '5', '6', '7', '8', '9');
+        private final Set<Character> appropriateFirstSymbols = Set.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         private final Set<Character> appropriateNSymbols = Set.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_');
 
         @Override

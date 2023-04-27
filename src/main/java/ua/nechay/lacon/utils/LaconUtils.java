@@ -61,7 +61,7 @@ public class LaconUtils {
                 return false;
             }
         }
-        Character characterAfterText = scanner.peek(text.length() + 1);
+        Character characterAfterText = scanner.peek(text.length());
         return characterAfterText == null || !LaconTokenType.IDENTIFIER.matches(characterAfterText);
     }
 
