@@ -27,7 +27,7 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
             () -> unsupportedOperation("+", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> new BooleanLaconValue(plus(getValue(), (boolean) value.getValue())),
-            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, getValue())
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this)
         ));
     }
 
@@ -43,7 +43,7 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
             () -> unsupportedOperation("-", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
             () -> unsupportedOperation("-", LaconBuiltInType.BOOLEAN, LaconBuiltInType.STRING),
             () -> new BooleanLaconValue(minus(getValue(), (boolean) value.getValue())),
-            () -> ListLaconValue.removeElement((ListLaconValue) value, getValue())
+            () -> ListLaconValue.removeElement((ListLaconValue) value, this)
         ));
     }
 

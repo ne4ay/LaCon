@@ -400,18 +400,27 @@ public enum LaconTokenType {
         }
     },
     IDENTIFIER(
-        Pattern.compile("[_A-Za-z]")
+        Pattern.compile("[A-Za-z]")
     ) {
+        private final Pattern nCharPattern = Pattern.compile("[_A-Za-z0-9]+");
         private final Pattern pattern = Pattern.compile("(?=.*[A-Za-z])_*[_A-Za-z0-9]+");
 
         @Override
         public boolean matches(@Nonnull Scanner lexer) {
-            return pattern.matcher(LaconUtils.examineUntil(lexer, this::matches)).matches();
+            Character firstChar = lexer.getCurrentChar();
+            if (firstChar == null || !matches(firstChar)) {
+                return false;
+            }
+            return pattern.matcher(LaconUtils.examineUntil(lexer, this::matchesToMainIdPattern)).matches();
         }
 
         @Override
         public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.eatToken(lexer, this::matches, this);
+            return LaconUtils.eatToken(lexer, this::matchesToMainIdPattern, this);
+        }
+
+        private boolean matchesToMainIdPattern(char character) {
+            return nCharPattern.matcher(String.valueOf(character)).matches();
         }
     }
     ;

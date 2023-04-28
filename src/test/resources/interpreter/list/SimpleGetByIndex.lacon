@@ -1,0 +1,12 @@
+{
+    Some_Cool__34214___Name_of_Variable : list = [1, 2] + true + [3.14, "kek"] + [1 == 0];
+    a : int = Some_Cool__34214___Name_of_Variable[0];
+    b : int = Some_Cool__34214___Name_of_Variable[1];
+
+    c : bool = Some_Cool__34214___Name_of_Variable[2];
+    d : real = Some_Cool__34214___Name_of_Variable[3];
+    e : str = Some_Cool__34214___Name_of_Variable[4];
+    f0 : bool = Some_Cool__34214___Name_of_Variable[5];
+    f1 : bool = Some_Cool__34214___Name_of_Variable[-1];
+
+}

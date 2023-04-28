@@ -7,7 +7,7 @@ import ua.nechay.lacon.core.touch.TypeTouch;
 
 import javax.annotation.Nonnull;
 
-import static ua.nechay.lacon.core.val.LaconValueUtils.multipleStrings;
+import static ua.nechay.lacon.core.LaconValueUtils.multipleStrings;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
 /**
@@ -27,7 +27,7 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> new RealLaconValue((double) getValue() + (double) value.getValue()),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> new IntLaconValue(getValue() + BooleanLaconValue.castToIntValue(value)),
-            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, getValue())
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this)
         ));
     }
 
@@ -39,7 +39,7 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> new RealLaconValue((double) getValue() - (double) value.getValue()),
             () -> unsupportedOperation("-", LaconBuiltInType.INT.getRepresentation(), LaconBuiltInType.STRING.getRepresentation()),
             () -> new IntLaconValue(getValue() - BooleanLaconValue.castToIntValue((boolean) value.getValue())),
-            () -> ListLaconValue.removeElement((ListLaconValue) value, getValue())
+            () -> ListLaconValue.removeElement((ListLaconValue) value, this)
         ));
     }
 

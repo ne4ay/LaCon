@@ -5,10 +5,11 @@ import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.touch.UnsupportedOperationTypeTouch;
+import ua.nechay.lacon.exception.LaconOutOfBoundsException;
 
 import javax.annotation.Nonnull;
 
-import static ua.nechay.lacon.core.val.LaconValueUtils.multipleStrings;
+import static ua.nechay.lacon.core.LaconValueUtils.multipleStrings;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
 /**
@@ -28,7 +29,7 @@ public class StringLaconValue extends LaconValue<String> {
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
-            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, getValue())
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this)
         ));
     }
 
@@ -40,7 +41,7 @@ public class StringLaconValue extends LaconValue<String> {
             () -> unsupportedOperation("-", LaconBuiltInType.STRING, LaconBuiltInType.REAL),
             () -> new StringLaconValue(subtractStrings(getValue(), (String) value.getValue())),
             () -> unsupportedOperation("-", LaconBuiltInType.STRING, LaconBuiltInType.BOOLEAN),
-            () -> ListLaconValue.removeElement((ListLaconValue) value, getValue())
+            () -> ListLaconValue.removeElement((ListLaconValue) value, this)
         ));
     }
 
@@ -65,6 +66,30 @@ public class StringLaconValue extends LaconValue<String> {
     @Override
     public LaconValue<?> div(@Nonnull LaconValue<?> value) {
         return UnsupportedOperationTypeTouch.unsupported("/", value, getType());
+    }
+
+    @Nonnull
+    @Override
+    public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {
+        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
+            () -> getByIndex((int)(long)value.getValue()),
+            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.REAL),
+            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.STRING),
+            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.BOOLEAN),
+            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.LIST)
+        ));
+    }
+
+    private LaconValue<?> getByIndex(int index) {
+        String text = getValue();
+        if (Math.abs(index) >= text.length()) {
+            throw new LaconOutOfBoundsException("Unable to get element at index " + index + " in the '" + getValue() + "'");
+        }
+        int ind = index;
+        if (index < 0) {
+            ind = text.length() + index;
+        }
+        return new StringLaconValue(String.valueOf(text.charAt(ind)));
     }
 
     @Nonnull

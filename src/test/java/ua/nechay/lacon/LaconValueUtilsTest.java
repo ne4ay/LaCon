@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static ua.nechay.lacon.core.val.LaconValueUtils.multipleStrings;
+import static ua.nechay.lacon.core.LaconValueUtils.multipleStrings;
 
 /**
  * @author anechaev

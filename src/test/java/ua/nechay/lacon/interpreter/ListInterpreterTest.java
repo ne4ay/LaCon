@@ -6,6 +6,7 @@ import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.var.LaconVariable;
 import ua.nechay.lacon.utils.LaconUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -15,6 +16,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static ua.nechay.lacon.TestUtils.EPSILON;
+import static ua.nechay.lacon.TestUtils.assertVariable;
+import static ua.nechay.lacon.TestUtils.getProgram;
 
 /**
  * @author anechaev
@@ -83,5 +86,19 @@ public class ListInterpreterTest {
 
         Object bEl2 = varContent.get(2);
         assertThat(bEl2, equalTo(3L));
+    }
+
+    @Test
+    public void testSimpleGetByIndex() throws IOException {
+        String program = getProgram();
+        LaconProgramState result = LaconUtils.exec(program);
+
+        assertVariable(result, "a", LaconBuiltInType.INT, 1L);
+        assertVariable(result, "b", LaconBuiltInType.INT, 2L);
+        assertVariable(result, "c", LaconBuiltInType.BOOLEAN, true);
+        assertVariable(result, "d", LaconBuiltInType.REAL, 3.14);
+        assertVariable(result, "e", LaconBuiltInType.STRING, "kek");
+        assertVariable(result, "f0", LaconBuiltInType.BOOLEAN, false);
+        assertVariable(result, "f1", LaconBuiltInType.BOOLEAN, false);
     }
 }

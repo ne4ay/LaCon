@@ -16,6 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static ua.nechay.lacon.TestUtils.getPathOfTestResource;
+import static ua.nechay.lacon.TestUtils.getProgram;
 
 /**
  * @author anechaev
@@ -25,7 +26,7 @@ public class ConditionInterpreterTest {
 
     @Test
     public void testSimpleIfElse() throws IOException {
-        String program = Files.readString(getPathOfTestResource("interpreter", "condition", "SimpleIfElse.lacon"));
+        String program = getProgram();
         LaconProgramState result = LaconUtils.exec(program);
 
         LaconVariable aVariable = result.getVar("a");

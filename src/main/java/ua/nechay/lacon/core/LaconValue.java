@@ -10,11 +10,8 @@ import ua.nechay.lacon.core.val.StringLaconValue;
 import ua.nechay.lacon.exception.LaconUnsupportedOperationException;
 
 import javax.annotation.Nonnull;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-
-import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
 /**
  * @author anechaev
@@ -36,7 +33,7 @@ public abstract class LaconValue<T> {
             () -> new RealLaconValue((double) value),
             () -> new StringLaconValue((String) value),
             () -> new BooleanLaconValue((boolean) value),
-            () -> new ListLaconValue((List<Object>) value)
+            () -> new ListLaconValue((List<LaconValue<?>>) value)
         ));
     }
 
@@ -71,6 +68,11 @@ public abstract class LaconValue<T> {
     @Nonnull
     public LaconValue<?> and(@Nonnull LaconValue<?> value) {
         return unsupported("'and'", value);
+    }
+
+    @Nonnull
+    public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {
+        return unsupported("'[n]'", value);
     }
 
     protected LaconValue<?> unsupported(@Nonnull String operation, @Nonnull LaconValue<?> value) {

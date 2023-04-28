@@ -30,9 +30,8 @@ public class ListAST implements AST {
     @Nonnull
     @Override
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
-        List<Object> resultList = valuesList.stream()
+        List<LaconValue<?>> resultList = valuesList.stream()
             .map(valueAST -> valueAST.interpret(state).popValue())
-            .map(LaconValue::getValue)
             .collect(Collectors.toList());
         return state.pushValue(new ListLaconValue(resultList));
     }

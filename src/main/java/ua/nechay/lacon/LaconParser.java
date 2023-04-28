@@ -6,6 +6,7 @@ import ua.nechay.lacon.ast.BinaryOperationAST;
 import ua.nechay.lacon.ast.CastAST;
 import ua.nechay.lacon.ast.ConditionsAST;
 import ua.nechay.lacon.ast.EmptyAST;
+import ua.nechay.lacon.ast.IndexableAST;
 import ua.nechay.lacon.ast.SemicolonAST;
 import ua.nechay.lacon.ast.StatementListAST;
 import ua.nechay.lacon.ast.UnaryOperationAST;
@@ -167,11 +168,22 @@ public class LaconParser implements Parser {
         return null;
     }
 
+    public AST index() {
+        AST node = factor();
+        while (getCurrentToken().getType() == LaconTokenType.LEFT_SQUARE_BRACKET) {
+            eat(LaconTokenType.LEFT_SQUARE_BRACKET);
+            AST indexNode = expression();
+            eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
+            node = new IndexableAST(node, indexNode);
+        }
+        return node;
+    }
+
     /**
      * factor ((MUL | DIV) factor)
      */
     public AST term() {
-        AST node = factor();
+        AST node = index();
         while (TERM_TYPES.contains(getCurrentToken().getType())) {
             LaconToken token = getCurrentToken();
             if (token.getType() == LaconTokenType.MUL) {
@@ -179,7 +191,7 @@ public class LaconParser implements Parser {
             } else if (token.getType() == LaconTokenType.DIV) {
                 eat(LaconTokenType.DIV);
             }
-            node = new BinaryOperationAST(node, token, factor());
+            node = new BinaryOperationAST(node, token, index());
         }
         return node;
     }
