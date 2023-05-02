@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static ua.nechay.lacon.TestUtils.assertVariable;
 import static ua.nechay.lacon.TestUtils.getPathOfTestResource;
 import static ua.nechay.lacon.TestUtils.getProgram;
 
@@ -44,5 +45,7 @@ public class ConditionInterpreterTest {
         assertNotNull(dVariable);
         assertThat(dVariable.getValue(), equalTo(2L));
         assertThat(dVariable.getType(), equalTo(LaconBuiltInType.INT));
+
+        assertVariable(result, "after_if", LaconBuiltInType.REAL, 23.1);
     }
 }

@@ -7,4 +7,5 @@
     } else {
         d : int = 2;
     }
+    after_if : real = 23.1;
 }
