@@ -12,6 +12,7 @@ import ua.nechay.lacon.ast.StatementListAST;
 import ua.nechay.lacon.ast.UnaryOperationAST;
 import ua.nechay.lacon.ast.VariableDeclarationAST;
 import ua.nechay.lacon.ast.VariableReferenceAST;
+import ua.nechay.lacon.ast.WhileCycleAST;
 import ua.nechay.lacon.ast.value.BooleanAST;
 import ua.nechay.lacon.ast.value.IntNumAST;
 import ua.nechay.lacon.ast.value.ListAST;
@@ -32,7 +33,13 @@ import java.util.Set;
 public class LaconParser implements Parser {
     private static final Set<LaconTokenType> TERM_TYPES = EnumSet.of(LaconTokenType.MUL, LaconTokenType.DIV);
     private static final Set<LaconTokenType> NOTION_TYPES = EnumSet.of(LaconTokenType.PLUS, LaconTokenType.MINUS);
-    private static final Set<LaconTokenType> ALLEGATION_TYPES = EnumSet.of(LaconTokenType.EQUALS, LaconTokenType.NOT_EQUALS);
+    private static final Set<LaconTokenType> ALLEGATION_TYPES = EnumSet.of(
+        LaconTokenType.EQUALS,
+        LaconTokenType.NOT_EQUALS,
+        LaconTokenType.LESS,
+        LaconTokenType.LESS_OR_EQUAL,
+        LaconTokenType.GREATER,
+        LaconTokenType.GREATER_OR_EQUAL);
 
     private final Lexer lexer;
 
@@ -221,12 +228,7 @@ public class LaconParser implements Parser {
         AST node = notion();
         while (ALLEGATION_TYPES.contains(getCurrentToken().getType())) {
             LaconToken token = getCurrentToken();
-            if (token.getType() == LaconTokenType.EQUALS) {
-                eat(LaconTokenType.EQUALS);
-            } else if (token.getType() == LaconTokenType.NOT_EQUALS) {
-                eat(LaconTokenType.NOT_EQUALS);
-            }
-
+            eat(token.getType());
             node = new BinaryOperationAST(node, token, notion());
         }
         return node;
@@ -277,15 +279,25 @@ public class LaconParser implements Parser {
         }
     }
 
+    public AST whileCycle() {
+        eat(LaconTokenType.WHILE);
+        AST conditionExpression = expression();
+        AST whileBlock = compoundStatement();
+        return new WhileCycleAST(conditionExpression, whileBlock);
+    }
+
     public AST statement() {
-        if (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
-            eat(LaconTokenType.SEMICOLON);
+        LaconTokenType currentType = getCurrentToken().getType();
+        if (currentType == LaconTokenType.SEMICOLON) {
             return new SemicolonAST();
         }
-        if (getCurrentToken().getType() == LaconTokenType.RIGHT_CURLY_BRACKET) {
+        if (currentType == LaconTokenType.RIGHT_CURLY_BRACKET) {
             return new EmptyAST();
         }
-        if (getCurrentToken().getType() != LaconTokenType.IDENTIFIER) {
+        if (currentType == LaconTokenType.WHILE) {
+            return whileCycle();
+        }
+        if (currentType != LaconTokenType.IDENTIFIER) {
             return expression();
         }
         return assignOrDeclarationStatement();
@@ -296,8 +308,12 @@ public class LaconParser implements Parser {
         AST firstStatement = statement();
         results.add(firstStatement);
 
-        while (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
-            eat(LaconTokenType.SEMICOLON);
+        while (getCurrentToken().getType() == LaconTokenType.SEMICOLON
+            || getCurrentToken().getType() != LaconTokenType.RIGHT_CURLY_BRACKET)
+        {
+            if (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
+                eat(LaconTokenType.SEMICOLON);
+            }
             results.add(statement());
         }
         if (getCurrentToken().getType() == LaconTokenType.IDENTIFIER) {

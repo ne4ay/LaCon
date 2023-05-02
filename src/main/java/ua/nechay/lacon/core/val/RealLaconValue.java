@@ -74,6 +74,11 @@ public class RealLaconValue extends LaconValue<Double> {
         ));
     }
 
+    @Override
+    protected int compare(Double obj1, Double obj2) {
+        return Double.compare(obj1, obj2);
+    }
+
     @Nonnull @Override
     public LaconValue<?> unaryPlus() {
         return new RealLaconValue(+getValue());

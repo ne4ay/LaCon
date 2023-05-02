@@ -2,6 +2,8 @@ package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.LaconValueUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -48,6 +50,14 @@ public class BinaryOperationAST implements AST {
             return afterRightState.pushValue(leftValue.and(rightValue));
         case MODULUS:
             return afterRightState.pushValue(leftValue.modulus(rightValue));
+        case LESS:
+            return afterRightState.pushValue(LaconValueUtils.less(leftValue, rightValue));
+        case LESS_OR_EQUAL:
+            return afterRightState.pushValue(LaconValueUtils.lessOrEqual(leftValue, rightValue));
+        case GREATER:
+            return afterRightState.pushValue(LaconValueUtils.greater(leftValue, rightValue));
+        case GREATER_OR_EQUAL:
+            return afterRightState.pushValue(LaconValueUtils.greaterOrEqual(leftValue, rightValue));
         default:
             throw new IllegalStateException("Unknown operation type: " + getOperation().getText() + " at position: " + getOperation().getStartPos());
         }

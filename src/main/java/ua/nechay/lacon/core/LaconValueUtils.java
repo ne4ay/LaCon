@@ -43,6 +43,26 @@ public final class LaconValueUtils {
     }
 
     @Nonnull
+    public static LaconValue<?> less(LaconValue<?> val1, LaconValue<?> val2) {
+        return new BooleanLaconValue(val1.compareTo(val2) < 0);
+    }
+
+    @Nonnull
+    public static LaconValue<?> lessOrEqual(LaconValue<?> val1, LaconValue<?> val2) {
+        return new BooleanLaconValue(val1.compareTo(val2) < 1);
+    }
+
+    @Nonnull
+    public static LaconValue<?> greater(LaconValue<?> val1, LaconValue<?> val2) {
+        return new BooleanLaconValue(val1.compareTo(val2) > 0);
+    }
+
+    @Nonnull
+    public static LaconValue<?> greaterOrEqual(LaconValue<?> val1, LaconValue<?> val2) {
+        return new BooleanLaconValue(val1.compareTo(val2) > -1);
+    }
+
+    @Nonnull
     public static LaconValue<?> fromObject(Object obj) {
         if (obj instanceof Long) {
             return new IntLaconValue((Long) obj);

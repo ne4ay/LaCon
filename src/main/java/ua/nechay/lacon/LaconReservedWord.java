@@ -20,7 +20,10 @@ public enum LaconReservedWord {
     NOT_EQUALS("!="),
     IF("if"),
     ELIF("elif"),
-    ELSE("else")
+    ELSE("else"),
+    WHILE("while"),
+    LESS_OR_EQUAL("<="),
+    GREATER_OR_EQUAL(">="),
     ;
 
     private static final Map<String, LaconReservedWord> ACCESS_MAP = Arrays.stream(values())

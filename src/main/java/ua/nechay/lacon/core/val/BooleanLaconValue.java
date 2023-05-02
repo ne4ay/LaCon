@@ -72,6 +72,11 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
         return UnsupportedOperationTypeTouch.unsupported("/", value, getType());
     }
 
+    @Override
+    protected int compare(Boolean obj1, Boolean obj2) {
+        return Boolean.compare(obj1, obj2);
+    }
+
     @Nonnull
     @Override
     public LaconValue<?> or(@Nonnull LaconValue<?> value) {

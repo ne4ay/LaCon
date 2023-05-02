@@ -3,6 +3,7 @@ package ua.nechay.lacon.interpreter;
 import org.junit.Test;
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 import ua.nechay.lacon.utils.LaconUtils;
 
@@ -39,19 +40,19 @@ public class ListInterpreterTest {
         List<Object> varContent = (List<Object>) some_varVariable.getValue();
         assertThat(varContent.size(), equalTo(4));
 
-        Object el0 = varContent.get(0);
+        Object el0 = ((LaconValue<?>)varContent.get(0)).getValue();
         assertTrue(el0 instanceof Long);
         assertThat(el0, equalTo(9L));
 
-        Object el1 = varContent.get(1);
+        Object el1 = ((LaconValue<?>)varContent.get(1)).getValue();
         assertTrue(el1 instanceof Double);
         assertThat((double)el1, closeTo(42.5, EPSILON));
 
-        Object el2 = varContent.get(2);
+        Object el2 = ((LaconValue<?>)varContent.get(2)).getValue();
         assertTrue(el2 instanceof String);
         assertThat(el2, equalTo("ke,kke,k"));
 
-        Object el3 = varContent.get(3);
+        Object el3 = ((LaconValue<?>)varContent.get(3)).getValue();
         assertTrue(el3 instanceof Boolean);
         assertFalse((boolean) el3);
     }
@@ -69,23 +70,23 @@ public class ListInterpreterTest {
         List<Object> varContent = (List<Object>) aVariable.getValue();
         assertThat(varContent.size(), equalTo(3));
 
-        Object aEl0 = varContent.get(0);
-        assertThat(aEl0, equalTo(1L));
+        LaconValue<?> aEl0 = (LaconValue<?>) varContent.get(0);
+        assertThat(aEl0.getValue(), equalTo(1L));
 
-        Object aEl1 = varContent.get(1);
-        assertThat(aEl1, equalTo(2L));
+        LaconValue<?> aEl1 = (LaconValue<?>) varContent.get(1);
+        assertThat(aEl1.getValue(), equalTo(2L));
 
-        Object aEl2 = varContent.get(2);
-        assertThat(aEl2, equalTo(3L));
+        LaconValue<?> aEl2 = (LaconValue<?>) varContent.get(2);
+        assertThat(aEl2.getValue(), equalTo(3L));
 
-        Object bEl0 = varContent.get(0);
-        assertThat(bEl0, equalTo(1L));
+        LaconValue<?> bEl0 = (LaconValue<?>) varContent.get(0);
+        assertThat(bEl0.getValue(), equalTo(1L));
 
-        Object bEl1 = varContent.get(1);
-        assertThat(bEl1, equalTo(2L));
+        LaconValue<?> bEl1 = (LaconValue<?>) varContent.get(1);
+        assertThat(bEl1.getValue(), equalTo(2L));
 
-        Object bEl2 = varContent.get(2);
-        assertThat(bEl2, equalTo(3L));
+        LaconValue<?> bEl2 = (LaconValue<?>) varContent.get(2);
+        assertThat(bEl2.getValue(), equalTo(3L));
     }
 
     @Test

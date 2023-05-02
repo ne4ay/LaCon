@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author anechaev
  * @since 15.04.2023
  */
-public abstract class LaconValue<T> {
+public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
 
     private final T value;
     private final LaconBuiltInType type;
@@ -54,6 +54,20 @@ public abstract class LaconValue<T> {
     @Nonnull public abstract LaconValue<?> unaryPlus();
     @Nonnull public abstract LaconValue<?> unaryMinus();
     @Nonnull public abstract LaconValue<?> unaryNot();
+
+    @Override
+    public int compareTo(@Nonnull LaconValue<?> o) {
+        var type = o.getType();
+        var uncastedValue = o.getValue();
+        if (!type.equals(getType())) {
+            throw new IllegalStateException("Unable to compare objects of different types: '" + type + "' and '" + getType() + "'!");
+        }
+        return Objects.compare(getValue(), (T) uncastedValue, this::compare);
+    }
+
+    protected int compare(T obj1, T obj2) {
+        throw new IllegalStateException("Type " + getType() + " is incomparable!");
+    }
 
     @Nonnull
     public LaconValue<?> modulus(@Nonnull LaconValue<?> value) {

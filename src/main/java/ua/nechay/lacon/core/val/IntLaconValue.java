@@ -79,6 +79,11 @@ public class IntLaconValue extends LaconValue<Long> {
         ));
     }
 
+    @Override
+    protected int compare(Long obj1, Long obj2) {
+        return Long.compare(obj1, obj2);
+    }
+
     @Nonnull
     @Override
     public LaconValue<?> unaryPlus() {

@@ -54,6 +54,20 @@ public class LaconUtils {
     }
 
     public static boolean matchesText(@Nonnull Scanner scanner, @Nonnull String text) {
+        boolean matchesString = matchesSomeString(scanner, text);
+        Character characterAfterText = scanner.peek(text.length());
+        return matchesString && (characterAfterText == null || !LaconTokenType.IDENTIFIER.matches(characterAfterText));
+    }
+
+    public static boolean matchesOperator(@Nonnull Scanner scanner, @Nonnull LaconReservedWord word) {
+        return matchesOperator(scanner, word.getRepresentation());
+    }
+
+    public static boolean matchesOperator(@Nonnull Scanner scanner, @Nonnull String text) {
+        return matchesSomeString(scanner, text);
+    }
+
+    private static boolean matchesSomeString(@Nonnull Scanner scanner, @Nonnull String text) {
         for (int i = 0; i < text.length(); i++) {
             Character nextChar = scanner.peek(i);
             char textChar = text.charAt(i);
@@ -61,8 +75,7 @@ public class LaconUtils {
                 return false;
             }
         }
-        Character characterAfterText = scanner.peek(text.length());
-        return characterAfterText == null || !LaconTokenType.IDENTIFIER.matches(characterAfterText);
+        return true;
     }
 
     public static boolean matchesAnyTexts(@Nonnull Scanner scanner, @Nonnull String... words) {

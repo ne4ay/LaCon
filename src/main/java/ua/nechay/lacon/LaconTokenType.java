@@ -11,6 +11,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -92,7 +94,6 @@ public enum LaconTokenType {
     PLUS('+'),
     MINUS('-'),
     MODULUS('%'),
-    NOT('!'),
     AND(
         character -> character == '&' || character == 'a'
     ) {
@@ -176,17 +177,27 @@ public enum LaconTokenType {
             return new LaconToken(this, resultBuilder.toString(), position);
         }
     },
-    NOT_EQUALS('!') {
+    NOT_EQUALS(LaconReservedWord.NOT_EQUALS) {
         @Override
         public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.matchesText(lexer, LaconReservedWord.NOT_EQUALS.getRepresentation());
-        }
-
-        @Override
-        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.eatWord(lexer, LaconReservedWord.NOT_EQUALS, this);
+            return LaconUtils.matchesOperator(lexer, LaconReservedWord.NOT_EQUALS);
         }
     },
+    LESS_OR_EQUAL(LaconReservedWord.LESS_OR_EQUAL) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesOperator(lexer, LaconReservedWord.LESS_OR_EQUAL);
+        }
+    },
+    GREATER_OR_EQUAL(LaconReservedWord.GREATER_OR_EQUAL)  {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesOperator(lexer, LaconReservedWord.GREATER_OR_EQUAL);
+        }
+    },
+    NOT('!'),
+    LESS('<'),
+    GREATER('>'),
     ASSIGNMENT(
         character -> character == '='
     ) {
@@ -216,39 +227,10 @@ public enum LaconTokenType {
     RIGHT_SQUARE_BRACKET(']'),
     LEFT_CURLY_BRACKET('{'),
     RIGHT_CURLY_BRACKET('}'),
-    IF('i') {
-        @Override
-        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.matchesWord(lexer, LaconReservedWord.IF);
-        }
-
-        @Override
-        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.eatWord(lexer, LaconReservedWord.IF, this);
-        }
-    },
-    ELIF('e') {
-        @Override
-        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.matchesWord(lexer, LaconReservedWord.ELIF);
-        }
-
-        @Override
-        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.eatWord(lexer, LaconReservedWord.ELIF, this);
-        }
-    },
-    ELSE('e') {
-        @Override
-        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.matchesWord(lexer, LaconReservedWord.ELSE);
-        }
-
-        @Override
-        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            return LaconUtils.eatWord(lexer, LaconReservedWord.ELSE, this);
-        }
-    },
+    IF(LaconReservedWord.IF),
+    ELIF(LaconReservedWord.ELIF),
+    ELSE(LaconReservedWord.ELSE),
+    WHILE(LaconReservedWord.WHILE),
     BOOLEAN(
         character -> character == 't' || character == 'f'
     ) {
@@ -426,31 +408,42 @@ public enum LaconTokenType {
     ;
     private static final EnumSet<LaconTokenType> OPERATORS = EnumSet.of(MUL, DIV, PLUS, MINUS);
 
-    protected final Predicate<Character> matchingPredicate;
+    protected final MatchPredicate matchPredicate;
+    protected final TokenEater tokenEater;
+    protected final Predicate<Character> charMatchingPredicate;
     protected final boolean isStandardToken;
 
     LaconTokenType(char expectedCharacter) {
         this(character -> character == expectedCharacter);
     }
 
-    LaconTokenType(@Nonnull Predicate<Character> matchingPredicate) {
-        this.matchingPredicate = matchingPredicate;
-        this.isStandardToken = true;
+    LaconTokenType(@Nonnull Predicate<Character> charMatchingPredicate) {
+        this(charMatchingPredicate, true);
     }
 
     LaconTokenType(@Nonnull Pattern pattern) {
-        this.matchingPredicate = character -> pattern.matcher(String.valueOf(character)).matches();
-        this.isStandardToken = true;
+        this(pattern, true);
     }
 
-    LaconTokenType(@Nonnull Predicate<Character> matchingPredicate, boolean isStandardToken) {
-        this.matchingPredicate = matchingPredicate;
+    LaconTokenType(@Nonnull Predicate<Character> charMatchingPredicate, boolean isStandardToken) {
+        this.charMatchingPredicate = charMatchingPredicate;
+        this.matchPredicate = (lexer, ignored) -> matches(lexer);
+        this.tokenEater = this::defaultEatToken;
         this.isStandardToken = isStandardToken;
     }
 
     LaconTokenType(@Nonnull Pattern pattern, boolean isStandardToken) {
-        this.matchingPredicate = character -> pattern.matcher(String.valueOf(character)).matches();
+        this.charMatchingPredicate = character -> pattern.matcher(String.valueOf(character)).matches();
+        this.matchPredicate = (lexer, ignored) -> matches(lexer);
+        this.tokenEater = this::defaultEatToken;
         this.isStandardToken = isStandardToken;
+    }
+
+    LaconTokenType(@Nonnull LaconReservedWord reservedWord) {
+        this.charMatchingPredicate = character -> reservedWord.getRepresentation().charAt(0) == character;
+        this.matchPredicate = (lexer, prevToken) -> LaconUtils.matchesWord(lexer, reservedWord);
+        this.tokenEater = (lexer, prevToken) -> LaconUtils.eatWord(lexer, reservedWord, this);
+        this.isStandardToken = true;
     }
 
     /**
@@ -469,14 +462,18 @@ public enum LaconTokenType {
     }
 
     public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-        return matches(lexer);
+        return matchPredicate.test(lexer, previousToken);
     }
 
     public boolean matches(char character) {
-        return matchingPredicate.test(character);
+        return charMatchingPredicate.test(character);
     }
 
     public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+        return tokenEater.apply(lexer, previousToken);
+    }
+
+    private LaconToken defaultEatToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
         Character character = lexer.getCurrentChar();
         if (character == null) {
             return new LaconToken(EOF, "", lexer.getCurrentPosition());
@@ -491,11 +488,6 @@ public enum LaconTokenType {
         return new LaconToken(this, String.valueOf(character), currentPosition);
     }
 
-    private static boolean isOperator(@Nullable Character character) {
-        if (character == null) {
-            return false;
-        }
-        return OPERATORS.stream()
-            .anyMatch(operatorType -> operatorType.matches(character));
-    }
+    protected interface MatchPredicate extends BiPredicate<Scanner, LaconToken> {}
+    protected interface TokenEater extends BiFunction<Scanner, LaconToken, LaconToken> {}
 }

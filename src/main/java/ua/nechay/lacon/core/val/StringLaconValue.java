@@ -68,6 +68,11 @@ public class StringLaconValue extends LaconValue<String> {
         return UnsupportedOperationTypeTouch.unsupported("/", value, getType());
     }
 
+    @Override
+    protected int compare(String obj1, String obj2) {
+        return obj1.compareTo(obj2);
+    }
+
     @Nonnull
     @Override
     public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {

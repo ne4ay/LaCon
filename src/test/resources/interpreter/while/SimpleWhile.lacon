@@ -1,0 +1,11 @@
+{
+    a : int = 1;
+    b : int = 1;
+    c : int = -1;
+    while a <= 5 {
+        b = b * a;
+        a = a + 1;
+    }
+    c = -2;
+    d : int = -3;
+}
