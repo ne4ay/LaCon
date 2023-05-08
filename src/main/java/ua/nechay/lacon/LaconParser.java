@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public class LaconParser implements Parser {
     private static final Set<LaconTokenType> AFTER_FACTOR_TYPES = EnumSet.of(LaconTokenType.LEFT_SQUARE_BRACKET, LaconTokenType.LEFT_BRACKET);
-    private static final Set<LaconTokenType> TERM_TYPES = EnumSet.of(LaconTokenType.MUL, LaconTokenType.DIV);
+    private static final Set<LaconTokenType> TERM_TYPES = EnumSet.of(LaconTokenType.MUL, LaconTokenType.DIV, LaconTokenType.MODULUS);
     private static final Set<LaconTokenType> NOTION_TYPES = EnumSet.of(LaconTokenType.PLUS, LaconTokenType.MINUS);
     private static final Set<LaconTokenType> ALLEGATION_TYPES = EnumSet.of(
         LaconTokenType.EQUALS,
@@ -262,6 +262,8 @@ public class LaconParser implements Parser {
                 eat(LaconTokenType.MUL);
             } else if (token.getType() == LaconTokenType.DIV) {
                 eat(LaconTokenType.DIV);
+            } else if (token.getType() == LaconTokenType.MODULUS) {
+                eat(LaconTokenType.MODULUS);
             }
             node = new BinaryOperationAST(node, token, postfix());
         }

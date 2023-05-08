@@ -1,0 +1,10 @@
+{
+    def get_number_type(number : int) : str {
+        return if number % 2 == 0 { "even" } else { "odd" };
+    }
+
+    a : int = 4;
+    b : int = 3;
+    a_type : str = get_number_type(a);
+    b_type : str = get_number_type(b);
+}

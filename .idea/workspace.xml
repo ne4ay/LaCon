@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="if - elif - else has been introduced" />
+    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="test fixed">
+      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/condition/IfExpression.lacon" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ConditionInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ConditionInterpreterTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,8 +81,8 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.FunctionInterpreterTest.testSimpleNamedFunctionCall">
-    <configuration name="ConditionInterpreterTest.testSimpleIfElse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.ConditionInterpreterTest.testIfExpression">
+    <configuration name="ConditionInterpreterTest.testIfExpression" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
@@ -87,7 +92,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
       <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.ConditionInterpreterTest" />
-      <option name="METHOD_NAME" value="testSimpleIfElse" />
+      <option name="METHOD_NAME" value="testIfExpression" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -157,11 +162,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ConditionInterpreterTest.testIfExpression" />
         <item itemvalue="JUnit.FunctionInterpreterTest.testSimpleNamedFunctionCall" />
         <item itemvalue="JUnit.FunctionInterpreterTest.testSimplePositionFunctionCall" />
         <item itemvalue="JUnit.ua.nechay.lacon in LaCon" />
         <item itemvalue="JUnit.MapValueGetByIndexTest.testGetByIndexIfThereIsAnotherObject" />
-        <item itemvalue="JUnit.ConditionInterpreterTest.testSimpleIfElse" />
       </list>
     </recent_temporary>
   </component>
@@ -329,7 +334,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683029304149</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="test fixed">
+      <created>1683572615661</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1683572615661</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +377,8 @@
     <MESSAGE value="'if' token type has been added" />
     <MESSAGE value="while and comparing have been added" />
     <MESSAGE value="workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
+    <MESSAGE value="test fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="test fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -442,7 +455,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>485</line>
+          <line>487</line>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

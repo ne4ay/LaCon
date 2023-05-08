@@ -48,4 +48,15 @@ public class ConditionInterpreterTest {
 
         assertVariable(result, "after_if", LaconBuiltInType.REAL, 23.1);
     }
+
+    @Test
+    public void testIfExpression() throws IOException {
+        String program = getProgram();
+        LaconProgramState result = LaconUtils.exec(program);
+
+        assertVariable(result, "a", LaconBuiltInType.INT, 4L);
+        assertVariable(result, "b", LaconBuiltInType.INT, 3L);
+        assertVariable(result, "a_type", LaconBuiltInType.STRING, "even");
+        assertVariable(result, "b_type", LaconBuiltInType.STRING, "odd");
+    }
 }
