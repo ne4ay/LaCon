@@ -3,6 +3,7 @@ package ua.nechay.lacon.ast;
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 
 import javax.annotation.Nonnull;
@@ -24,10 +25,14 @@ public class VariableReferenceAST implements AST, AssignableAST {
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
         String variableName = getIdentifier().getText();
         LaconVariable existingVariable = state.getVar(variableName);
-        if (existingVariable == null) {
+        if (existingVariable != null) {
+            return state.pushValue(existingVariable.getValueObject());
+        }
+        FunctionLaconValue function = state.getFunction(variableName);
+        if (function == null) {
             throw new IllegalStateException("The variable " + variableName + " is not defined");
         }
-        return state.pushValue(existingVariable.getValueObject());
+        return state.pushValue(function);
     }
 
     @Nonnull

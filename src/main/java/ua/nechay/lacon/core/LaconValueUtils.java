@@ -1,5 +1,6 @@
 package ua.nechay.lacon.core;
 
+import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
 import ua.nechay.lacon.core.val.ListLaconValue;
@@ -60,6 +61,15 @@ public final class LaconValueUtils {
     @Nonnull
     public static LaconValue<?> greaterOrEqual(LaconValue<?> val1, LaconValue<?> val2) {
         return new BooleanLaconValue(val1.compareTo(val2) > -1);
+    }
+
+    public static LaconBuiltInType determineType(@Nonnull LaconToken typeToken) {
+        String typeRepresentation = typeToken.getText();
+        LaconBuiltInType type = LaconBuiltInType.getForRepresentation(typeRepresentation);
+        if (type == null) {
+            throw new IllegalStateException("Unknown type: " + typeRepresentation);
+        }
+        return type;
     }
 
     @Nonnull

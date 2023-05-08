@@ -231,6 +231,8 @@ public enum LaconTokenType {
     ELIF(LaconReservedWord.ELIF),
     ELSE(LaconReservedWord.ELSE),
     WHILE(LaconReservedWord.WHILE),
+    DEF(LaconReservedWord.DEF),
+    RETURN(LaconReservedWord.RETURN),
     BOOLEAN(
         character -> character == 't' || character == 'f'
     ) {

@@ -13,6 +13,8 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
+import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
+
 /**
  * @author anechaev
  * @since 15.04.2023
@@ -51,9 +53,20 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
     @Nonnull public abstract LaconValue<?> minus(@Nonnull LaconValue<?> value);
     @Nonnull public abstract LaconValue<?> mul(@Nonnull LaconValue<?> value);
     @Nonnull public abstract LaconValue<?> div(@Nonnull LaconValue<?> value);
-    @Nonnull public abstract LaconValue<?> unaryPlus();
-    @Nonnull public abstract LaconValue<?> unaryMinus();
-    @Nonnull public abstract LaconValue<?> unaryNot();
+    @Nonnull
+    public LaconValue<?> unaryPlus() {
+        return unsupportedOperation(LaconOperation.PLUS, getType());
+    }
+
+    @Nonnull
+    public LaconValue<?> unaryMinus() {
+        return unsupportedOperation(LaconOperation.MINUS, getType());
+    }
+
+    @Nonnull
+    public LaconValue<?> unaryNot() {
+        return unsupportedOperation(LaconOperation.NOT, getType());
+    }
 
     @Override
     public int compareTo(@Nonnull LaconValue<?> o) {
@@ -87,6 +100,15 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
     @Nonnull
     public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {
         return unsupported("'[n]'", value);
+    }
+
+    @Nonnull
+    public LaconValue<?> call(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> value) {
+        return unsupported(LaconOperation.CALL, value);
+    }
+
+    protected LaconValue<?> unsupported(@Nonnull LaconOperation operation, @Nonnull LaconValue<?> value) {
+        return unsupported(operation.getRepresentation(), value);
     }
 
     protected LaconValue<?> unsupported(@Nonnull String operation, @Nonnull LaconValue<?> value) {

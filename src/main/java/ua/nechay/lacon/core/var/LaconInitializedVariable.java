@@ -12,6 +12,11 @@ import javax.annotation.Nonnull;
 public class LaconInitializedVariable extends LaconVariable {
     private LaconValue<?> value;
 
+    public LaconInitializedVariable(@Nonnull LaconValue<?> value) {
+        super(value.getType());
+        this.value = value;
+    }
+
     public LaconInitializedVariable(@Nonnull LaconBuiltInType type, @Nonnull Object value) {
         super(type);
         this.value = LaconValue.create(value, type);

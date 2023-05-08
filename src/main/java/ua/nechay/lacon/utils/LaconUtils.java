@@ -7,10 +7,14 @@ import ua.nechay.lacon.LaconReservedWord;
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.Scanner;
+import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.core.LaconProgramState;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -18,6 +22,10 @@ import java.util.function.Predicate;
  * @since 05.03.2023
  */
 public class LaconUtils {
+
+    public static <U> BinaryOperator<U> DONT_USE_PARALLEL_STREAM_HERE() {
+        return ($_1, $_2) -> $_2;
+    }
 
     public static boolean isSpace(char character) {
         return character == ' ' || character == '\t';
@@ -106,7 +114,14 @@ public class LaconUtils {
         return new LaconToken(type, builder.toString(), position);
     }
 
+    @Nonnull
     public static LaconProgramState exec(@Nonnull String text) {
         return new LaconInterpreter(new LaconParser(new LaconLexer(text))).interpret();
+    }
+
+    public static AST compose(@Nonnull AST identity, @Nonnull List<Function<AST, AST>> astHandlers) {
+        return astHandlers.stream().reduce(identity,
+            (nextAST, handler) -> handler.apply(nextAST),
+            DONT_USE_PARALLEL_STREAM_HERE());
     }
 }

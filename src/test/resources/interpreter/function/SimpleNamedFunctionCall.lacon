@@ -1,0 +1,14 @@
+{
+    def high_order_fun(fun : function, number : int) : int {
+        a : int = 29;
+        return fun(number * 2) - 1;
+    }
+
+    def simple_fun(a : int) : int {
+        b : int = 41 + 1;
+        return a - b;
+    }
+
+    a : int = 2;
+    result : int = high_order_fun(simple_fun, a);
+}

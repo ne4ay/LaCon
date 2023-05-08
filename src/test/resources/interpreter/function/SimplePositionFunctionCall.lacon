@@ -1,0 +1,17 @@
+{
+    def multiply(num : int) : int {
+        return num * 2;
+    }
+
+    def sum(num1 : int, num2 : int) : int {
+        return num1 + num2;
+    }
+
+    first : int = 2;
+    while first < 100 {
+        first = multiply(first + 1);
+    }
+
+    second : int = 5;
+    third : int = sum(first - second, first + second);
+}

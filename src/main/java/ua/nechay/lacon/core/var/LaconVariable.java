@@ -16,6 +16,10 @@ public class LaconVariable {
         this.type = type;
     }
 
+    public static LaconVariable initialized(@Nonnull LaconValue<?> value) {
+        return new LaconInitializedVariable(value);
+    }
+
     public boolean isInitialized() {
         return false;
     }
