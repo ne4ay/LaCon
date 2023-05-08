@@ -9,6 +9,8 @@
         return a - b;
     }
 
-    a : int = 2;
-    result : int = high_order_fun(simple_fun, a);
+    a : int = 1;
+    result : int = high_order_fun(
+                        fun = simple_fun,
+                        number = a + 1);
 }

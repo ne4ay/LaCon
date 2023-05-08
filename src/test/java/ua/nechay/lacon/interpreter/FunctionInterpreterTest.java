@@ -31,7 +31,7 @@ public class FunctionInterpreterTest {
         String program = getProgram();
         LaconProgramState result = LaconUtils.exec(program);
 
-        assertVariable(result, "a", LaconBuiltInType.INT, 2L);
+        assertVariable(result, "a", LaconBuiltInType.INT, 1L);
         assertVariable(result, "result", LaconBuiltInType.INT, -39L);
 
     }
