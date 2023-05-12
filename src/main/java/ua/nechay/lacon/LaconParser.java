@@ -430,9 +430,6 @@ public class LaconParser implements Parser {
         if (currentType == LaconTokenType.WHILE) {
             return whileCycle();
         }
-//        if (currentType == LaconTokenType.DEF) {
-//            return function();
-//        }
         if (currentType != LaconTokenType.IDENTIFIER) {
             return expression();
         }
