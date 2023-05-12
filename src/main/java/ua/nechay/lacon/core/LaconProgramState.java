@@ -1,14 +1,19 @@
 package ua.nechay.lacon.core;
 
 import ua.nechay.lacon.core.function.FunctionLaconValue;
+import ua.nechay.lacon.core.function.LaconFunctionArgument;
+import ua.nechay.lacon.core.function.built.BuiltInFunction;
+import ua.nechay.lacon.core.function.built.LaconBuiltPrintFunction;
 import ua.nechay.lacon.core.var.LaconVariable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author anechaev
@@ -24,7 +29,11 @@ public class LaconProgramState {
     }
 
     public static LaconProgramState create() {
-        return new LaconProgramState();
+        return new LaconProgramState().addFunctions(Arrays.stream(BuiltInFunction.values())
+            .collect(Collectors.toMap(
+                BuiltInFunction::getName,
+                BuiltInFunction::getFunction
+            )));
     }
 
     @Nonnull

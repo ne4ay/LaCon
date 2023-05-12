@@ -4,11 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="test fixed">
-      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/condition/IfExpression.lacon" afterDir="false" />
+    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="- modulus fixed;&#10;- if expression checked">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VoidAST.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/BuiltInFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/LaconBuiltInPrintlnFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/LaconBuiltPrintFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/VoidLaconValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/function/AddingFunctionsWithMultipleArgs.lacon" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/function/AddingFunctionsWithOneArgument.lacon" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/function/MultiplyingFunctionWithMultipleArgsOnList.lacon" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/function/MultiplyingFunctionWithOneArgOnList.lacon" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/function/MultiplyingFunctionsOnNumber.lacon" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ConditionInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/ConditionInterpreterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/CastAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/CastAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/UnaryOperationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/UnaryOperationAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconBuiltInType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconBuiltInType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconProgramState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconProgramState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValueUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValueUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/FunctionLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/FunctionLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/LaconFunctionArgument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/LaconFunctionArgument.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/SimpleTypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/SimpleTypeTouch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/TypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/TypeTouch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/UnsupportedOperationTypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/UnsupportedOperationTypeTouch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/BooleanLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/BooleanLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/RealLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/RealLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconInitializedVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconInitializedVariable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconVariable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/exception/LaconUnsupportedOperationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/exception/LaconUnsupportedOperationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/TestUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/TestUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/FunctionInterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/FunctionInterpreterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/LexerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/LexerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +62,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="add_methods" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,24 +114,8 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.ConditionInterpreterTest.testIfExpression">
-    <configuration name="ConditionInterpreterTest.testIfExpression" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="LaCon" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.interpreter.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
-      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.ConditionInterpreterTest" />
-      <option name="METHOD_NAME" value="testIfExpression" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FunctionInterpreterTest.testSimpleNamedFunctionCall" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.FunctionInterpreterTest.testMultiplyingFunctionWithMultipleArgsOnList">
+    <configuration name="FunctionInterpreterTest.testAddingFunctionsWithMultipleArgs" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
@@ -108,13 +125,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
       <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.FunctionInterpreterTest" />
-      <option name="METHOD_NAME" value="testSimpleNamedFunctionCall" />
+      <option name="METHOD_NAME" value="testAddingFunctionsWithMultipleArgs" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FunctionInterpreterTest.testSimplePositionFunctionCall" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FunctionInterpreterTest.testMultiplyingFunctionWithMultipleArgsOnList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
@@ -124,23 +141,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
       <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.FunctionInterpreterTest" />
-      <option name="METHOD_NAME" value="testSimplePositionFunctionCall" />
+      <option name="METHOD_NAME" value="testMultiplyingFunctionWithMultipleArgsOnList" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MapValueGetByIndexTest.testGetByIndexIfThereIsAnotherObject" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FunctionInterpreterTest.testMultiplyingFunctionWithOneArgOnList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.stuff.*" />
+          <option name="PATTERN" value="ua.nechay.lacon.interpreter.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="ua.nechay.lacon.stuff" />
-      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.stuff.MapValueGetByIndexTest" />
-      <option name="METHOD_NAME" value="testGetByIndexIfThereIsAnotherObject" />
+      <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
+      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.FunctionInterpreterTest" />
+      <option name="METHOD_NAME" value="testMultiplyingFunctionWithOneArgOnList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FunctionInterpreterTest.testMultiplyingFunctionsOnNumber" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LaCon" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nechay.lacon.interpreter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
+      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.FunctionInterpreterTest" />
+      <option name="METHOD_NAME" value="testMultiplyingFunctionsOnNumber" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -162,11 +195,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ConditionInterpreterTest.testIfExpression" />
-        <item itemvalue="JUnit.FunctionInterpreterTest.testSimpleNamedFunctionCall" />
-        <item itemvalue="JUnit.FunctionInterpreterTest.testSimplePositionFunctionCall" />
+        <item itemvalue="JUnit.FunctionInterpreterTest.testMultiplyingFunctionWithMultipleArgsOnList" />
+        <item itemvalue="JUnit.FunctionInterpreterTest.testMultiplyingFunctionWithOneArgOnList" />
         <item itemvalue="JUnit.ua.nechay.lacon in LaCon" />
-        <item itemvalue="JUnit.MapValueGetByIndexTest.testGetByIndexIfThereIsAnotherObject" />
+        <item itemvalue="JUnit.FunctionInterpreterTest.testMultiplyingFunctionsOnNumber" />
+        <item itemvalue="JUnit.FunctionInterpreterTest.testAddingFunctionsWithMultipleArgs" />
       </list>
     </recent_temporary>
   </component>
@@ -341,7 +374,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683572615661</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="- modulus fixed;&#10;- if expression checked">
+      <created>1683573819299</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1683573819299</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -378,19 +418,20 @@
     <MESSAGE value="while and comparing have been added" />
     <MESSAGE value="workspace" />
     <MESSAGE value="test fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="test fixed" />
+    <MESSAGE value="- modulus fixed;&#10;- if expression checked" />
+    <option name="LAST_COMMIT_MESSAGE" value="- modulus fixed;&#10;- if expression checked" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/LexerTest.java</url>
-          <line>22</line>
+          <line>23</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/ua/nechay/lacon/lexer/LexerTest.java</url>
-          <line>46</line>
+          <line>48</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -415,53 +456,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java</url>
-          <line>94</line>
+          <line>102</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/AssignmentAST.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="105" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java</url>
-          <line>20</line>
-          <option name="timeStamp" value="107" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconInitializedVariable.java</url>
-          <line>11</line>
+          <line>10</line>
           <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/FunctionLaconValue.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>100</line>
+          <line>101</line>
           <option name="timeStamp" value="120" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>83</line>
+          <line>84</line>
           <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>487</line>
-          <option name="timeStamp" value="123" />
+          <line>186</line>
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="129" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>185</line>
-          <option name="timeStamp" value="124" />
+          <line>157</line>
+          <option name="timeStamp" value="138" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
@@ -469,8 +500,8 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java</url>
-          <line>100</line>
-          <properties class="ua.nechay.lacon.core.LaconValue">
+          <line>102</line>
+          <properties class="ua.nechay.lacon.core.LaconValue" method="getByIndex">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

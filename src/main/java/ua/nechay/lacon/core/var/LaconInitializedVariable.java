@@ -1,6 +1,5 @@
 package ua.nechay.lacon.core.var;
 
-import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
 
 import javax.annotation.Nonnull;
@@ -15,11 +14,6 @@ public class LaconInitializedVariable extends LaconVariable {
     public LaconInitializedVariable(@Nonnull LaconValue<?> value) {
         super(value.getType());
         this.value = value;
-    }
-
-    public LaconInitializedVariable(@Nonnull LaconBuiltInType type, @Nonnull Object value) {
-        super(type);
-        this.value = LaconValue.create(value, type);
     }
 
     public boolean isInitialized() {
@@ -45,16 +39,6 @@ public class LaconInitializedVariable extends LaconVariable {
             throw new IllegalStateException("Type mismatch! Unable to put " + value.getType() + " into " + getType() + " var!");
         }
         this.value = value;
-        return this;
-    }
-
-    @Nonnull
-    @Override
-    public LaconInitializedVariable setValue(Object value, LaconBuiltInType type) {
-        if (type != getType()) {
-            throw new IllegalStateException("Type mismatch! Unable to put " + type + " into " + getType() + " var!");
-        }
-        this.value = LaconValue.create(value, type);
         return this;
     }
 }

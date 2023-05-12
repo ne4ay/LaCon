@@ -22,6 +22,7 @@ public class UnaryOperationAST implements AST {
         this.expression = expression;
     }
 
+    @Nonnull
     @Override
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
         var newState = getExpression().interpret(state);

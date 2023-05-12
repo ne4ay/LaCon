@@ -17,6 +17,7 @@ public interface TypeTouch<R> {
     R string();
     R bool();
     R list();
+    R function();
 
     default R switcher(@Nonnull LaconBuiltInType type) {
         switch (type) {
@@ -30,6 +31,8 @@ public interface TypeTouch<R> {
             return bool();
         case LIST:
             return list();
+        case FUNCTION:
+            return function();
         default:
             throw new IllegalArgumentException("Unknown type: " + type);
         }

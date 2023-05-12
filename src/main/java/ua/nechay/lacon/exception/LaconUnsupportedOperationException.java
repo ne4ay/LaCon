@@ -19,6 +19,10 @@ public class LaconUnsupportedOperationException extends LaconException {
         super(message, ex);
     }
 
+    public static <T> LaconValue<T> unsupportedOperation(LaconOperation operation, LaconType type1, LaconType type2) {
+        return unsupportedOperation(operation.getRepresentation(), type1.getRepresentation(), type2.getRepresentation());
+    }
+
     public static <T> LaconValue<T> unsupportedOperation(String operation, LaconType type1, LaconType type2) {
         return unsupportedOperation(operation, type1.getRepresentation(), type2.getRepresentation());
     }

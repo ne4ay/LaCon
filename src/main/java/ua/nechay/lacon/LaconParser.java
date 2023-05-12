@@ -3,6 +3,7 @@ package ua.nechay.lacon;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
+import ua.nechay.lacon.ast.VoidAST;
 import ua.nechay.lacon.ast.call.CallAST;
 import ua.nechay.lacon.ast.CastAST;
 import ua.nechay.lacon.ast.ConditionsAST;
@@ -373,9 +374,8 @@ public class LaconParser implements Parser {
             LaconToken assignment = getCurrentToken();
             eat(LaconTokenType.ASSIGNMENT);
             return new AssignmentAST(left, assignment, expression());
-        } else {
-            throw new IllegalStateException("Unexpected token: " + getCurrentToken() + ". '=' expected");
         }
+        return expression(left);
     }
 
     public List<AST> argumentsDeclaration() {
@@ -430,9 +430,9 @@ public class LaconParser implements Parser {
         if (currentType == LaconTokenType.WHILE) {
             return whileCycle();
         }
-        if (currentType == LaconTokenType.DEF) {
-            return function();
-        }
+//        if (currentType == LaconTokenType.DEF) {
+//            return function();
+//        }
         if (currentType != LaconTokenType.IDENTIFIER) {
             return expression();
         }
@@ -443,6 +443,10 @@ public class LaconParser implements Parser {
         List<AST> results = new ArrayList<>();
         if (getCurrentToken().getType() == LaconTokenType.RETURN) {
             eat(LaconTokenType.RETURN);
+            if (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
+                results.add(new VoidAST());
+                return results;
+            }
             AST expression = expression();
             results.add(expression);
             eatAllSemicolons();
@@ -460,7 +464,7 @@ public class LaconParser implements Parser {
             if (getCurrentToken().getType() == LaconTokenType.RETURN) {
                 eat(LaconTokenType.RETURN);
                 if (getCurrentToken().getType() == LaconTokenType.SEMICOLON) {
-                    results.add(new EmptyAST());
+                    results.add(new VoidAST());
                     break;
                 }
                 results.add(expression());
@@ -482,14 +486,27 @@ public class LaconParser implements Parser {
     }
 
     public AST compoundStatement() {
-        eat(LaconTokenType.LEFT_CURLY_BRACKET);
+        if (getCurrentToken().getType() == LaconTokenType.LEFT_CURLY_BRACKET) {
+            eat(LaconTokenType.LEFT_CURLY_BRACKET);
+        }
         List<AST> nodes = statementList();
-        eat(LaconTokenType.RIGHT_CURLY_BRACKET);
+        if (getCurrentToken().getType() == LaconTokenType.RIGHT_CURLY_BRACKET) {
+            eat(LaconTokenType.RIGHT_CURLY_BRACKET);
+        }
         return new StatementListAST(nodes);
     }
 
     public AST program() {
-        return compoundStatement();
+        eat(LaconTokenType.LEFT_CURLY_BRACKET);
+        List<AST> result = new ArrayList<>();
+        while (getCurrentToken().getType() == LaconTokenType.DEF) {
+            result.add(function());
+        }
+        if (getCurrentToken().getType() == LaconTokenType.RIGHT_CURLY_BRACKET) {
+            eat(LaconTokenType.RIGHT_CURLY_BRACKET);
+        }
+        result.add(compoundStatement());
+        return new StatementListAST(result);
     }
 
     @Nonnull

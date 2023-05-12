@@ -1,9 +1,12 @@
 package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
+import ua.nechay.lacon.core.LaconOperation;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.LaconValueUtils;
+import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
@@ -14,6 +17,7 @@ import ua.nechay.lacon.core.val.StringLaconValue;
 
 import javax.annotation.Nonnull;
 
+import static ua.nechay.lacon.core.LaconOperation.CAST;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
 /**
@@ -48,34 +52,40 @@ public class CastAST implements AST {
                 () -> new IntLaconValue(RealLaconValue.castToInt((double)value.getValue())),
                 () -> new IntLaconValue(Long.parseLong((String)value.getValue())),
                 () -> new IntLaconValue(BooleanLaconValue.castToIntValue(value)),
-                () -> unsupportedOperation("cast", LaconBuiltInType.LIST, LaconBuiltInType.INT)
+                () -> unsupportedOperation(CAST, LaconBuiltInType.LIST, LaconBuiltInType.INT),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.INT)
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> new RealLaconValue(IntLaconValue.castToReal((long)value.getValue())),
                 () -> value,
                 () -> new RealLaconValue(Double.parseDouble((String)value.getValue())),
-                () -> unsupportedOperation("cast", LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
-                () -> unsupportedOperation("cast", LaconBuiltInType.LIST, LaconBuiltInType.REAL)
+                () -> unsupportedOperation(CAST, LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.LIST, LaconBuiltInType.REAL),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.REAL)
             )),
-            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> new StringLaconValue(String.valueOf((long)value.getValue())),
-                () -> new StringLaconValue(String.valueOf((double)value.getValue())),
-                () -> value,
-                () -> new StringLaconValue(String.valueOf((boolean) value.getValue())),
-                () -> new StringLaconValue(ListLaconValue.castToStrValue(value))
-            )),
+            () -> LaconValueUtils.castToStr(value),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> new BooleanLaconValue(IntLaconValue.castToBoolValue((long)value.getValue())),
-                () -> unsupportedOperation("cast", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
                 () -> new BooleanLaconValue(Boolean.valueOf((String) value.getValue())),
                 () -> value,
-                () -> new BooleanLaconValue(ListLaconValue.castToBoolValue(value))
+                () -> new BooleanLaconValue(ListLaconValue.castToBoolValue(value)),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.BOOLEAN)
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> ListLaconValue.create(value),
                 () -> ListLaconValue.create(value),
                 () -> ListLaconValue.create(value),
                 () -> ListLaconValue.create(value),
+                () -> value,
+                () -> ListLaconValue.create(value)
+            )),
+            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
+                () -> FunctionLaconValue.createSupplier(value),
+                () -> FunctionLaconValue.createSupplier(value),
+                () -> FunctionLaconValue.createSupplier(value),
+                () -> FunctionLaconValue.createSupplier(value),
+                () -> FunctionLaconValue.createSupplier(value),
                 () -> value
             ))
         ));

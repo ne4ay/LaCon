@@ -1,6 +1,7 @@
 package ua.nechay.lacon.core.val;
 
 import ua.nechay.lacon.core.LaconBuiltInType;
+import ua.nechay.lacon.core.LaconOperation;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.LaconValueUtils;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
@@ -14,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ua.nechay.lacon.core.LaconOperation.GET_BY_INDEX;
+import static ua.nechay.lacon.core.LaconOperation.MUL;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
 /**
@@ -25,7 +28,7 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
         super(value, LaconBuiltInType.LIST);
     }
 
-    public static ListLaconValue create(@Nonnull LaconValue<?> ... values) {
+    public static ListLaconValue create(@Nonnull LaconValue<?>... values) {
         return new ListLaconValue(new ArrayList<>(Arrays.asList(values)));
     }
 
@@ -37,7 +40,8 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
             () -> addElement(this, value),
             () -> addElement(this, value),
             () -> addElement(this, value),
-            () -> concat(this, (ListLaconValue) value)
+            () -> concat(this, (ListLaconValue) value),
+            () -> addElement(this, value)
         ));
     }
 
@@ -55,12 +59,13 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
             () -> removeElement(this, value),
             () -> removeElement(this, value),
             () -> removeElement(this, value),
-            () -> removeAll(this, (ListLaconValue) value)
+            () -> removeAll(this, (ListLaconValue) value),
+            () -> removeElement(this, value)
         ));
     }
 
     public static ListLaconValue removeAll(@Nonnull ListLaconValue list1, @Nonnull ListLaconValue list2) {
-        List<LaconValue<?> > res = list1.getValue();
+        List<LaconValue<?>> res = list1.getValue();
         res.removeAll(list2.getValue());
         return new ListLaconValue(res);
     }
@@ -68,7 +73,14 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
     @Nonnull
     @Override
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
-        return UnsupportedOperationTypeTouch.unsupported("*", value, getType());
+        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
+            () -> multiplyList(this, (long) value.getValue()),
+            () -> unsupported(MUL, LaconBuiltInType.REAL),
+            () -> unsupported(MUL, LaconBuiltInType.STRING),
+            () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(MUL, LaconBuiltInType.LIST),
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
+        ));
     }
 
     @Nonnull
@@ -81,11 +93,12 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
     @Override
     public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> getByIndex((int)(long)value.getValue()),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.REAL),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.LIST)
+            () -> getByIndex((int) (long) value.getValue()),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.REAL),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.STRING),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.LIST),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -132,6 +145,11 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
 
     public static boolean castToBoolValue(@Nonnull List<?> objects) {
         return objects.isEmpty();
+    }
+
+    public static ListLaconValue multiplyList(@Nonnull ListLaconValue list, long multiplier) {
+        List<LaconValue<?>> valueList = list.getValue();
+        return new ListLaconValue(LaconValueUtils.multiply(valueList, multiplier));
     }
 
     public static ListLaconValue addElementAtTheStart(@Nonnull ListLaconValue list, @Nonnull LaconValue<?> value) {

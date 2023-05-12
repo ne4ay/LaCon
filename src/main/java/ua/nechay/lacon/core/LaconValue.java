@@ -1,5 +1,6 @@
 package ua.nechay.lacon.core;
 
+import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
@@ -35,7 +36,8 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
             () -> new RealLaconValue((double) value),
             () -> new StringLaconValue((String) value),
             () -> new BooleanLaconValue((boolean) value),
-            () -> new ListLaconValue((List<LaconValue<?>>) value)
+            () -> new ListLaconValue((List<LaconValue<?>>) value),
+            () -> { throw new IllegalStateException("Unable to create function from plain value: " + value); }
         ));
     }
 
@@ -107,12 +109,16 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
         return unsupported(LaconOperation.CALL, value);
     }
 
+    protected LaconValue<?> unsupported(@Nonnull LaconOperation operation, @Nonnull LaconType type) {
+        return LaconUnsupportedOperationException.unsupportedOperation(operation, getType(), type);
+    }
+
     protected LaconValue<?> unsupported(@Nonnull LaconOperation operation, @Nonnull LaconValue<?> value) {
         return unsupported(operation.getRepresentation(), value);
     }
 
     protected LaconValue<?> unsupported(@Nonnull String operation, @Nonnull LaconValue<?> value) {
-        return LaconUnsupportedOperationException.unsupportedOperation(operation, getType().getRepresentation(), value.getType().getRepresentation());
+        return LaconUnsupportedOperationException.unsupportedOperation(operation, getType(), value.getType());
     }
 
     @Nonnull
@@ -137,5 +143,10 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return getValue().toString();
     }
 }

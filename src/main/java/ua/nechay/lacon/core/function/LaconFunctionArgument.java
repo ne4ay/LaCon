@@ -19,6 +19,11 @@ public class LaconFunctionArgument {
     }
 
     @Nonnull
+    public static LaconFunctionArgument create(@Nonnull String name, @Nonnull LaconType type) {
+        return new LaconFunctionArgument(name, type);
+    }
+
+    @Nonnull
     public String getName() {
         return name;
     }

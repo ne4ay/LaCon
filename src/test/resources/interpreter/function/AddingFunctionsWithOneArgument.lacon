@@ -1,0 +1,12 @@
+{
+    def fun1(num : int) : int {
+        return num + 2;
+    }
+
+    def fun2(num : int) : int {
+        return num * 2;
+    }
+
+    composite_fun : function = fun1 + fun2;
+    b : int = composite_fun(3);
+}

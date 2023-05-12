@@ -44,14 +44,6 @@ public class LaconVariable {
         if (value.getType() != getType()) {
             throw new IllegalStateException("Type mismatch! Unable to put " + value.getType() + " into " + getType() + " var!");
         }
-        return new LaconInitializedVariable(getType(), value.getValue());
-    }
-
-    @Nonnull
-    public LaconInitializedVariable setValue(Object value, LaconBuiltInType type) {
-        if (type != getType()) {
-            throw new IllegalStateException("Type mismatch! Unable to put " + type + " into " + getType() + " var!");
-        }
-        return new LaconInitializedVariable(type, value);
+        return new LaconInitializedVariable(value);
     }
 }

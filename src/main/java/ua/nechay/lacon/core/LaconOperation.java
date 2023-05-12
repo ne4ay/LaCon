@@ -14,7 +14,10 @@ public enum LaconOperation {
     MODULUS("%"),
     NOT("!"),
     GET_BY_INDEX("'[n]'"),
-    CALL("'call'")
+    CALL("'call'"),
+    CAST("cast"),
+    OR("'or'"),
+    AND("'and'"),
     ;
     private final String representation;
 

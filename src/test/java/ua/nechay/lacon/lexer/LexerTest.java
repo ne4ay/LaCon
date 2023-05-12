@@ -1,5 +1,6 @@
 package ua.nechay.lacon.lexer;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import ua.nechay.lacon.LaconLexer;
 import ua.nechay.lacon.LaconToken;
@@ -43,6 +44,7 @@ public class LexerTest extends AbstractLexerTestBase {
     }
 
     @Test
+    @Ignore("calls have been introduced - currently it is a interpreter problem :)") //🏓
     public void testRightBracketAfterLeftBracketThrowsAnException() {
         LaconLexer lexer = new LaconLexer("(5 - 1)(1 + 6)");
         Exception exception = null;

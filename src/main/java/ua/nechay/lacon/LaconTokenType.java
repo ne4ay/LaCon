@@ -52,10 +52,20 @@ public enum LaconTokenType {
     },
     SPACE(
         LaconUtils::isSpace, false
-    ),
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return super.matches(lexer, previousToken) && !lexer.getState().isInsideQuotes();
+        }
+    },
     NEXT_LINE(
         LaconUtils::isNextLine, false
-    ),
+    ) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return super.matches(lexer, previousToken) && !lexer.getState().isInsideQuotes();
+        }
+    },
     STRING(Pattern.compile(".")) {
         @Override
         public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
@@ -210,18 +220,7 @@ public enum LaconTokenType {
             return super.matches(lexer) && !nextChar.equals('=');
         }
     },
-    LEFT_BRACKET(
-        character -> character == '('
-    ) {
-        @Override
-        public LaconToken toToken(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
-            //todo: remove this check if it will be decided to make callable functions as a result of expression :))
-            if (previousToken != null && previousToken.getType() == RIGHT_BRACKET) {
-                throw new IllegalStateException("Unable to put '(' after ')' at position: " + lexer.getCurrentPosition());
-            }
-            return super.toToken(lexer, previousToken);
-        }
-    },
+    LEFT_BRACKET('('),
     RIGHT_BRACKET(')'),
     LEFT_SQUARE_BRACKET('['),
     RIGHT_SQUARE_BRACKET(']'),

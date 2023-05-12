@@ -3,8 +3,10 @@ package ua.nechay.lacon;
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconType;
+import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -83,6 +85,11 @@ public final class TestUtils {
         assertNotNull(var);
         assertThat(var.getType(), equalTo(type));
         assertThat(var.getValue(), equalTo(val));
+    }
 
+    public static void assertValue(@Nonnull LaconValue<?> value, @Nonnull LaconType expectedType, @Nonnull Object expectedValue) {
+        assertNotNull(value);
+        assertThat(value.getType(), equalTo(expectedType));
+        assertThat(value.getValue(), equalTo(expectedValue));
     }
 }

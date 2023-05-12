@@ -74,7 +74,9 @@ public class LaconLexer implements Scanner, Lexer {
     @Override
     public LaconToken getNextToken(@Nullable LaconToken previousToken) {
         while (this.currentChar != null) {
-            if (LaconTokenType.SPACE.matches(this, previousToken) || LaconTokenType.NEXT_LINE.matches(this, previousToken)) {
+            if ((LaconTokenType.SPACE.matches(this, previousToken) || LaconTokenType.NEXT_LINE.matches(this, previousToken))
+                && !state.isInsideQuotes())
+            {
                 skipWhiteSpace();
                 continue;
             }

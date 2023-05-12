@@ -2,11 +2,17 @@ package ua.nechay.lacon.core.val;
 
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 
 import javax.annotation.Nonnull;
 
+import static ua.nechay.lacon.core.LaconOperation.DIV;
+import static ua.nechay.lacon.core.LaconOperation.MINUS;
+import static ua.nechay.lacon.core.LaconOperation.MODULUS;
+import static ua.nechay.lacon.core.LaconOperation.MUL;
+import static ua.nechay.lacon.core.LaconOperation.PLUS;
 import static ua.nechay.lacon.core.LaconValueUtils.multipleStrings;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
@@ -27,7 +33,8 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> new RealLaconValue((double) getValue() + (double) value.getValue()),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> new IntLaconValue(getValue() + BooleanLaconValue.castToIntValue(value)),
-            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this)
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this),
+            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -37,9 +44,10 @@ public class IntLaconValue extends LaconValue<Long> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() - (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() - (double) value.getValue()),
-            () -> unsupportedOperation("-", LaconBuiltInType.INT.getRepresentation(), LaconBuiltInType.STRING.getRepresentation()),
+            () -> unsupported(MINUS, LaconBuiltInType.STRING),
             () -> new IntLaconValue(getValue() - BooleanLaconValue.castToIntValue((boolean) value.getValue())),
-            () -> ListLaconValue.removeElement((ListLaconValue) value, this)
+            () -> ListLaconValue.removeElement((ListLaconValue) value, this),
+            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -51,7 +59,8 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> new RealLaconValue((double) getValue() * (double) value.getValue()),
             () -> new StringLaconValue(multipleStrings((String) value.getValue(), getValue())),
             () -> new IntLaconValue(getValue() * BooleanLaconValue.castToIntValue((boolean) value.getValue())),
-            () -> unsupportedOperation("*", LaconBuiltInType.INT, LaconBuiltInType.LIST)
+            () -> ListLaconValue.multiplyList((ListLaconValue)value, getValue()),
+            () -> FunctionLaconValue.multiplyFunction((FunctionLaconValue)value, getValue())
         ));
     }
 
@@ -61,9 +70,10 @@ public class IntLaconValue extends LaconValue<Long> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() / (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() / (double) value.getValue()),
-            () -> unsupportedOperation("/", LaconBuiltInType.INT, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("/", LaconBuiltInType.INT, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("/", LaconBuiltInType.INT, LaconBuiltInType.LIST)
+            () -> unsupported(DIV, LaconBuiltInType.STRING),
+            () -> unsupported(DIV, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(DIV, LaconBuiltInType.LIST),
+            () -> unsupported(DIV, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -73,9 +83,10 @@ public class IntLaconValue extends LaconValue<Long> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new IntLaconValue(getValue() % (long) value.getValue()),
             () -> new RealLaconValue((double) getValue() % (double) value.getValue()),
-            () -> unsupportedOperation("%", LaconBuiltInType.INT, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("%", LaconBuiltInType.INT, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("%", LaconBuiltInType.INT, LaconBuiltInType.LIST)
+            () -> unsupported(MODULUS, LaconBuiltInType.STRING),
+            () -> unsupported(MODULUS, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(MODULUS, LaconBuiltInType.LIST),
+            () -> unsupported(MODULUS, LaconBuiltInType.FUNCTION)
         ));
     }
 

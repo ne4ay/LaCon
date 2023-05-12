@@ -1,0 +1,18 @@
+{
+    def celsius_to_fahrenheit(cel_value : real) : real {
+        return cel_value * 9/5 + 32;
+    }
+
+    def weather_output(temperature : real, cities : list, temp_measure : str) : str {
+        result : str = str(cities) + " -- ";
+        result = result + temperature + " " + temp_measure;
+        return result;
+    }
+
+    result : list = (weather_output * [
+        [33., ["Cairo", "Mexico City", "Mumbai"], "Celsius"],
+        [celsius_to_fahrenheit(26.3), ["New York", "Los Angeles"], "Fahrenheit"],
+        [11., ["Moscow"], "Celsius"]
+    ])();
+    println(result);
+}

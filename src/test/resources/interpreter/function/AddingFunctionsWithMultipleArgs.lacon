@@ -1,0 +1,12 @@
+{
+    def lol(a : int, b : str) : list {
+        return [0, a + b, b + a];
+    }
+
+    def kek(i : int, first : str, sec : str) : str {
+        return i + " added line is " + first + " + " + sec;
+    }
+
+    compound_function : function = lol + kek;
+    result : str = compound_function(10, "hehe");
+}

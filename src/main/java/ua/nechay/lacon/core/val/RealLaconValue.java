@@ -1,12 +1,18 @@
 package ua.nechay.lacon.core.val;
 
 import ua.nechay.lacon.core.LaconBuiltInType;
+import ua.nechay.lacon.core.LaconOperation;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 
 import javax.annotation.Nonnull;
 
+import static ua.nechay.lacon.core.LaconOperation.DIV;
+import static ua.nechay.lacon.core.LaconOperation.MINUS;
+import static ua.nechay.lacon.core.LaconOperation.MODULUS;
+import static ua.nechay.lacon.core.LaconOperation.MUL;
+import static ua.nechay.lacon.core.LaconOperation.PLUS;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
 /**
@@ -24,8 +30,9 @@ public class RealLaconValue extends LaconValue<Double> {
             () -> new RealLaconValue(getValue() + IntLaconValue.castToReal((long)value.getValue())),
             () -> new RealLaconValue(getValue() + (double) value.getValue()),
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
-            () -> unsupportedOperation("+", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
-            () -> ListLaconValue.addElementAtTheStart((ListLaconValue)value.getValue(),this)
+            () -> unsupported(PLUS, LaconBuiltInType.BOOLEAN),
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue)value.getValue(),this),
+            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -34,9 +41,10 @@ public class RealLaconValue extends LaconValue<Double> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() - IntLaconValue.castToReal((long)value.getValue())),
             () -> new RealLaconValue(getValue() - (double) value.getValue()),
-            () -> unsupportedOperation("-", LaconBuiltInType.REAL, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("-", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
-            () -> ListLaconValue.addElement((ListLaconValue)value.getValue(), this)
+            () -> unsupported(MINUS, LaconBuiltInType.STRING),
+            () -> unsupported(MINUS, LaconBuiltInType.BOOLEAN),
+            () -> ListLaconValue.addElement((ListLaconValue)value.getValue(), this),
+            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -45,9 +53,10 @@ public class RealLaconValue extends LaconValue<Double> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() * IntLaconValue.castToReal((long)value.getValue())),
             () -> new RealLaconValue(getValue() * (double) value.getValue()),
-            () -> unsupportedOperation("*", LaconBuiltInType.REAL, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("*", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("*", LaconBuiltInType.REAL, LaconBuiltInType.LIST)
+            () -> unsupported(MUL, LaconBuiltInType.STRING),
+            () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(MUL, LaconBuiltInType.LIST),
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -56,9 +65,10 @@ public class RealLaconValue extends LaconValue<Double> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() / IntLaconValue.castToReal((long)value.getValue())),
             () -> new RealLaconValue(getValue() / (double) value.getValue()),
-            () -> unsupportedOperation("/", LaconBuiltInType.REAL, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("/", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("/", LaconBuiltInType.REAL, LaconBuiltInType.LIST)
+            () -> unsupported(DIV, LaconBuiltInType.STRING),
+            () -> unsupported(DIV, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(DIV, LaconBuiltInType.LIST),
+            () -> unsupported(DIV, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -68,9 +78,10 @@ public class RealLaconValue extends LaconValue<Double> {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new RealLaconValue(getValue() % IntLaconValue.castToReal((long)value.getValue())),
             () -> new RealLaconValue(getValue() % (double) value.getValue()),
-            () -> unsupportedOperation("%", LaconBuiltInType.REAL, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("%", LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("%", LaconBuiltInType.REAL, LaconBuiltInType.LIST)
+            () -> unsupported(MODULUS, LaconBuiltInType.STRING),
+            () -> unsupported(MODULUS, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(MODULUS, LaconBuiltInType.LIST),
+            () -> unsupported(MODULUS, LaconBuiltInType.FUNCTION)
         ));
     }
 

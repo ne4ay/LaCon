@@ -9,6 +9,10 @@ import ua.nechay.lacon.exception.LaconOutOfBoundsException;
 
 import javax.annotation.Nonnull;
 
+import static ua.nechay.lacon.core.LaconOperation.GET_BY_INDEX;
+import static ua.nechay.lacon.core.LaconOperation.MINUS;
+import static ua.nechay.lacon.core.LaconOperation.MUL;
+import static ua.nechay.lacon.core.LaconOperation.PLUS;
 import static ua.nechay.lacon.core.LaconValueUtils.multipleStrings;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
@@ -29,7 +33,8 @@ public class StringLaconValue extends LaconValue<String> {
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
-            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this)
+            () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this),
+            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -37,11 +42,12 @@ public class StringLaconValue extends LaconValue<String> {
     @Override
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> unsupportedOperation("-", LaconBuiltInType.STRING, LaconBuiltInType.INT),
-            () -> unsupportedOperation("-", LaconBuiltInType.STRING, LaconBuiltInType.REAL),
+            () -> unsupported(MINUS, LaconBuiltInType.INT),
+            () -> unsupported(MINUS, LaconBuiltInType.REAL),
             () -> new StringLaconValue(subtractStrings(getValue(), (String) value.getValue())),
-            () -> unsupportedOperation("-", LaconBuiltInType.STRING, LaconBuiltInType.BOOLEAN),
-            () -> ListLaconValue.removeElement((ListLaconValue) value, this)
+            () -> unsupported(MINUS, LaconBuiltInType.BOOLEAN),
+            () -> ListLaconValue.removeElement((ListLaconValue) value, this),
+            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -55,10 +61,11 @@ public class StringLaconValue extends LaconValue<String> {
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> new StringLaconValue(multipleStrings(getValue(), (long) value.getValue())),
-            () -> unsupportedOperation("*", LaconBuiltInType.STRING, LaconBuiltInType.REAL),
-            () -> unsupportedOperation("*", LaconBuiltInType.STRING, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("*", LaconBuiltInType.STRING, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("*", LaconBuiltInType.STRING, LaconBuiltInType.LIST)
+            () -> unsupported(MUL, LaconBuiltInType.REAL),
+            () -> unsupported(MUL, LaconBuiltInType.STRING),
+            () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(MUL, LaconBuiltInType.LIST),
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
         ));
     }
 
@@ -78,10 +85,11 @@ public class StringLaconValue extends LaconValue<String> {
     public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {
         return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
             () -> getByIndex((int)(long)value.getValue()),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.REAL),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.STRING),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.BOOLEAN),
-            () -> unsupportedOperation("[n]", LaconBuiltInType.LIST, LaconBuiltInType.LIST)
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.REAL),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.STRING),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.BOOLEAN),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.LIST),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.FUNCTION)
         ));
     }
 

@@ -1,0 +1,7 @@
+{
+    def foobar(name : str) : void {
+        println("'foobar' function has been called. " + name + ", try harder!");
+    }
+
+    (foobar * 10)("Maiia");
+}
