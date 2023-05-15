@@ -3,6 +3,8 @@ package ua.nechay.lacon;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
+import ua.nechay.lacon.ast.ForCycleAST;
+import ua.nechay.lacon.ast.RangeAST;
 import ua.nechay.lacon.ast.VoidAST;
 import ua.nechay.lacon.ast.call.CallAST;
 import ua.nechay.lacon.ast.CastAST;
@@ -171,9 +173,27 @@ public class LaconParser implements Parser {
             if (nextToken.getType() == LaconTokenType.RIGHT_SQUARE_BRACKET) {
                 eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
                 return new ListAST();
+            } else if (nextToken.getType() == LaconTokenType.RANGE) {
+                eat(LaconTokenType.RANGE);
+                AST endBound = expression();
+                eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
+                return RangeAST.createDefault(endBound);
+            }
+            AST firstAST = expression();
+            if (getCurrentToken().getType() == LaconTokenType.RANGE) {
+                eat(LaconTokenType.RANGE);
+                AST secondAST = expression();
+                if (getCurrentToken().getType() == LaconTokenType.RIGHT_SQUARE_BRACKET) {
+                    eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
+                    return RangeAST.createDefault(firstAST, secondAST);
+                }
+                eat(LaconTokenType.RANGE);
+                AST thirdAST = expression();
+                eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
+                return new RangeAST(firstAST, secondAST, thirdAST);
             }
             List<AST> listNodes = new ArrayList<>();
-            listNodes.add(expression());
+            listNodes.add(firstAST);
             while (getCurrentToken().getType() == LaconTokenType.COMA) {
                 eat(LaconTokenType.COMA);
                 if (getCurrentToken().getType() == LaconTokenType.RIGHT_BRACKET) {
@@ -419,16 +439,37 @@ public class LaconParser implements Parser {
         return new WhileCycleAST(conditionExpression, whileBlock);
     }
 
+    public AST forCycle() {
+        eat(LaconTokenType.FOR);
+        LaconToken identifier = getCurrentToken();
+        eat(LaconTokenType.IDENTIFIER);
+        eat(LaconTokenType.IN);
+        AST iterable = expression();
+        AST forBlock = compoundStatement();
+        return new ForCycleAST(identifier, iterable, forBlock);
+    }
+
     public AST statement() {
         LaconTokenType currentType = getCurrentToken().getType();
         if (currentType == LaconTokenType.SEMICOLON) {
+            eat(LaconTokenType.SEMICOLON);
             return new SemicolonAST();
+        }
+        if (currentType == LaconTokenType.EOF) {
+            return new EmptyAST();
+        }
+        if (currentType == LaconTokenType.COMMENT) {
+            eat(LaconTokenType.COMMENT);
+            return new EmptyAST();
         }
         if (currentType == LaconTokenType.RIGHT_CURLY_BRACKET) {
             return new EmptyAST();
         }
         if (currentType == LaconTokenType.WHILE) {
             return whileCycle();
+        }
+        if (currentType == LaconTokenType.FOR) {
+            return forCycle();
         }
         if (currentType != LaconTokenType.IDENTIFIER) {
             return expression();
@@ -483,13 +524,9 @@ public class LaconParser implements Parser {
     }
 
     public AST compoundStatement() {
-        if (getCurrentToken().getType() == LaconTokenType.LEFT_CURLY_BRACKET) {
-            eat(LaconTokenType.LEFT_CURLY_BRACKET);
-        }
+        eat(LaconTokenType.LEFT_CURLY_BRACKET);
         List<AST> nodes = statementList();
-        if (getCurrentToken().getType() == LaconTokenType.RIGHT_CURLY_BRACKET) {
-            eat(LaconTokenType.RIGHT_CURLY_BRACKET);
-        }
+        eat(LaconTokenType.RIGHT_CURLY_BRACKET);
         return new StatementListAST(nodes);
     }
 
@@ -502,7 +539,8 @@ public class LaconParser implements Parser {
         if (getCurrentToken().getType() == LaconTokenType.RIGHT_CURLY_BRACKET) {
             eat(LaconTokenType.RIGHT_CURLY_BRACKET);
         }
-        result.add(compoundStatement());
+        result.add(new StatementListAST(statementList()));
+        eat(LaconTokenType.RIGHT_CURLY_BRACKET);
         return new StatementListAST(result);
     }
 

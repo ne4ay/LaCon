@@ -1,0 +1,16 @@
+    {
+        def mul_str(initial_string : str, times : int) : str {
+            result : str = initial_string;
+            for i in [::times - 1] {
+                result = result + initial_string;
+            }
+            return result;
+        }
+
+        cities : list = ["New York", "London", "Donetsk"];
+        result : list = [];
+        for city in cities {
+            result = result + mul_str(city, 3);
+        }
+        print(result);
+    }

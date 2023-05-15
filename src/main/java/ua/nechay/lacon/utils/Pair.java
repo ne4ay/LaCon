@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -57,5 +58,10 @@ public class Pair<FirstT, SecondT> {
     @Nonnull
     public <ResultT> ResultT merge(BiFunction<FirstT, SecondT, ResultT> mergeFunction) {
         return mergeFunction.apply(first, second);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + getFirst() + "," + getSecond() + ")";
     }
 }

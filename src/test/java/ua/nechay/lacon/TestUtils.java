@@ -4,6 +4,7 @@ import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 
 import javax.annotation.Nonnull;
@@ -18,6 +19,7 @@ import java.util.Locale;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static ua.nechay.lacon.TestUtils.getPathOfTestResource;
 
 /**
@@ -91,5 +93,17 @@ public final class TestUtils {
         assertNotNull(value);
         assertThat(value.getType(), equalTo(expectedType));
         assertThat(value.getValue(), equalTo(expectedValue));
+    }
+
+    public static List<LaconValue<?>> extractList(@Nonnull LaconProgramState state, @Nonnull String varName) {
+        LaconVariable variable = state.getVar(varName);
+        assertNotNull(variable);
+        assertThat(variable.getType(), equalTo(LaconBuiltInType.LIST));
+
+        LaconValue<?> value = variable.getValueObject();
+        assertTrue(value instanceof ListLaconValue);
+
+        ListLaconValue listValue = (ListLaconValue) value;
+        return listValue.getValue();
     }
 }

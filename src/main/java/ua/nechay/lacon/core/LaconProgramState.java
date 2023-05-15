@@ -53,6 +53,11 @@ public class LaconProgramState {
         return variables.get(name);
     }
 
+    @Nullable
+    public LaconVariable removeVar(@Nonnull String name) {
+        return variables.remove(name);
+    }
+
     @Nonnull
     public LaconProgramState putFunction(@Nonnull String name, @Nonnull FunctionLaconValue function) {
         functions.put(name, function);

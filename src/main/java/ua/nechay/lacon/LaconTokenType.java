@@ -96,7 +96,6 @@ public enum LaconTokenType {
             return quoteToken;
         }
     },
-    COLON(':'),
     SEMICOLON(';'),
     COMA(','),
     MUL('*'),
@@ -232,6 +231,15 @@ public enum LaconTokenType {
     WHILE(LaconReservedWord.WHILE),
     DEF(LaconReservedWord.DEF),
     RETURN(LaconReservedWord.RETURN),
+    FOR(LaconReservedWord.FOR),
+    IN(LaconReservedWord.IN),
+    RANGE(LaconReservedWord.RANGE) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesOperator(lexer, LaconReservedWord.RANGE);
+        }
+    },
+    COLON(':'),
     BOOLEAN(
         character -> character == 't' || character == 'f'
     ) {

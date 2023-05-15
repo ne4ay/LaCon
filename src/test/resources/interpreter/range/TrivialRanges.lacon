@@ -1,0 +1,7 @@
+{
+    ten : int = 10;
+    ran1 : list = [::10];
+    ran2 : list = [-1::ten];
+    // should equal [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10]
+    ran3 : list = [-10::2::ten + 1];
+}

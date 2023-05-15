@@ -18,7 +18,8 @@ public enum LaconBuiltInType implements LaconType {
     LIST("list"),
     FUNCTION("function"),
     DICT("dict"),
-    VOID("void")
+    VOID("void"),
+    RANGE("range")
     ;
     private static final Map<String, LaconBuiltInType> ACCESS_MAP = Arrays.stream(values())
         .collect(Collectors.toMap(

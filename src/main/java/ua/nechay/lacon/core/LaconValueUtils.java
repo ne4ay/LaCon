@@ -14,6 +14,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static ua.nechay.lacon.core.LaconOperation.CAST;
@@ -107,6 +108,18 @@ public final class LaconValueUtils {
             () -> new StringLaconValue(ListLaconValue.castToStrValue(value)),
             () -> FunctionLaconValue.castToStringValue((FunctionLaconValue) value)
         ));
+    }
+
+    @Nonnull
+    public static Function<Double, LaconValue<?>> determineMapper(@Nonnull LaconBuiltInType type) {
+        switch (type) {
+        case INT:
+            return IntLaconValue::fromReal;
+        case REAL:
+            return RealLaconValue::new;
+        default:
+            throw new IllegalStateException("Unknown range type " + type + " for creating the list from it!");
+        }
     }
 
     @Nonnull

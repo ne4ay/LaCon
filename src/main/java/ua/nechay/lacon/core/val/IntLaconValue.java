@@ -127,4 +127,8 @@ public class IntLaconValue extends LaconValue<Long> {
     public static boolean castToBoolValue(long value) {
         return value != 0;
     }
+
+    public static IntLaconValue fromReal(double value) {
+        return new IntLaconValue(RealLaconValue.castToInt(value));
+    }
 }

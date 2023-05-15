@@ -1,6 +1,5 @@
 package ua.nechay.lacon.core;
 
-import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
@@ -11,6 +10,7 @@ import ua.nechay.lacon.core.val.StringLaconValue;
 import ua.nechay.lacon.exception.LaconUnsupportedOperationException;
 
 import javax.annotation.Nonnull;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsup
  * @author anechaev
  * @since 15.04.2023
  */
-public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
+public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterable<LaconValue<?>> {
 
     private final T value;
     private final LaconBuiltInType type;
@@ -51,10 +51,26 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
         return type;
     }
 
-    @Nonnull public abstract LaconValue<?> plus(@Nonnull LaconValue<?> value);
-    @Nonnull public abstract LaconValue<?> minus(@Nonnull LaconValue<?> value);
-    @Nonnull public abstract LaconValue<?> mul(@Nonnull LaconValue<?> value);
-    @Nonnull public abstract LaconValue<?> div(@Nonnull LaconValue<?> value);
+    @Nonnull
+    public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
+        return unsupported(LaconOperation.PLUS, value);
+    }
+
+    @Nonnull
+    public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
+        return unsupported(LaconOperation.MINUS, value);
+    }
+
+    @Nonnull
+    public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
+        return unsupported(LaconOperation.MUL, value);
+    }
+
+    @Nonnull
+    public LaconValue<?> div(@Nonnull LaconValue<?> value) {
+        return unsupported(LaconOperation.DIV, value);
+    }
+
     @Nonnull
     public LaconValue<?> unaryPlus() {
         return unsupportedOperation(LaconOperation.PLUS, getType());
@@ -86,22 +102,27 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>> {
 
     @Nonnull
     public LaconValue<?> modulus(@Nonnull LaconValue<?> value) {
-        return unsupported("%", value);
+        return unsupported(LaconOperation.MODULUS, value);
     }
 
     @Nonnull
     public LaconValue<?> or(@Nonnull LaconValue<?> value) {
-        return unsupported("'or'", value);
+        return unsupported(LaconOperation.OR, value);
     }
 
     @Nonnull
     public LaconValue<?> and(@Nonnull LaconValue<?> value) {
-        return unsupported("'and'", value);
+        return unsupported(LaconOperation.AND, value);
     }
 
     @Nonnull
     public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {
-        return unsupported("'[n]'", value);
+        return unsupported(LaconOperation.GET_BY_INDEX, value);
+    }
+
+    @Override
+    public Iterator<LaconValue<?>> iterator() {
+        throw new IllegalStateException("Iterator is not supported by type: " + getType());
     }
 
     @Nonnull
