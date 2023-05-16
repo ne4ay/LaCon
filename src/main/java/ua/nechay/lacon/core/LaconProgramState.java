@@ -12,6 +12,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,14 @@ public class LaconProgramState {
     @Nonnull
     public LaconProgramState pushValue(@Nonnull LaconValue<?> value) {
         valueStack.push(value);
+        return this;
+    }
+
+    @Nonnull
+    public LaconProgramState pushValues(@Nonnull List<LaconValue<?>> values) {
+        for (var value : values) {
+            pushValue(value);
+        }
         return this;
     }
 

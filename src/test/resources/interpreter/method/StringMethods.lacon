@@ -1,0 +1,8 @@
+{
+    abc:str="a"+"b"+"c";
+    length1:int=abc.size();
+    length2:int=("a"+"bc").size();
+    sub:str="keklol".sub_string(0, 3);
+    names_str : str = "Masha,Ivan,Abdulasir,Shrek";
+    names : list = names_str.split(",");
+}

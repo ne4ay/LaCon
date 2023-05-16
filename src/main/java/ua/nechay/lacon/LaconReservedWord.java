@@ -28,7 +28,8 @@ public enum LaconReservedWord {
     RETURN("return"),
     FOR("for"),
     RANGE("::"),
-    IN("in")
+    IN("in"),
+    DOT(".")
     ;
 
     private static final Map<String, LaconReservedWord> ACCESS_MAP = Arrays.stream(values())

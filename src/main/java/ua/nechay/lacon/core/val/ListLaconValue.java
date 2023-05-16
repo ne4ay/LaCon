@@ -3,11 +3,15 @@ package ua.nechay.lacon.core.val;
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.LaconValueUtils;
+import ua.nechay.lacon.core.function.FunctionLaconValue;
+import ua.nechay.lacon.core.function.LaconMethodName;
+import ua.nechay.lacon.core.function.built.LaconBuiltInSizeFunction;
 import ua.nechay.lacon.core.iteration.RangeParams;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.touch.UnsupportedOperationTypeTouch;
 import ua.nechay.lacon.exception.LaconOutOfBoundsException;
+import ua.nechay.lacon.utils.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -15,19 +19,24 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static ua.nechay.lacon.core.LaconOperation.GET_BY_INDEX;
 import static ua.nechay.lacon.core.LaconOperation.MUL;
 import static ua.nechay.lacon.core.LaconValueUtils.determineMapper;
-import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
+import static ua.nechay.lacon.core.function.LaconMethodName.toMap;
 
 /**
  * @author anechaev
  * @since 23.04.2023
  */
 public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
+    private static final Map<String, FunctionLaconValue> METHODS = toMap(
+        new Pair<>(LaconMethodName.SIZE, LaconBuiltInSizeFunction.getInstance())
+    );
+
     public ListLaconValue(@Nonnull List<LaconValue<?>> value) {
         super(value, LaconBuiltInType.LIST);
     }
@@ -209,5 +218,10 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
             result.add(valueMapper.apply(i));
         }
         return new ListLaconValue(result);
+    }
+
+    @Override
+    public Map<String, FunctionLaconValue> getMethods() {
+        return METHODS;
     }
 }

@@ -3,6 +3,9 @@ package ua.nechay.lacon.exception;
 import ua.nechay.lacon.core.LaconOperation;
 import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.function.LaconMethodName;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author anechaev
@@ -33,6 +36,10 @@ public class LaconUnsupportedOperationException extends LaconException {
 
     public static <T> LaconValue<T> unsupportedOperation(LaconOperation operation, LaconType type) {
         return unsupportedOperation(operation.getRepresentation(), type);
+    }
+
+    public static LaconValue<?> unsupported(@Nonnull LaconMethodName methodName, LaconType type) {
+        return unsupportedOperation(methodName.getRepresentation(), type);
     }
 
     public static <T> LaconValue<T> unsupportedOperation(String operation, LaconType type) {

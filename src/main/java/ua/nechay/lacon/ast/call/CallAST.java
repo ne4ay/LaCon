@@ -28,7 +28,7 @@ public class CallAST implements AST {
         LaconProgramState afterArgsState = callArgs.interpret(afterCallableState);
         LaconValue<?> argsValue = afterArgsState.popValue();
 
-        LaconValue<?> callableResult = callableValue.call(state, argsValue);
+        LaconValue<?> callableResult = callableValue.call(afterArgsState, argsValue);
         return state.pushValue(callableResult);
     }
 }

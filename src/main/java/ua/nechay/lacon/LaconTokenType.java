@@ -343,6 +343,12 @@ public enum LaconTokenType {
             return LaconUtils.eatToken(lexer, this::matches, this);
         }
     },
+    DOT(LaconReservedWord.DOT) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesOperator(lexer, LaconReservedWord.DOT);
+        }
+    },
     CAST(
         Pattern.compile("[a-z(]")
     ) {

@@ -1,5 +1,6 @@
 package ua.nechay.lacon.core;
 
+import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
@@ -10,8 +11,10 @@ import ua.nechay.lacon.core.val.StringLaconValue;
 import ua.nechay.lacon.exception.LaconUnsupportedOperationException;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
@@ -126,9 +129,26 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
     }
 
     @Nonnull
-    public LaconValue<?> call(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> value) {
-        return unsupported(LaconOperation.CALL, value);
+    public LaconValue<?> call(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args) {
+        return unsupported(LaconOperation.CALL, args);
     }
+
+    protected LaconValue<?> methodCall(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args, @Nonnull LaconValue<?> ref) {
+        return unsupported(LaconOperation.CALL, args);
+    }
+
+    public Map<String, FunctionLaconValue> getMethods() {
+        return Collections.emptyMap();
+    }
+
+    public LaconValue<?> callMethod(@Nonnull String methodName, @Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args) {
+        LaconValue<?> method = getMethods().get(methodName);
+        if (method == null) {
+            throw new IllegalStateException("There is no method " + methodName + " inside type " + getType());
+        }
+        return method.methodCall(currentState, args, this);
+    }
+
 
     protected LaconValue<?> unsupported(@Nonnull LaconOperation operation, @Nonnull LaconType type) {
         return LaconUnsupportedOperationException.unsupportedOperation(operation, getType(), type);

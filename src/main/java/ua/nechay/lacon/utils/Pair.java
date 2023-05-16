@@ -1,16 +1,12 @@
 package ua.nechay.lacon.utils;
+
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * @author anechaev
@@ -59,6 +55,19 @@ public class Pair<FirstT, SecondT> {
     public <ResultT> ResultT merge(BiFunction<FirstT, SecondT, ResultT> mergeFunction) {
         return mergeFunction.apply(first, second);
     }
+
+    @SafeVarargs
+    @Nonnull
+    public static <L, R> Map<L, R> toMap(@Nonnull Pair<L, R> ... pairs) {
+        return toMap(Arrays.asList(pairs));
+    }
+
+    @Nonnull
+    public static <L, R> Map<L, R> toMap(@Nonnull List<Pair<L, R>> pairs) {
+        return pairs.stream()
+            .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+    }
+
 
     @Override
     public String toString() {

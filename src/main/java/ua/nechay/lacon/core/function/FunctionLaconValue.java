@@ -43,8 +43,19 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
         this.returnType = returnType;
     }
 
+    public static FunctionLaconValue createWithoutArgs(@Nonnull Function<LaconProgramState, LaconValue<?>> function, @Nonnull LaconType returnType) {
+        return new FunctionLaconValue(Collections.emptyList(), function, returnType);
+    }
+
     public static FunctionLaconValue create(@Nonnull List<LaconFunctionArgument> args, @Nonnull AST body, @Nonnull LaconType returnType) {
         return new FunctionLaconValue(args, toFunction(body, returnType), returnType);
+    }
+
+    public static FunctionLaconValue create(
+        @Nonnull List<LaconFunctionArgument> args,
+        @Nonnull Function<LaconProgramState, LaconValue<?>> function,
+        @Nonnull LaconType returnType) {
+        return new FunctionLaconValue(args, function, returnType);
     }
 
     public static FunctionLaconValue createSupplier(@Nonnull LaconValue<?> value) {
@@ -170,20 +181,37 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
 
     @Nonnull
     @Override
-    public LaconValue<?> call(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> value) {
-        LaconBuiltInType type = value.getType();
+    public LaconValue<?> call(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args) {
+        LaconBuiltInType type = args.getType();
         switch (type) {
         case LIST:
-            return positionCall(currentState, value);
+            return positionCall(currentState, args, Collections.emptyList());
         case DICT:
-            return namedCall(currentState, value);
+            return namedCall(currentState, args, Collections.emptyList());
         default:
-            throw new IllegalStateException("Unknown type of call arguments: " + value);
+            throw new IllegalStateException("Unknown type of call arguments: " + args);
+        }
+    }
+
+    @Override
+    protected LaconValue<?> methodCall(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args, @Nonnull LaconValue<?> ref) {
+        LaconBuiltInType type = args.getType();
+        switch (type) {
+        case LIST:
+            return positionCall(currentState, args, List.of(ref));
+        case DICT:
+            return namedCall(currentState, args, List.of(ref));
+        default:
+            throw new IllegalStateException("Unknown type of call arguments: " + args);
         }
     }
 
     @Nonnull
-    protected LaconValue<?> positionCall(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args) {
+    protected LaconValue<?> positionCall(
+        @Nonnull LaconProgramState currentState,
+        @Nonnull LaconValue<?> args,
+        @Nonnull List<LaconValue<?>> stackValues)
+    {
         if (!(args instanceof ListLaconValue)) {
             throw new IllegalStateException("Unexpected args value type:" +  args);
         }
@@ -195,7 +223,8 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
                 + ". Expected " + expectedArgs.size() + " instead of");
         }
         LaconProgramState localState = LaconProgramState.create()
-            .addFunctions(currentState.getAllFunctions());
+            .addFunctions(currentState.getAllFunctions())
+            .pushValues(stackValues);
         for (int i = 0; i < passingArgsNumber; i++) {
             LaconValue<?> nextPassingArg = argList.getValue().get(i);
             LaconFunctionArgument nextExpectedArgument = expectedArgs.get(i);
@@ -214,7 +243,11 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
     }
 
     @Nonnull
-    protected LaconValue<?> namedCall(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args) {
+    protected LaconValue<?> namedCall(
+        @Nonnull LaconProgramState currentState,
+        @Nonnull LaconValue<?> args,
+        @Nonnull List<LaconValue<?>> stackValues)
+    {
         if (!(args instanceof MapLaconValue)) {
             throw new IllegalStateException("Unexpected args value type:" +  args);
         }
@@ -226,7 +259,8 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
                 + ". Expected " + expectedArgs.size() + " instead of");
         }
         LaconProgramState localState = LaconProgramState.create()
-            .addFunctions(currentState.getAllFunctions());
+            .addFunctions(currentState.getAllFunctions())
+            .pushValues(stackValues);
         for (int i = 0; i < passingArgsNumber; i++) {
             LaconFunctionArgument nextExpectedArgument = expectedArgs.get(i);
             String argName = nextExpectedArgument.getName();

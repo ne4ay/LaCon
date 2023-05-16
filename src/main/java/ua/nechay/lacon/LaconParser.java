@@ -19,6 +19,7 @@ import ua.nechay.lacon.ast.UnaryOperationAST;
 import ua.nechay.lacon.ast.VariableDeclarationAST;
 import ua.nechay.lacon.ast.VariableReferenceAST;
 import ua.nechay.lacon.ast.WhileCycleAST;
+import ua.nechay.lacon.ast.call.MethodCallAST;
 import ua.nechay.lacon.ast.call.NamedCallArgsAST;
 import ua.nechay.lacon.ast.call.PositionCallArgsAST;
 import ua.nechay.lacon.ast.value.BooleanAST;
@@ -44,7 +45,10 @@ import java.util.Set;
  * @since 06.03.2023
  */
 public class LaconParser implements Parser {
-    private static final Set<LaconTokenType> AFTER_FACTOR_TYPES = EnumSet.of(LaconTokenType.LEFT_SQUARE_BRACKET, LaconTokenType.LEFT_BRACKET);
+    private static final Set<LaconTokenType> AFTER_FACTOR_TYPES = EnumSet.of(
+        LaconTokenType.LEFT_SQUARE_BRACKET,
+        LaconTokenType.LEFT_BRACKET,
+        LaconTokenType.DOT);
     private static final Set<LaconTokenType> TERM_TYPES = EnumSet.of(LaconTokenType.MUL, LaconTokenType.DIV, LaconTokenType.MODULUS);
     private static final Set<LaconTokenType> NOTION_TYPES = EnumSet.of(LaconTokenType.PLUS, LaconTokenType.MINUS);
     private static final Set<LaconTokenType> ALLEGATION_TYPES = EnumSet.of(
@@ -266,6 +270,12 @@ public class LaconParser implements Parser {
             }
             if (getCurrentToken().getType() == LaconTokenType.LEFT_BRACKET) {
                 node = new CallAST(node, call());
+            }
+            if (getCurrentToken().getType() == LaconTokenType.DOT) {
+                eat(LaconTokenType.DOT);
+                LaconToken methodIdentifier = getCurrentToken();
+                eat(LaconTokenType.IDENTIFIER);
+                node = new MethodCallAST(node, methodIdentifier, call());
             }
         }
         return node;

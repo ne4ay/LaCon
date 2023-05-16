@@ -2,25 +2,38 @@ package ua.nechay.lacon.core.val;
 
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.function.FunctionLaconValue;
+import ua.nechay.lacon.core.function.LaconMethodName;
+import ua.nechay.lacon.core.function.built.LaconBuiltInSizeFunction;
+import ua.nechay.lacon.core.function.built.string.LaconBuiltInSplitFunction;
+import ua.nechay.lacon.core.function.built.string.LaconBuiltInSubstringFunction;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.touch.UnsupportedOperationTypeTouch;
 import ua.nechay.lacon.exception.LaconOutOfBoundsException;
+import ua.nechay.lacon.utils.Pair;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 import static ua.nechay.lacon.core.LaconOperation.GET_BY_INDEX;
 import static ua.nechay.lacon.core.LaconOperation.MINUS;
 import static ua.nechay.lacon.core.LaconOperation.MUL;
 import static ua.nechay.lacon.core.LaconOperation.PLUS;
 import static ua.nechay.lacon.core.LaconValueUtils.multipleStrings;
-import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
+import static ua.nechay.lacon.core.function.LaconMethodName.toMap;
 
 /**
  * @author anechaev
  * @since 21.04.2023
  */
 public class StringLaconValue extends LaconValue<String> {
+    private static final Map<String, FunctionLaconValue> METHODS = toMap(
+        new Pair<>(LaconMethodName.SIZE, LaconBuiltInSizeFunction.getInstance()),
+        new Pair<>(LaconMethodName.SUB_STRING, LaconBuiltInSubstringFunction.getInstance()),
+        new Pair<>(LaconMethodName.SPLIT, LaconBuiltInSplitFunction.getInstance())
+    );
+
     public StringLaconValue(@Nonnull String value) {
         super(value, LaconBuiltInType.STRING);
     }
@@ -103,6 +116,11 @@ public class StringLaconValue extends LaconValue<String> {
             ind = text.length() + index;
         }
         return new StringLaconValue(String.valueOf(text.charAt(ind)));
+    }
+
+    @Override
+    public Map<String, FunctionLaconValue> getMethods() {
+        return METHODS;
     }
 
     @Nonnull
