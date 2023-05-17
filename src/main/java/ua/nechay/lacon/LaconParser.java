@@ -23,6 +23,7 @@ import ua.nechay.lacon.ast.call.MethodCallAST;
 import ua.nechay.lacon.ast.call.NamedCallArgsAST;
 import ua.nechay.lacon.ast.call.PositionCallArgsAST;
 import ua.nechay.lacon.ast.value.BooleanAST;
+import ua.nechay.lacon.ast.value.DictAST;
 import ua.nechay.lacon.ast.value.IntNumAST;
 import ua.nechay.lacon.ast.value.ListAST;
 import ua.nechay.lacon.ast.value.RealNumAST;
@@ -207,6 +208,21 @@ public class LaconParser implements Parser {
             }
             eat(LaconTokenType.RIGHT_SQUARE_BRACKET);
             return new ListAST(listNodes);
+        }
+        if (type == LaconTokenType.LEFT_CURLY_BRACKET) {
+            eat(LaconTokenType.LEFT_CURLY_BRACKET);
+            List<Pair<AST, AST>> entries = new ArrayList<>();
+            while (getCurrentToken().getType() != LaconTokenType.RIGHT_CURLY_BRACKET) {
+                AST key = expression();
+                eat(LaconTokenType.COLON);
+                AST value = expression();
+                entries.add(new Pair<>(key, value));
+                if (getCurrentToken().getType() == LaconTokenType.COMA) {
+                    eat(LaconTokenType.COMA);
+                }
+            }
+            eat(LaconTokenType.RIGHT_CURLY_BRACKET);
+            return new DictAST(entries);
         }
         return null;
     }

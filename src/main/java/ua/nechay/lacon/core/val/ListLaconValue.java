@@ -54,6 +54,7 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
             () -> addElement(this, value),
             () -> addElement(this, value),
             () -> concat(this, (ListLaconValue) value),
+            () -> addElement(this, value),
             () -> addElement(this, value)
         ));
     }
@@ -73,6 +74,7 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
             () -> removeElement(this, value),
             () -> removeElement(this, value),
             () -> removeAll(this, (ListLaconValue) value),
+            () -> removeElement(this, value),
             () -> removeElement(this, value)
         ));
     }
@@ -92,7 +94,8 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
             () -> unsupported(MUL, LaconBuiltInType.STRING),
             () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
             () -> unsupported(MUL, LaconBuiltInType.LIST),
-            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MUL, LaconBuiltInType.DICT)
         ));
     }
 
@@ -111,7 +114,8 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
             () -> unsupported(GET_BY_INDEX, LaconBuiltInType.STRING),
             () -> unsupported(GET_BY_INDEX, LaconBuiltInType.BOOLEAN),
             () -> unsupported(GET_BY_INDEX, LaconBuiltInType.LIST),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.FUNCTION)
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.FUNCTION),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.DICT)
         ));
     }
 

@@ -4,6 +4,8 @@ import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
+import ua.nechay.lacon.core.LaconValueUtils;
+import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 
@@ -15,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -104,6 +107,17 @@ public final class TestUtils {
         assertTrue(value instanceof ListLaconValue);
 
         ListLaconValue listValue = (ListLaconValue) value;
+        return listValue.getValue();
+    }
+
+    public static Map<LaconValue<?>, LaconValue<?>> extractDict(@Nonnull LaconProgramState state, @Nonnull String varName) {
+        LaconVariable variable = state.getVar(varName);
+        assertNotNull(variable);
+        assertThat(variable.getType(), equalTo(LaconBuiltInType.DICT));
+
+        LaconValue<?> value = variable.getValueObject();
+        assertTrue(value instanceof DictLaconValue);
+        DictLaconValue listValue = (DictLaconValue) value;
         return listValue.getValue();
     }
 }

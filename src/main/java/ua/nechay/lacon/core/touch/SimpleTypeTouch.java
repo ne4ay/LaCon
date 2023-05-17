@@ -15,6 +15,7 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
     private final Supplier<T> boolSupplier;
     private final Supplier<T> listSupplier;
     private final Supplier<T> functionSupplier;
+    private final Supplier<T> dictSupplier;
 
     private SimpleTypeTouch(
         @Nonnull Supplier<T> integerSupplier,
@@ -22,7 +23,8 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
         @Nonnull Supplier<T> stringSupplier,
         @Nonnull Supplier<T> boolSupplier,
         @Nonnull Supplier<T> listSupplier,
-        @Nonnull Supplier<T> functionSupplier)
+        @Nonnull Supplier<T> functionSupplier,
+        @Nonnull Supplier<T> dictSupplier)
     {
         this.integerSupplier = integerSupplier;
         this.realSupplier = realSupplier;
@@ -30,6 +32,7 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
         this.boolSupplier = boolSupplier;
         this.listSupplier = listSupplier;
         this.functionSupplier = functionSupplier;
+        this.dictSupplier = dictSupplier;
     }
 
     public static <T> SimpleTypeTouch<T> create(
@@ -38,7 +41,8 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
         @Nonnull Supplier<T> stringSupplier,
         @Nonnull Supplier<T> boolSupplier,
         @Nonnull Supplier<T> listSupplier,
-        @Nonnull Supplier<T> functionSupplier)
+        @Nonnull Supplier<T> functionSupplier,
+        @Nonnull Supplier<T> dictSupplier)
     {
         return new SimpleTypeTouch<>(
             integerSupplier,
@@ -46,7 +50,8 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
             stringSupplier,
             boolSupplier,
             listSupplier,
-            functionSupplier
+            functionSupplier,
+            dictSupplier
         );
     }
 
@@ -78,5 +83,10 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
     @Override
     public T function() {
         return functionSupplier.get();
+    }
+
+    @Override
+    public T dict() {
+        return dictSupplier.get();
     }
 }

@@ -4,6 +4,7 @@ import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
+import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
 import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.RealLaconValue;
@@ -39,8 +40,9 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
             () -> new RealLaconValue((double) value),
             () -> new StringLaconValue((String) value),
             () -> new BooleanLaconValue((boolean) value),
-            () -> new ListLaconValue((List<LaconValue<?>>) value),
-            () -> { throw new IllegalStateException("Unable to create function from plain value: " + value); }
+            () -> { throw new IllegalStateException("Unable to create list from plain value: " + value); },
+            () -> { throw new IllegalStateException("Unable to create function from plain value: " + value); },
+            () -> { throw new IllegalStateException("Unable to create dict from plain value: " + value); }
         ));
     }
 

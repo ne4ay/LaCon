@@ -9,4 +9,6 @@ import javax.annotation.Nonnull;
 public interface LaconType {
     @Nonnull
     String getRepresentation();
+
+    boolean accepts(@Nonnull LaconType type);
 }

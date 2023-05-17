@@ -33,7 +33,8 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> new BooleanLaconValue(plus(getValue(), (boolean) value.getValue())),
             () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this),
-            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(PLUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -50,7 +51,8 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
             () -> unsupported(MINUS, LaconBuiltInType.STRING),
             () -> new BooleanLaconValue(minus(getValue(), (boolean) value.getValue())),
             () -> ListLaconValue.removeElement((ListLaconValue) value, this),
-            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MINUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -70,7 +72,8 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
             () -> unsupported(MUL, LaconBuiltInType.STRING),
             () -> new BooleanLaconValue(getValue() && (boolean) value.getValue()),
             () -> unsupported(MUL, LaconBuiltInType.LIST),
-            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MUL, LaconBuiltInType.DICT)
         ));
     }
 
@@ -94,7 +97,8 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
             () -> new BooleanLaconValue(getValue() || StringLaconValue.castToBoolValue(value)),
             () -> new BooleanLaconValue(getValue() || (boolean) value.getValue()),
             () -> new BooleanLaconValue(getValue() || ListLaconValue.castToBoolValue(value)),
-            () -> unsupported(OR, LaconBuiltInType.FUNCTION)
+            () -> unsupported(OR, LaconBuiltInType.FUNCTION),
+            () -> unsupported(OR, LaconBuiltInType.DICT)
         ));
     }
 
@@ -107,7 +111,8 @@ public class BooleanLaconValue extends LaconValue<Boolean> {
             () -> new BooleanLaconValue(getValue() && StringLaconValue.castToBoolValue(value)),
             () -> new BooleanLaconValue(getValue() && (boolean) value.getValue()),
             () -> new BooleanLaconValue(getValue() && ListLaconValue.castToBoolValue(value)),
-            () -> unsupported(AND, LaconBuiltInType.FUNCTION)
+            () -> unsupported(AND, LaconBuiltInType.FUNCTION),
+            () -> unsupported(AND, LaconBuiltInType.DICT)
         ));
     }
 

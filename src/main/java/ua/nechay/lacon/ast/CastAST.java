@@ -10,6 +10,7 @@ import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
+import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
 import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.RealLaconValue;
@@ -53,7 +54,8 @@ public class CastAST implements AST {
                 () -> new IntLaconValue(Long.parseLong((String)value.getValue())),
                 () -> new IntLaconValue(BooleanLaconValue.castToIntValue(value)),
                 () -> unsupportedOperation(CAST, LaconBuiltInType.LIST, LaconBuiltInType.INT),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.INT)
+                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.INT),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.DICT, LaconBuiltInType.INT)
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> new RealLaconValue(IntLaconValue.castToReal((long)value.getValue())),
@@ -61,7 +63,8 @@ public class CastAST implements AST {
                 () -> new RealLaconValue(Double.parseDouble((String)value.getValue())),
                 () -> unsupportedOperation(CAST, LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
                 () -> unsupportedOperation(CAST, LaconBuiltInType.LIST, LaconBuiltInType.REAL),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.REAL)
+                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.REAL),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.DICT, LaconBuiltInType.REAL)
             )),
             () -> LaconValueUtils.castToStr(value),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
@@ -70,7 +73,8 @@ public class CastAST implements AST {
                 () -> new BooleanLaconValue(Boolean.valueOf((String) value.getValue())),
                 () -> value,
                 () -> new BooleanLaconValue(ListLaconValue.castToBoolValue(value)),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.BOOLEAN)
+                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.BOOLEAN),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.DICT, LaconBuiltInType.BOOLEAN)
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> ListLaconValue.create(value),
@@ -78,7 +82,8 @@ public class CastAST implements AST {
                 () -> ListLaconValue.create(value),
                 () -> ListLaconValue.create(value),
                 () -> value,
-                () -> ListLaconValue.create(value)
+                () -> ListLaconValue.create(value),
+                () -> DictLaconValue.toList((DictLaconValue) value)
             )),
             () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
                 () -> FunctionLaconValue.createSupplier(value),
@@ -86,6 +91,16 @@ public class CastAST implements AST {
                 () -> FunctionLaconValue.createSupplier(value),
                 () -> FunctionLaconValue.createSupplier(value),
                 () -> FunctionLaconValue.createSupplier(value),
+                () -> value,
+                () -> FunctionLaconValue.createSupplier(value)
+            )),
+            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
+                () -> unsupportedOperation(CAST, LaconBuiltInType.INT, LaconBuiltInType.DICT),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.REAL, LaconBuiltInType.DICT),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.STRING, LaconBuiltInType.DICT),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.BOOLEAN, LaconBuiltInType.DICT),
+                () -> DictLaconValue.fromList((ListLaconValue) value),
+                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.DICT),
                 () -> value
             ))
         ));

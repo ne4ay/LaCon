@@ -9,9 +9,8 @@ import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.LaconValueUtils;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
-import ua.nechay.lacon.core.val.VoidLaconValue;
 import ua.nechay.lacon.core.val.ListLaconValue;
-import ua.nechay.lacon.core.val.MapLaconValue;
+import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 
@@ -65,7 +64,7 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
     private static Function<LaconProgramState, LaconValue<?>> toFunction(@Nonnull AST body, @Nonnull LaconType returnType) {
         return state -> {
             LaconValue<?> result = body.interpret(state).popValue();
-            if (!result.getType().equals(returnType)) {
+            if (!returnType.accepts(result.getType())) {
                 throw new IllegalStateException("The method returned the " + result.getType() + ". " + returnType + " was expected!");
             }
             return result;
@@ -81,7 +80,8 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
             () -> unsupported(PLUS, LaconBuiltInType.STRING),
             () -> unsupported(PLUS, LaconBuiltInType.BOOLEAN),
             () -> unsupported(PLUS, LaconBuiltInType.LIST),
-            () -> addFunctions(this, (FunctionLaconValue) value)
+            () -> addFunctions(this, (FunctionLaconValue) value),
+            () -> unsupported(PLUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -93,7 +93,7 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
         }
         if (fun2Arguments.size() == 1) {
             LaconFunctionArgument fun2Arg = fun2Arguments.get(0);
-            if (!fun2Arg.getType().equals(fun1ReturnType)) {
+            if (!fun2Arg.getType().accepts(fun1ReturnType)) {
                 return functionsDoNotMatch(fun1ReturnType, fun2Arguments);
             }
             return new FunctionLaconValue(fun1.getArgs(), state -> {
@@ -101,7 +101,7 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
                 return fun2.call(state, ListLaconValue.create(firstValue));
             }, fun2.getReturnType());
         }
-        if (fun1ReturnType.equals(LaconBuiltInType.LIST)) {
+        if (fun1ReturnType.equals(LaconBuiltInType.LIST) || fun1ReturnType.equals(LaconBuiltInType.DICT)) {
             return new FunctionLaconValue(fun1.getArgs(), state -> {
                 LaconValue<?> firstValue = fun1.getValue().apply(state);
                 return fun2.call(state, firstValue);
@@ -130,7 +130,8 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
             () -> unsupported(MUL, LaconBuiltInType.STRING),
             () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
             () -> multiplyFunction(this, (ListLaconValue) value),
-            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MUL, LaconBuiltInType.DICT)
         ));
     }
 
@@ -229,7 +230,7 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
             LaconValue<?> nextPassingArg = argList.getValue().get(i);
             LaconFunctionArgument nextExpectedArgument = expectedArgs.get(i);
             LaconType expectedType = nextExpectedArgument.getType();
-            if (!expectedType.equals(nextPassingArg.getType())) {
+            if (!expectedType.accepts(nextPassingArg.getType())) {
                 if (expectedType == LaconBuiltInType.STRING) {
                     nextPassingArg = LaconValueUtils.castToStr(nextPassingArg);
                 } else {
@@ -248,10 +249,10 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
         @Nonnull LaconValue<?> args,
         @Nonnull List<LaconValue<?>> stackValues)
     {
-        if (!(args instanceof MapLaconValue)) {
+        if (!(args instanceof DictLaconValue)) {
             throw new IllegalStateException("Unexpected args value type:" +  args);
         }
-        MapLaconValue argMap = (MapLaconValue) args;
+        DictLaconValue argMap = (DictLaconValue) args;
         List<LaconFunctionArgument> expectedArgs = getArgs();
         int passingArgsNumber = argMap.getValue().size();
         if (passingArgsNumber != expectedArgs.size()) {

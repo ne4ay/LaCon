@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 public enum LaconMethodName {
     SIZE("size"),
     SUB_STRING("sub_string"),
-    SPLIT("split")
+    SPLIT("split"),
+    PUT("put"),
+    REMOVE("remove")
     ;
 
     private final String representation;

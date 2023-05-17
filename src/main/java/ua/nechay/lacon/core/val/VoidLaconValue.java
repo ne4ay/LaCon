@@ -20,28 +20,4 @@ public class VoidLaconValue extends LaconValue<Object> {
     public static VoidLaconValue create() {
         return VOID_VALUE;
     }
-
-    @Nonnull
-    @Override
-    public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
-        return unsupported(LaconOperation.PLUS, LaconBuiltInType.VOID);
-    }
-
-    @Nonnull
-    @Override
-    public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
-        return unsupported(LaconOperation.MINUS, LaconBuiltInType.VOID);
-    }
-
-    @Nonnull
-    @Override
-    public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
-        return unsupported(LaconOperation.MUL, LaconBuiltInType.VOID);
-    }
-
-    @Nonnull
-    @Override
-    public LaconValue<?> div(@Nonnull LaconValue<?> value) {
-        return unsupported(LaconOperation.DIV, LaconBuiltInType.VOID);
-    }
 }

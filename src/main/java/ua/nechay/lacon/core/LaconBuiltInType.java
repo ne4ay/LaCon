@@ -19,7 +19,13 @@ public enum LaconBuiltInType implements LaconType {
     FUNCTION("function"),
     DICT("dict"),
     VOID("void"),
-    RANGE("range")
+    RANGE("range"),
+    ANY("any") {
+        @Override
+        public boolean accepts(@Nonnull LaconType type) {
+            return true;
+        }
+    }
     ;
     private static final Map<String, LaconBuiltInType> ACCESS_MAP = Arrays.stream(values())
         .collect(Collectors.toMap(
@@ -41,6 +47,11 @@ public enum LaconBuiltInType implements LaconType {
     @Nonnull
     public String getRepresentation() {
         return representation;
+    }
+
+    @Override
+    public boolean accepts(@Nonnull LaconType type) {
+        return equals(type);
     }
 
     @Override

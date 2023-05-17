@@ -32,7 +32,8 @@ public class RealLaconValue extends LaconValue<Double> {
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> unsupported(PLUS, LaconBuiltInType.BOOLEAN),
             () -> ListLaconValue.addElementAtTheStart((ListLaconValue)value.getValue(),this),
-            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(PLUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -44,7 +45,8 @@ public class RealLaconValue extends LaconValue<Double> {
             () -> unsupported(MINUS, LaconBuiltInType.STRING),
             () -> unsupported(MINUS, LaconBuiltInType.BOOLEAN),
             () -> ListLaconValue.addElement((ListLaconValue)value.getValue(), this),
-            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MINUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -56,7 +58,8 @@ public class RealLaconValue extends LaconValue<Double> {
             () -> unsupported(MUL, LaconBuiltInType.STRING),
             () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
             () -> unsupported(MUL, LaconBuiltInType.LIST),
-            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MUL, LaconBuiltInType.DICT)
         ));
     }
 
@@ -68,7 +71,8 @@ public class RealLaconValue extends LaconValue<Double> {
             () -> unsupported(DIV, LaconBuiltInType.STRING),
             () -> unsupported(DIV, LaconBuiltInType.BOOLEAN),
             () -> unsupported(DIV, LaconBuiltInType.LIST),
-            () -> unsupported(DIV, LaconBuiltInType.FUNCTION)
+            () -> unsupported(DIV, LaconBuiltInType.FUNCTION),
+            () -> unsupported(DIV, LaconBuiltInType.DICT)
         ));
     }
 
@@ -81,7 +85,8 @@ public class RealLaconValue extends LaconValue<Double> {
             () -> unsupported(MODULUS, LaconBuiltInType.STRING),
             () -> unsupported(MODULUS, LaconBuiltInType.BOOLEAN),
             () -> unsupported(MODULUS, LaconBuiltInType.LIST),
-            () -> unsupported(MODULUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MODULUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MODULUS, LaconBuiltInType.DICT)
         ));
     }
 

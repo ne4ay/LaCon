@@ -47,7 +47,8 @@ public class StringLaconValue extends LaconValue<String> {
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> new StringLaconValue(getValue() + value.getValue()),
             () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this),
-            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(PLUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -60,7 +61,8 @@ public class StringLaconValue extends LaconValue<String> {
             () -> new StringLaconValue(subtractStrings(getValue(), (String) value.getValue())),
             () -> unsupported(MINUS, LaconBuiltInType.BOOLEAN),
             () -> ListLaconValue.removeElement((ListLaconValue) value, this),
-            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MINUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -78,7 +80,8 @@ public class StringLaconValue extends LaconValue<String> {
             () -> unsupported(MUL, LaconBuiltInType.STRING),
             () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
             () -> unsupported(MUL, LaconBuiltInType.LIST),
-            () -> unsupported(MUL, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MUL, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MUL, LaconBuiltInType.DICT)
         ));
     }
 
@@ -102,7 +105,8 @@ public class StringLaconValue extends LaconValue<String> {
             () -> unsupported(GET_BY_INDEX, LaconBuiltInType.STRING),
             () -> unsupported(GET_BY_INDEX, LaconBuiltInType.BOOLEAN),
             () -> unsupported(GET_BY_INDEX, LaconBuiltInType.LIST),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.FUNCTION)
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.FUNCTION),
+            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.DICT)
         ));
     }
 

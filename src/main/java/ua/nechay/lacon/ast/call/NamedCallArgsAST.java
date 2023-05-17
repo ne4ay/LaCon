@@ -4,7 +4,7 @@ import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconValue;
-import ua.nechay.lacon.core.val.MapLaconValue;
+import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
 
 import javax.annotation.Nonnull;
@@ -35,7 +35,7 @@ public class NamedCallArgsAST implements AST {
             argsDictionary.put(new StringLaconValue(identifier), iterState.popValue());
         }
 
-        return iterState.pushValue(new MapLaconValue(argsDictionary));
+        return iterState.pushValue(new DictLaconValue(argsDictionary));
     }
 
 }

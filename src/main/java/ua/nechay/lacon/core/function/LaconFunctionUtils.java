@@ -22,7 +22,7 @@ public final class LaconFunctionUtils {
             throw new IllegalStateException("Mandatory argument " + argumentName + " is missing!");
         }
         LaconValue<?> val = var.getValueObject();
-        if (!val.getType().equals(type)) {
+        if (!type.accepts(val.getType())) {
             throw new IllegalStateException("Mandatory argument " + argumentName + " has wrong type: " + val.getType() + ". Expected type: " + type);
         }
         return val;

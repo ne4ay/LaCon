@@ -106,7 +106,8 @@ public final class LaconValueUtils {
             () -> value,
             () -> new StringLaconValue(String.valueOf((boolean) value.getValue())),
             () -> new StringLaconValue(ListLaconValue.castToStrValue(value)),
-            () -> FunctionLaconValue.castToStringValue((FunctionLaconValue) value)
+            () -> FunctionLaconValue.castToStringValue((FunctionLaconValue) value),
+            () -> new StringLaconValue(value.getValue().toString())
         ));
     }
 

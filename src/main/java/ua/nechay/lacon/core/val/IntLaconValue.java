@@ -34,7 +34,8 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> new StringLaconValue(getValue() + (String) value.getValue()),
             () -> new IntLaconValue(getValue() + BooleanLaconValue.castToIntValue(value)),
             () -> ListLaconValue.addElementAtTheStart((ListLaconValue) value, this),
-            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(PLUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(PLUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -47,7 +48,8 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> unsupported(MINUS, LaconBuiltInType.STRING),
             () -> new IntLaconValue(getValue() - BooleanLaconValue.castToIntValue((boolean) value.getValue())),
             () -> ListLaconValue.removeElement((ListLaconValue) value, this),
-            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MINUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MINUS, LaconBuiltInType.DICT)
         ));
     }
 
@@ -60,7 +62,8 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> new StringLaconValue(multipleStrings((String) value.getValue(), getValue())),
             () -> new IntLaconValue(getValue() * BooleanLaconValue.castToIntValue((boolean) value.getValue())),
             () -> ListLaconValue.multiplyList((ListLaconValue)value, getValue()),
-            () -> FunctionLaconValue.multiplyFunction((FunctionLaconValue)value, getValue())
+            () -> FunctionLaconValue.multiplyFunction((FunctionLaconValue)value, getValue()),
+            () -> unsupported(MUL, LaconBuiltInType.DICT)
         ));
     }
 
@@ -73,7 +76,8 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> unsupported(DIV, LaconBuiltInType.STRING),
             () -> unsupported(DIV, LaconBuiltInType.BOOLEAN),
             () -> unsupported(DIV, LaconBuiltInType.LIST),
-            () -> unsupported(DIV, LaconBuiltInType.FUNCTION)
+            () -> unsupported(DIV, LaconBuiltInType.FUNCTION),
+            () -> unsupported(DIV, LaconBuiltInType.DICT)
         ));
     }
 
@@ -86,7 +90,8 @@ public class IntLaconValue extends LaconValue<Long> {
             () -> unsupported(MODULUS, LaconBuiltInType.STRING),
             () -> unsupported(MODULUS, LaconBuiltInType.BOOLEAN),
             () -> unsupported(MODULUS, LaconBuiltInType.LIST),
-            () -> unsupported(MODULUS, LaconBuiltInType.FUNCTION)
+            () -> unsupported(MODULUS, LaconBuiltInType.FUNCTION),
+            () -> unsupported(MODULUS, LaconBuiltInType.DICT)
         ));
     }
 

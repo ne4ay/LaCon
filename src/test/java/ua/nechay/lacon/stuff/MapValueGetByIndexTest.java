@@ -2,10 +2,9 @@ package ua.nechay.lacon.stuff;
 
 import org.junit.Test;
 
-import ua.nechay.lacon.core.LaconOperation;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
-import ua.nechay.lacon.core.val.MapLaconValue;
+import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
 
 import java.util.HashMap;
@@ -25,7 +24,7 @@ public class MapValueGetByIndexTest {
         Map<LaconValue<?>, LaconValue<?>> map = new HashMap<>();
         LaconValue<?> expectedValue = new IntLaconValue(3L);
         map.put(new StringLaconValue("abc"), expectedValue);
-        LaconValue<?> dictValue = new MapLaconValue(map);
+        LaconValue<?> dictValue = new DictLaconValue(map);
 
         String abc = new String("abc");
         LaconValue<?> realValue = dictValue.getByIndex(new StringLaconValue(abc));

@@ -1,0 +1,15 @@
+{
+    cities : dict = {
+        "New York" : 15_000,
+        "Moscow" : 12_500,
+        "Tbilisi" : 1_300,
+        "Alchevsk" : 106
+    };
+    york_population : int = cities["New York"];
+    cities.put("Frankfurt", 759);
+    cities.put("New York", 9);
+    fr_population : int = cities["Frankfurt"];
+    donetsk_new_york_population : int = cities["New York"];
+    cities.remove("Tbilisi");
+    size : int = cities.size();
+}

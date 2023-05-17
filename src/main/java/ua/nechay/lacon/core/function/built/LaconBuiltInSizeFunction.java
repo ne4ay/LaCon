@@ -10,6 +10,7 @@ import ua.nechay.lacon.core.function.LaconMethodName;
 import ua.nechay.lacon.core.function.built.string.LaconBuiltInSubstringFunction;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
+import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
 import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
@@ -28,7 +29,7 @@ import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsup
 public class LaconBuiltInSizeFunction extends FunctionLaconValue {
 
     private static final LaconBuiltInSizeFunction INSTANCE = new LaconBuiltInSizeFunction(Collections.emptyList(),
-        state -> {
+        state -> { // just to not rewrite the whole function for each type)))
             LaconValue<?> callableVal = state.popValue();
             return TypeTouch.touch(callableVal.getType(), SimpleTypeTouch.create(
                 () -> unsupported(LaconBuiltInType.INT),
@@ -36,7 +37,8 @@ public class LaconBuiltInSizeFunction extends FunctionLaconValue {
                 () -> new IntLaconValue(((StringLaconValue) callableVal).getValue().length()),
                 () -> unsupported(LaconBuiltInType.BOOLEAN),
                 () -> new IntLaconValue(((ListLaconValue) callableVal).getValue().size()),
-                () -> unsupported(LaconBuiltInType.FUNCTION)
+                () -> unsupported(LaconBuiltInType.FUNCTION),
+                () -> new IntLaconValue(((DictLaconValue) callableVal).getValue().size())
             ));
         }, LaconBuiltInType.INT);
 
