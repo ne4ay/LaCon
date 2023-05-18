@@ -138,6 +138,13 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
 
     @Nonnull
     @Override
+    public LaconValue<?> contains(@Nonnull LaconValue<?> value) {
+        return new BooleanLaconValue(getValue().stream()
+            .anyMatch(val -> val.equals(value)));
+    }
+
+    @Nonnull
+    @Override
     public LaconValue<?> unaryPlus() {
         return this;
     }

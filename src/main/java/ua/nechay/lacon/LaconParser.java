@@ -4,6 +4,7 @@ import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
 import ua.nechay.lacon.ast.ForCycleAST;
+import ua.nechay.lacon.ast.InAST;
 import ua.nechay.lacon.ast.RangeAST;
 import ua.nechay.lacon.ast.VoidAST;
 import ua.nechay.lacon.ast.call.CallAST;
@@ -58,7 +59,8 @@ public class LaconParser implements Parser {
         LaconTokenType.LESS,
         LaconTokenType.LESS_OR_EQUAL,
         LaconTokenType.GREATER,
-        LaconTokenType.GREATER_OR_EQUAL);
+        LaconTokenType.GREATER_OR_EQUAL,
+        LaconTokenType.IN);
 
     private final Lexer lexer;
 
@@ -127,6 +129,10 @@ public class LaconParser implements Parser {
         }
         if (type == LaconTokenType.MINUS) {
             eat(LaconTokenType.MINUS);
+            return new UnaryOperationAST(token, factor());
+        }
+        if (type == LaconTokenType.NOT) {
+            eat(LaconTokenType.NOT);
             return new UnaryOperationAST(token, factor());
         }
         if (type == LaconTokenType.INTEGER) {
@@ -352,6 +358,11 @@ public class LaconParser implements Parser {
         AST node = notion;
         while (ALLEGATION_TYPES.contains(getCurrentToken().getType())) {
             LaconToken token = getCurrentToken();
+            if (token.getType() == LaconTokenType.IN) {
+                eat(LaconTokenType.IN);
+                node = new InAST(node, notion());
+                continue;
+            }
             eat(token.getType());
             node = new BinaryOperationAST(node, token, notion());
         }

@@ -42,6 +42,24 @@ public class DictLaconValue extends LaconValue<Map<LaconValue<?>, LaconValue<?>>
         return val;
     }
 
+    @Nonnull
+    @Override
+    public LaconValue<?> contains(@Nonnull LaconValue<?> value) {
+        if (!value.getType().equals(LaconBuiltInType.LIST)) {
+            return new BooleanLaconValue(false);
+        }
+        List<LaconValue<?>> listValue = ((ListLaconValue)value).getValue();
+        if (listValue.size() != 2) {
+            return new BooleanLaconValue(false);
+        }
+        return new BooleanLaconValue(getValue()
+            .entrySet()
+            .stream()
+            .anyMatch(entry -> entry.getKey().equals(listValue.get(0))
+                && entry.getValue().equals(listValue.get(1))
+            ));
+    }
+
     @Override
     public Map<String, FunctionLaconValue> getMethods() {
         return METHODS;

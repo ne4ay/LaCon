@@ -33,6 +33,8 @@ public class UnaryOperationAST implements AST {
             return newState.pushValue(value.unaryPlus());
         case MINUS:
             return newState.pushValue(value.unaryMinus());
+        case NOT:
+            return newState.pushValue(value.unaryNot());
         default:
             throw new IllegalStateException("Unknown type: " + type + " at position " + getOperation().getStartPos());
         }

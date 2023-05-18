@@ -4,9 +4,7 @@ import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
-import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
-import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.RealLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
 import ua.nechay.lacon.exception.LaconUnsupportedOperationException;
@@ -14,7 +12,6 @@ import ua.nechay.lacon.exception.LaconUnsupportedOperationException;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -135,8 +132,14 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
         return unsupported(LaconOperation.CALL, args);
     }
 
+    @Nonnull
     protected LaconValue<?> methodCall(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args, @Nonnull LaconValue<?> ref) {
         return unsupported(LaconOperation.CALL, args);
+    }
+
+    @Nonnull
+    public LaconValue<?> contains(@Nonnull LaconValue<?> value) {
+        return unsupported(LaconOperation.IN, value);
     }
 
     public Map<String, FunctionLaconValue> getMethods() {

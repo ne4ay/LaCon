@@ -13,11 +13,12 @@ public enum LaconOperation {
     DIV("/"),
     MODULUS("%"),
     NOT("!"),
-    GET_BY_INDEX("'[n]'"),
-    CALL("'call'"),
+    GET_BY_INDEX("[n]"),
+    CALL("call"),
     CAST("cast"),
-    OR("'or'"),
-    AND("'and'"),
+    OR("or"),
+    AND("and"),
+    IN("in")
     ;
     private final String representation;
 

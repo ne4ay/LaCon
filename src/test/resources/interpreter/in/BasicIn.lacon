@@ -1,0 +1,10 @@
+{
+    nums : list = [-2, 9, 0, -2, -2, 1, 3, 5, 9];
+    result : list = [];
+    for num in nums {
+        if !(num in result) {
+            result = result + num;
+        }
+    }
+    print(result);
+}

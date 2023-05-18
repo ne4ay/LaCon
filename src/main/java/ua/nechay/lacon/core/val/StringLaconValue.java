@@ -129,6 +129,16 @@ public class StringLaconValue extends LaconValue<String> {
 
     @Nonnull
     @Override
+    public LaconValue<?> contains(@Nonnull LaconValue<?> value) {
+        if (!value.getType().equals(LaconBuiltInType.STRING)) {
+            return new BooleanLaconValue(false);
+        }
+        String seq = ((StringLaconValue)value).getValue();
+        return new BooleanLaconValue(getValue().contains(seq));
+    }
+
+    @Nonnull
+    @Override
     public LaconValue<?> unaryPlus() {
         return this;
     }
