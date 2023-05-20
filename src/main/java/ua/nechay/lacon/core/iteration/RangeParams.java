@@ -1,10 +1,9 @@
 package ua.nechay.lacon.core.iteration;
 
-import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.core.LaconBuiltInType;
+import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
-import ua.nechay.lacon.core.val.RealLaconValue;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -43,7 +42,11 @@ public class RangeParams {
     }
 
     private static double getParam(@Nonnull LaconValue<?> value) {
-        switch (value.getType()) {
+        LaconType paramType = value.getType();
+        if (!paramType.isBuiltIn()) {
+            throw new IllegalStateException("Unexpected value for range param: " + value);
+        }
+        switch ((LaconBuiltInType) paramType) {
         case INT:
             return IntLaconValue.castToReal((long)value.getValue());
         case REAL:

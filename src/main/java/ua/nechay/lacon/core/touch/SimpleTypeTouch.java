@@ -16,6 +16,7 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
     private final Supplier<T> listSupplier;
     private final Supplier<T> functionSupplier;
     private final Supplier<T> dictSupplier;
+    private final Supplier<T> notBuiltInSupplier;
 
     private SimpleTypeTouch(
         @Nonnull Supplier<T> integerSupplier,
@@ -24,7 +25,8 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
         @Nonnull Supplier<T> boolSupplier,
         @Nonnull Supplier<T> listSupplier,
         @Nonnull Supplier<T> functionSupplier,
-        @Nonnull Supplier<T> dictSupplier)
+        @Nonnull Supplier<T> dictSupplier,
+        @Nonnull Supplier<T> notBuiltInSupplier)
     {
         this.integerSupplier = integerSupplier;
         this.realSupplier = realSupplier;
@@ -33,6 +35,7 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
         this.listSupplier = listSupplier;
         this.functionSupplier = functionSupplier;
         this.dictSupplier = dictSupplier;
+        this.notBuiltInSupplier = notBuiltInSupplier;
     }
 
     public static <T> SimpleTypeTouch<T> create(
@@ -42,7 +45,8 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
         @Nonnull Supplier<T> boolSupplier,
         @Nonnull Supplier<T> listSupplier,
         @Nonnull Supplier<T> functionSupplier,
-        @Nonnull Supplier<T> dictSupplier)
+        @Nonnull Supplier<T> dictSupplier,
+        @Nonnull Supplier<T> notBuiltInSupplier)
     {
         return new SimpleTypeTouch<>(
             integerSupplier,
@@ -51,7 +55,8 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
             boolSupplier,
             listSupplier,
             functionSupplier,
-            dictSupplier
+            dictSupplier,
+            notBuiltInSupplier
         );
     }
 
@@ -88,5 +93,10 @@ public class SimpleTypeTouch<T> implements TypeTouch<T> {
     @Override
     public T dict() {
         return dictSupplier.get();
+    }
+
+    @Override
+    public T notBuiltIn() {
+        return notBuiltInSupplier.get();
     }
 }

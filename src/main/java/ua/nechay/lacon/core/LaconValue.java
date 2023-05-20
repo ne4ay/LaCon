@@ -3,6 +3,7 @@ package ua.nechay.lacon.core;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
+import ua.nechay.lacon.core.touch.TypeTouchBuilder;
 import ua.nechay.lacon.core.val.BooleanLaconValue;
 import ua.nechay.lacon.core.val.IntLaconValue;
 import ua.nechay.lacon.core.val.RealLaconValue;
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import static ua.nechay.lacon.core.LaconOperation.PLUS;
 import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsupportedOperation;
 
 /**
@@ -24,14 +26,14 @@ import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsup
 public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterable<LaconValue<?>> {
 
     private final T value;
-    private final LaconBuiltInType type;
+    private final LaconType type;
 
-    public LaconValue(@Nonnull T value, @Nonnull LaconBuiltInType type) {
+    public LaconValue(@Nonnull T value, @Nonnull LaconType type) {
         this.value = value;
         this.type = type;
     }
 
-    public static LaconValue<?> create(Object value, @Nonnull LaconBuiltInType type) {
+    public static LaconValue<?> create(Object value, @Nonnull LaconType type) {
         return TypeTouch.touch(type, SimpleTypeTouch.create(
             () -> new IntLaconValue((long) value),
             () -> new RealLaconValue((double) value),
@@ -39,7 +41,8 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
             () -> new BooleanLaconValue((boolean) value),
             () -> { throw new IllegalStateException("Unable to create list from plain value: " + value); },
             () -> { throw new IllegalStateException("Unable to create function from plain value: " + value); },
-            () -> { throw new IllegalStateException("Unable to create dict from plain value: " + value); }
+            () -> { throw new IllegalStateException("Unable to create dict from plain value: " + value); },
+            () -> { throw new IllegalStateException("Unable to create " + type.getRepresentation() + " from plain value: " + value); }
         ));
     }
 
@@ -49,7 +52,7 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
     }
 
     @Nonnull
-    public LaconBuiltInType getType() {
+    public LaconType getType() {
         return type;
     }
 
@@ -142,6 +145,11 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
         return unsupported(LaconOperation.IN, value);
     }
 
+    @Nonnull
+    public LaconValue<?> castTo(@Nonnull LaconType type) {
+        return unsupported(LaconOperation.CAST, type);
+    }
+
     public Map<String, FunctionLaconValue> getMethods() {
         return Collections.emptyMap();
     }
@@ -155,7 +163,7 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
     }
 
 
-    protected LaconValue<?> unsupported(@Nonnull LaconOperation operation, @Nonnull LaconType type) {
+    protected <T> LaconValue<T> unsupported(@Nonnull LaconOperation operation, @Nonnull LaconType type) {
         return LaconUnsupportedOperationException.unsupportedOperation(operation, getType(), type);
     }
 
@@ -165,6 +173,10 @@ public abstract class LaconValue<T> implements Comparable<LaconValue<?>>, Iterab
 
     protected LaconValue<?> unsupported(@Nonnull String operation, @Nonnull LaconValue<?> value) {
         return LaconUnsupportedOperationException.unsupportedOperation(operation, getType(), value.getType());
+    }
+
+    protected TypeTouchBuilder<LaconValue<?>> getDefaultTypeTouchBuilder(@Nonnull LaconOperation operation, @Nonnull LaconValue<?> value) {
+        return TypeTouchBuilder.<LaconValue<?>>create(() -> unsupported(operation, value));
     }
 
     @Nonnull

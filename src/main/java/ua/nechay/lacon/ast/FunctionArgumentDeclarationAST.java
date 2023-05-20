@@ -3,6 +3,7 @@ package ua.nechay.lacon.ast;
 import ua.nechay.lacon.LaconToken;
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValueUtils;
 import ua.nechay.lacon.core.auxiliary.LaconArgumentDeclarationValue;
 
@@ -25,7 +26,7 @@ public class FunctionArgumentDeclarationAST implements AST {
     @Override
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
         String argumentName = identifier.getText();
-        LaconBuiltInType type = LaconValueUtils.determineType(this.type);
+        LaconType type = LaconValueUtils.determineType(state, this.type);
         return state.pushValue(new LaconArgumentDeclarationValue(argumentName, type));
     }
 }

@@ -7,10 +7,10 @@ import ua.nechay.lacon.core.LaconProgramState;
 import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.LaconValueUtils;
-import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
-import ua.nechay.lacon.core.val.ListLaconValue;
+import ua.nechay.lacon.core.touch.TypeTouchBuilder;
 import ua.nechay.lacon.core.val.DictLaconValue;
+import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static ua.nechay.lacon.core.LaconOperation.CAST;
 import static ua.nechay.lacon.core.LaconOperation.MUL;
 import static ua.nechay.lacon.core.LaconOperation.PLUS;
 
@@ -74,15 +75,9 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
     @Nonnull
     @Override
     public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
-        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> unsupported(PLUS, LaconBuiltInType.INT),
-            () -> unsupported(PLUS, LaconBuiltInType.REAL),
-            () -> unsupported(PLUS, LaconBuiltInType.STRING),
-            () -> unsupported(PLUS, LaconBuiltInType.BOOLEAN),
-            () -> unsupported(PLUS, LaconBuiltInType.LIST),
-            () -> addFunctions(this, (FunctionLaconValue) value),
-            () -> unsupported(PLUS, LaconBuiltInType.DICT)
-        ));
+        return TypeTouch.touch(value.getType(), getDefaultTypeTouchBuilder(PLUS, value)
+            .setFunction(() -> addFunctions(this, (FunctionLaconValue) value))
+            .build());
     }
 
     private static FunctionLaconValue addFunctions(FunctionLaconValue fun1, FunctionLaconValue fun2) {
@@ -124,15 +119,10 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
     @Nonnull
     @Override
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
-        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> multiplyFunction(this, (long) value.getValue()),
-            () -> unsupported(MUL, LaconBuiltInType.REAL),
-            () -> unsupported(MUL, LaconBuiltInType.STRING),
-            () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
-            () -> multiplyFunction(this, (ListLaconValue) value),
-            () -> unsupported(MUL, LaconBuiltInType.FUNCTION),
-            () -> unsupported(MUL, LaconBuiltInType.DICT)
-        ));
+        return TypeTouch.touch(value.getType(), getDefaultTypeTouchBuilder(MUL, value)
+            .setInteger(() -> multiplyFunction(this, (long) value.getValue()))
+            .setList(() -> multiplyFunction(this, (ListLaconValue) value))
+            .build());
     }
 
     public static FunctionLaconValue multiplyFunction(@Nonnull FunctionLaconValue function, long times) {
@@ -176,15 +166,22 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
 
     @Nonnull
     @Override
-    public LaconValue<?> div(@Nonnull LaconValue<?> value) {
-        return unsupported(LaconOperation.DIV, value);
+    public LaconValue<?> castTo(@Nonnull LaconType type) {
+        return TypeTouch.touch(type, TypeTouchBuilder.<LaconValue<?>>create(() -> unsupported(CAST, type))
+            .setString(() -> castToStringValue(this))
+            .setFunction(() -> this)
+            .setList(() -> ListLaconValue.create(this))
+            .build());
     }
 
     @Nonnull
     @Override
     public LaconValue<?> call(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args) {
-        LaconBuiltInType type = args.getType();
-        switch (type) {
+        LaconType type = args.getType();
+        if (!type.isBuiltIn()) {
+            throw new IllegalStateException("Unknown type of call arguments: " + args);
+        }
+        switch ((LaconBuiltInType) type) {
         case LIST:
             return positionCall(currentState, args, Collections.emptyList());
         case DICT:
@@ -196,8 +193,11 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
 
     @Override
     protected LaconValue<?> methodCall(@Nonnull LaconProgramState currentState, @Nonnull LaconValue<?> args, @Nonnull LaconValue<?> ref) {
-        LaconBuiltInType type = args.getType();
-        switch (type) {
+        LaconType type = args.getType();
+        if (!type.isBuiltIn()) {
+            throw new IllegalStateException("Unknown type of call arguments: " + args);
+        }
+        switch ((LaconBuiltInType) type) {
         case LIST:
             return positionCall(currentState, args, List.of(ref));
         case DICT:
@@ -223,8 +223,7 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
             throw new IllegalStateException("Unexpected number of passed args: " + passingArgsNumber
                 + ". Expected " + expectedArgs.size() + " instead of");
         }
-        LaconProgramState localState = LaconProgramState.create()
-            .addFunctions(currentState.getAllFunctions())
+        LaconProgramState localState = LaconProgramState.createFromOuterScope(currentState)
             .pushValues(stackValues);
         for (int i = 0; i < passingArgsNumber; i++) {
             LaconValue<?> nextPassingArg = argList.getValue().get(i);
@@ -259,8 +258,7 @@ public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,La
             throw new IllegalStateException("Unexpected number of passed args: " + passingArgsNumber
                 + ". Expected " + expectedArgs.size() + " instead of");
         }
-        LaconProgramState localState = LaconProgramState.create()
-            .addFunctions(currentState.getAllFunctions())
+        LaconProgramState localState = LaconProgramState.createFromOuterScope(currentState)
             .pushValues(stackValues);
         for (int i = 0; i < passingArgsNumber; i++) {
             LaconFunctionArgument nextExpectedArgument = expectedArgs.get(i);

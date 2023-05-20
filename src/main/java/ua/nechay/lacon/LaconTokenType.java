@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
  * @since 03.03.2023
  */
 public enum LaconTokenType {
-    //TODO change from predicate to Char
     EOF(
         Objects::isNull, true
     ),
@@ -83,8 +82,47 @@ public enum LaconTokenType {
                 int position = lexer.getCurrentPosition();
                 return new LaconToken(this, "", position);
             }
-
-            return LaconUtils.eatToken(lexer, character -> !QUOTE.matches(character), this);
+            StringBuilder resultBuilder = new StringBuilder();
+            int position = lexer.getCurrentPosition();
+            char character;
+            while (lexer.getCurrentChar() != null && !QUOTE.matches(character = lexer.getCurrentChar())) {
+                if (character != '\\') {
+                    resultBuilder.append(character);
+                    lexer.advance();
+                    continue;
+                }
+                char slashChar = character;
+                lexer.advance();
+                character = lexer.getCurrentChar();
+                if (QUOTE.matches(character)) {
+                    resultBuilder.append(slashChar);
+                    break;
+                }
+                switch (character) {
+                case 'n':
+                    resultBuilder.append('\n');
+                    break;
+                case '"':
+                    resultBuilder.append('\"');
+                    break;
+                case 't':
+                    resultBuilder.append('\t');
+                    break;
+                case 'b':
+                    resultBuilder.append('\b');
+                    break;
+                case 'r':
+                    resultBuilder.append('\r');
+                    break;
+                case '\\':
+                    resultBuilder.append('\\');
+                    break;
+                default:
+                    resultBuilder.append(slashChar).append(character);
+                }
+                lexer.advance();
+            }
+            return new LaconToken(this, resultBuilder.toString(), position);
         }
     },
     // String should be higher than quote to give a possibility of creating empty strings

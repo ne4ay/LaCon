@@ -41,69 +41,12 @@ public class CastAST implements AST {
         var newState = getExpression().interpret(state);
         var value = newState.popValue();
 
-        LaconBuiltInType fromType = value.getType();
         String castOperation = getCastOperation().getText();
         LaconBuiltInType toType = LaconBuiltInType.getForRepresentation(castOperation);
         if (toType == null) {
             throw new IllegalStateException("Unknown type: " + castOperation);
         }
-        LaconValue<?> castedValue = TypeTouch.touch(toType, SimpleTypeTouch.create(
-            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> value,
-                () -> new IntLaconValue(RealLaconValue.castToInt((double)value.getValue())),
-                () -> new IntLaconValue(Long.parseLong((String)value.getValue())),
-                () -> new IntLaconValue(BooleanLaconValue.castToIntValue(value)),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.LIST, LaconBuiltInType.INT),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.INT),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.DICT, LaconBuiltInType.INT)
-            )),
-            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> new RealLaconValue(IntLaconValue.castToReal((long)value.getValue())),
-                () -> value,
-                () -> new RealLaconValue(Double.parseDouble((String)value.getValue())),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.BOOLEAN, LaconBuiltInType.REAL),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.LIST, LaconBuiltInType.REAL),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.REAL),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.DICT, LaconBuiltInType.REAL)
-            )),
-            () -> LaconValueUtils.castToStr(value),
-            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> new BooleanLaconValue(IntLaconValue.castToBoolValue((long)value.getValue())),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.REAL, LaconBuiltInType.BOOLEAN),
-                () -> new BooleanLaconValue(Boolean.valueOf((String) value.getValue())),
-                () -> value,
-                () -> new BooleanLaconValue(ListLaconValue.castToBoolValue(value)),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.BOOLEAN),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.DICT, LaconBuiltInType.BOOLEAN)
-            )),
-            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> ListLaconValue.create(value),
-                () -> ListLaconValue.create(value),
-                () -> ListLaconValue.create(value),
-                () -> ListLaconValue.create(value),
-                () -> value,
-                () -> ListLaconValue.create(value),
-                () -> DictLaconValue.toList((DictLaconValue) value)
-            )),
-            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> FunctionLaconValue.createSupplier(value),
-                () -> FunctionLaconValue.createSupplier(value),
-                () -> FunctionLaconValue.createSupplier(value),
-                () -> FunctionLaconValue.createSupplier(value),
-                () -> FunctionLaconValue.createSupplier(value),
-                () -> value,
-                () -> FunctionLaconValue.createSupplier(value)
-            )),
-            () -> TypeTouch.touch(fromType, SimpleTypeTouch.create(
-                () -> unsupportedOperation(CAST, LaconBuiltInType.INT, LaconBuiltInType.DICT),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.REAL, LaconBuiltInType.DICT),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.STRING, LaconBuiltInType.DICT),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.BOOLEAN, LaconBuiltInType.DICT),
-                () -> DictLaconValue.fromList((ListLaconValue) value),
-                () -> unsupportedOperation(CAST, LaconBuiltInType.FUNCTION, LaconBuiltInType.DICT),
-                () -> value
-            ))
-        ));
+        LaconValue<?> castedValue = value.castTo(toType);
         return state.pushValue(castedValue);
     }
 

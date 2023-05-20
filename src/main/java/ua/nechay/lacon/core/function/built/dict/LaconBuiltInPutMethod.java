@@ -6,9 +6,7 @@ import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.function.LaconFunctionArgument;
-import ua.nechay.lacon.core.val.BooleanLaconValue;
 import ua.nechay.lacon.core.val.DictLaconValue;
-import ua.nechay.lacon.core.val.StringLaconValue;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -20,11 +18,11 @@ import static ua.nechay.lacon.core.function.LaconFunctionUtils.getMandatoryArgum
  * @author anechaev
  * @since 17.05.2023
  */
-public class LaconBuiltInPutFunction extends FunctionLaconValue {
+public class LaconBuiltInPutMethod extends FunctionLaconValue {
     private static final String KEY_ARGUMENT = "key";
     private static final String VALUE_ARGUMENT = "value";
 
-    private static LaconBuiltInPutFunction INSTANCE = new LaconBuiltInPutFunction(List.of(
+    private static LaconBuiltInPutMethod INSTANCE = new LaconBuiltInPutMethod(List.of(
         LaconFunctionArgument.create(KEY_ARGUMENT, LaconBuiltInType.ANY),
         LaconFunctionArgument.create(VALUE_ARGUMENT, LaconBuiltInType.ANY)
     ),
@@ -38,14 +36,14 @@ public class LaconBuiltInPutFunction extends FunctionLaconValue {
         LaconBuiltInType.ANY
     );
 
-    public LaconBuiltInPutFunction(@Nonnull List<LaconFunctionArgument> args,
+    public LaconBuiltInPutMethod(@Nonnull List<LaconFunctionArgument> args,
         @Nonnull Function<LaconProgramState, LaconValue<?>> function,
         @Nonnull LaconType returnType)
     {
         super(args, function, returnType);
     }
 
-    public static LaconBuiltInPutFunction getInstance() {
+    public static LaconBuiltInPutMethod getInstance() {
         return INSTANCE;
     }
 }

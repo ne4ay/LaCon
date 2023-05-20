@@ -1,14 +1,15 @@
 package ua.nechay.lacon.core.val;
 
 import ua.nechay.lacon.core.LaconBuiltInType;
+import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.LaconValueUtils;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.function.LaconMethodName;
-import ua.nechay.lacon.core.function.built.LaconBuiltInSizeFunction;
+import ua.nechay.lacon.core.function.built.LaconBuiltInSizeMethod;
 import ua.nechay.lacon.core.iteration.RangeParams;
-import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
+import ua.nechay.lacon.core.touch.TypeTouchBuilder;
 import ua.nechay.lacon.core.touch.UnsupportedOperationTypeTouch;
 import ua.nechay.lacon.exception.LaconOutOfBoundsException;
 import ua.nechay.lacon.utils.Pair;
@@ -23,10 +24,11 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static ua.nechay.lacon.core.LaconOperation.CAST;
 import static ua.nechay.lacon.core.LaconOperation.GET_BY_INDEX;
 import static ua.nechay.lacon.core.LaconOperation.MUL;
 import static ua.nechay.lacon.core.LaconValueUtils.determineMapper;
-import static ua.nechay.lacon.core.function.LaconMethodName.toMap;
+import static ua.nechay.lacon.core.function.MethodName.toMap;
 
 /**
  * @author anechaev
@@ -34,7 +36,7 @@ import static ua.nechay.lacon.core.function.LaconMethodName.toMap;
  */
 public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
     private static final Map<String, FunctionLaconValue> METHODS = toMap(
-        new Pair<>(LaconMethodName.SIZE, LaconBuiltInSizeFunction.getInstance())
+        new Pair<>(LaconMethodName.SIZE, LaconBuiltInSizeMethod.getInstance())
     );
 
     public ListLaconValue(@Nonnull List<LaconValue<?>> value) {
@@ -48,15 +50,10 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
     @Nonnull
     @Override
     public LaconValue<?> plus(@Nonnull LaconValue<?> value) {
-        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> addElement(this, value),
-            () -> addElement(this, value),
-            () -> addElement(this, value),
-            () -> addElement(this, value),
-            () -> concat(this, (ListLaconValue) value),
-            () -> addElement(this, value),
-            () -> addElement(this, value)
-        ));
+        return TypeTouch.touch(value.getType(), TypeTouchBuilder
+            .create(() -> addElement(this, value))
+            .setList(() -> concat(this, (ListLaconValue) value))
+            .build());
     }
 
     public static ListLaconValue concat(@Nonnull ListLaconValue list1, @Nonnull ListLaconValue list2) {
@@ -68,15 +65,10 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
     @Nonnull
     @Override
     public LaconValue<?> minus(@Nonnull LaconValue<?> value) {
-        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> removeElement(this, value),
-            () -> removeElement(this, value),
-            () -> removeElement(this, value),
-            () -> removeElement(this, value),
-            () -> removeAll(this, (ListLaconValue) value),
-            () -> removeElement(this, value),
-            () -> removeElement(this, value)
-        ));
+        return TypeTouch.touch(value.getType(), TypeTouchBuilder
+            .create(() -> removeElement(this, value))
+            .setList(() -> removeAll(this, (ListLaconValue) value))
+            .build());
     }
 
     public static ListLaconValue removeAll(@Nonnull ListLaconValue list1, @Nonnull ListLaconValue list2) {
@@ -88,15 +80,9 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
     @Nonnull
     @Override
     public LaconValue<?> mul(@Nonnull LaconValue<?> value) {
-        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> multiplyList(this, (long) value.getValue()),
-            () -> unsupported(MUL, LaconBuiltInType.REAL),
-            () -> unsupported(MUL, LaconBuiltInType.STRING),
-            () -> unsupported(MUL, LaconBuiltInType.BOOLEAN),
-            () -> unsupported(MUL, LaconBuiltInType.LIST),
-            () -> unsupported(MUL, LaconBuiltInType.FUNCTION),
-            () -> unsupported(MUL, LaconBuiltInType.DICT)
-        ));
+        return TypeTouch.touch(value.getType(), getDefaultTypeTouchBuilder(MUL, value)
+            .setInteger(() -> multiplyList(this, (long) value.getValue()))
+            .build());
     }
 
     @Nonnull
@@ -108,15 +94,9 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
     @Nonnull
     @Override
     public LaconValue<?> getByIndex(@Nonnull LaconValue<?> value) {
-        return TypeTouch.touch(value.getType(), SimpleTypeTouch.create(
-            () -> getByIndex((int) (long) value.getValue()),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.REAL),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.STRING),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.BOOLEAN),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.LIST),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.FUNCTION),
-            () -> unsupported(GET_BY_INDEX, LaconBuiltInType.DICT)
-        ));
+        return TypeTouch.touch(value.getType(), getDefaultTypeTouchBuilder(GET_BY_INDEX, value)
+            .setInteger(() -> getByIndex((int) (long) value.getValue()))
+            .build());
     }
 
     @Override
@@ -161,6 +141,18 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
         return new BooleanLaconValue(!castToBoolValue(getValue()));
     }
 
+    @Nonnull
+    @Override
+    public LaconValue<?> castTo(@Nonnull LaconType type) {
+        return TypeTouch.touch(type, TypeTouchBuilder.<LaconValue<?>>create(() -> unsupported(CAST, type))
+            .setString(() -> new StringLaconValue(castToStrValue(this)))
+            .setBool(() -> new BooleanLaconValue(castToBoolValue(this)))
+            .setList(() -> this)
+            .setFunction(() -> FunctionLaconValue.createSupplier(this))
+            .setDict(() -> DictLaconValue.fromList(this))
+            .build());
+    }
+
     public static String castToStrValue(@Nonnull LaconValue<?> laconValue) {
         return laconValue.getValue().toString();
     }
@@ -176,7 +168,7 @@ public class ListLaconValue extends LaconValue<List<LaconValue<?>>> {
         return objects.isEmpty();
     }
 
-    public static ListLaconValue multiplyList(@Nonnull ListLaconValue list, long multiplier) {
+    public static LaconValue<?> multiplyList(@Nonnull ListLaconValue list, long multiplier) {
         List<LaconValue<?>> valueList = list.getValue();
         return new ListLaconValue(LaconValueUtils.multiply(valueList, multiplier));
     }

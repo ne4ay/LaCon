@@ -65,4 +65,9 @@ public class UnsupportedOperationTypeTouch implements TypeTouch<LaconValue<?>> {
     public LaconValue<?> dict() {
         return unsupportedOperation(operation, fromType, LaconBuiltInType.DICT);
     }
+
+    @Override
+    public LaconValue<?> notBuiltIn() {
+        return unsupportedOperation(operation, fromType.getRepresentation());
+    }
 }

@@ -1,8 +1,10 @@
 package ua.nechay.lacon.ast;
 
 import ua.nechay.lacon.LaconToken;
+import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.core.LaconBuiltInType;
 import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.LaconValueUtils;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
@@ -46,7 +48,7 @@ public class FunctionDeclarationAST implements AST {
             LaconFunctionArgument nextArgument = mapToArgument(nextArgDeclaration);
             declaringArguments.add(nextArgument);
         }
-        LaconBuiltInType returningType = LaconValueUtils.determineType(returnType);
+        LaconType returningType = LaconValueUtils.determineType(state, returnType);
         state.putFunction(functionName, FunctionLaconValue.create(declaringArguments, functionBody, returningType));
         return state;
     }

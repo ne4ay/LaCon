@@ -1,6 +1,8 @@
 package ua.nechay.lacon.core.function.built;
 
 import ua.nechay.lacon.core.function.FunctionLaconValue;
+import ua.nechay.lacon.core.function.built.regex.LaconBuiltInFindAllFunction;
+import ua.nechay.lacon.core.function.built.regex.LaconBuiltInSearchFunction;
 
 import javax.annotation.Nonnull;
 
@@ -10,7 +12,9 @@ import javax.annotation.Nonnull;
  */
 public enum BuiltInFunction {
     PRINT("print", LaconBuiltPrintFunction.getInstance()),
-    PRINTLN("println", LaconBuiltInPrintlnFunction.getInstance())
+    PRINTLN("println", LaconBuiltInPrintlnFunction.getInstance()),
+    SEARCH("search", LaconBuiltInSearchFunction.getInstance()),
+    FIND_ALL("find_all", LaconBuiltInFindAllFunction.getInstance())
     ;
 
     private final String name;

@@ -10,7 +10,6 @@ import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -22,10 +21,10 @@ import static ua.nechay.lacon.core.function.LaconFunctionUtils.getMandatoryArgum
  * @author anechaev
  * @since 16.05.2023
  */
-public class LaconBuiltInSplitFunction extends FunctionLaconValue {
+public class LaconBuiltInSplitMethod extends FunctionLaconValue {
     private static final String REGEX_ARGUMENT = "regex";
 
-    private static final LaconBuiltInSplitFunction INSTANCE = new LaconBuiltInSplitFunction(
+    private static final LaconBuiltInSplitMethod INSTANCE = new LaconBuiltInSplitMethod(
         List.of(
             LaconFunctionArgument.create(REGEX_ARGUMENT, LaconBuiltInType.STRING)
         ),
@@ -43,14 +42,14 @@ public class LaconBuiltInSplitFunction extends FunctionLaconValue {
             .collect(Collectors.toList());
     }
 
-    public LaconBuiltInSplitFunction(@Nonnull List<LaconFunctionArgument> args,
+    public LaconBuiltInSplitMethod(@Nonnull List<LaconFunctionArgument> args,
         @Nonnull Function<LaconProgramState, LaconValue<?>> function,
         @Nonnull LaconType returnType)
     {
         super(args, function, returnType);
     }
 
-    public static LaconBuiltInSplitFunction getInstance() {
+    public static LaconBuiltInSplitMethod getInstance() {
         return INSTANCE;
     }
 }

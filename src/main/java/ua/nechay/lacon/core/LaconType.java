@@ -11,4 +11,8 @@ public interface LaconType {
     String getRepresentation();
 
     boolean accepts(@Nonnull LaconType type);
+
+    default boolean isBuiltIn() {
+        return false;
+    }
 }

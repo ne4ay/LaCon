@@ -4,19 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="for cycle has been added">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/InAST.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/InInterpreterTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/in/BasicIn.lacon" afterDir="false" />
+    <list default="true" id="776ebf34-8320-492f-b86c-5121be9b2f29" name="Changes" comment="in operator has been added">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/MethodName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/regex/LaconBuiltInFindAllFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/regex/LaconBuiltInMatcherEndMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/regex/LaconBuiltInMatcherGroupMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/regex/LaconBuiltInMatcherStartMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/regex/LaconBuiltInSearchFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/OrDefaultTypeTouch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/TypeTouchBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/type/RegexType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/regex/MatchLaconValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ua/nechay/lacon/interpreter/RegexInterpreterTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/interpreter/regex/SimpleRegexExamples.lacon" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconTokenType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/UnaryOperationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/UnaryOperationAST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/CastAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/CastAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/FunctionArgumentDeclarationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/FunctionArgumentDeclarationAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/FunctionDeclarationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/FunctionDeclarationAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/VariableDeclarationAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/WhileCycleAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/WhileCycleAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconBuiltInType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconBuiltInType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconProgramState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconProgramState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValueUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValueUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/auxiliary/LaconArgumentDeclarationValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/auxiliary/LaconArgumentDeclarationValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/FunctionLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/FunctionLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/LaconMethodName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/LaconMethodName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/BuiltInFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/BuiltInFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/LaconBuiltInSizeFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/LaconBuiltInSizeMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/dict/LaconBuiltInPutFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/dict/LaconBuiltInPutMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/dict/LaconBuiltInRemoveFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/dict/LaconBuiltInRemoveMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/string/LaconBuiltInSplitFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/string/LaconBuiltInSplitMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/string/LaconBuiltInSubstringFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/string/LaconBuiltInSubstringMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/iteration/RangeParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/iteration/RangeParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/SimpleTypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/SimpleTypeTouch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/TypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/TypeTouch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/UnsupportedOperationTypeTouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/touch/UnsupportedOperationTypeTouch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/BooleanLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/BooleanLaconValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/DictLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/DictLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/RealLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/RealLaconValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/var/LaconVariable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,21 +123,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/anechaev/IdeaProjects/gkg&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/anechaev/IdeaProjects/untitled",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
-}</component>
-  <component name="RunManager" selected="JUnit.InInterpreterTest.testBasicIn">
+}]]></component>
+  <component name="RunManager" selected="JUnit.RegexInterpreterTest.testSimpleRegexExamples">
     <configuration name="DictInterpreterTest.testSimpleDictionary" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
@@ -116,22 +149,6 @@
       <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
       <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.DictInterpreterTest" />
       <option name="METHOD_NAME" value="testSimpleDictionary" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ForInterpreterTest.testSimpleForLoop" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="LaCon" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ua.nechay.lacon.interpreter.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
-      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.ForInterpreterTest" />
-      <option name="METHOD_NAME" value="testSimpleForLoop" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -169,6 +186,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="RegexInterpreterTest.testSimpleRegexExamples" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LaCon" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nechay.lacon.interpreter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ua.nechay.lacon.interpreter" />
+      <option name="MAIN_CLASS_NAME" value="ua.nechay.lacon.interpreter.RegexInterpreterTest" />
+      <option name="METHOD_NAME" value="testSimpleRegexExamples" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ua.nechay.lacon in LaCon" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LaCon" />
       <extension name="coverage">
@@ -185,11 +218,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RegexInterpreterTest.testSimpleRegexExamples" />
+        <item itemvalue="JUnit.ua.nechay.lacon in LaCon" />
         <item itemvalue="JUnit.InInterpreterTest.testBasicIn" />
         <item itemvalue="JUnit.DictInterpreterTest.testSimpleDictionary" />
-        <item itemvalue="JUnit.ua.nechay.lacon in LaCon" />
         <item itemvalue="JUnit.MethodInterpreterTest.testStringMethods" />
-        <item itemvalue="JUnit.ForInterpreterTest.testSimpleForLoop" />
       </list>
     </recent_temporary>
   </component>
@@ -243,6 +276,9 @@
       <workItem from="1684267352582" duration="2270000" />
       <workItem from="1684314381576" duration="8803000" />
       <workItem from="1684353767095" duration="2938000" />
+      <workItem from="1684415480204" duration="3238000" />
+      <workItem from="1684482298179" duration="19640000" />
+      <workItem from="1684524291111" duration="5768000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1678048715564</created>
@@ -377,7 +413,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683573819299</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="in operator has been added">
+      <created>1684412065567</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1684412065567</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -454,7 +497,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/StringLaconValue.java</url>
-          <line>119</line>
+          <line>101</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -464,22 +507,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>110</line>
+          <line>111</line>
           <option name="timeStamp" value="120" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>93</line>
+          <line>94</line>
           <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/IntLaconValue.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="129" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/LaconParser.java</url>
-          <line>170</line>
+          <line>171</line>
           <option name="timeStamp" value="138" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -489,18 +527,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/val/ListLaconValue.java</url>
-          <line>205</line>
+          <line>197</line>
           <option name="timeStamp" value="155" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/call/MethodCallAST.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="159" />
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java</url>
+          <line>142</line>
+          <option name="timeStamp" value="163" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/LaconValue.java</url>
-          <line>139</line>
-          <option name="timeStamp" value="163" />
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/core/function/built/regex/LaconBuiltInMatcherGroupMethod.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/WhileCycleAST.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="166" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ua/nechay/lacon/ast/WhileCycleAST.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="167" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />

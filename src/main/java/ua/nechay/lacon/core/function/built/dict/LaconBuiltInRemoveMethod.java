@@ -18,10 +18,10 @@ import static ua.nechay.lacon.core.function.LaconFunctionUtils.getMandatoryArgum
  * @author anechaev
  * @since 18.05.2023
  */
-public class LaconBuiltInRemoveFunction extends FunctionLaconValue {
+public class LaconBuiltInRemoveMethod extends FunctionLaconValue {
     private static final String KEY_ARGUMENT = "key";
 
-    private static final LaconBuiltInRemoveFunction INSTANCE = new LaconBuiltInRemoveFunction(List.of(
+    private static final LaconBuiltInRemoveMethod INSTANCE = new LaconBuiltInRemoveMethod(List.of(
         LaconFunctionArgument.create(KEY_ARGUMENT, LaconBuiltInType.ANY)
     ), state -> {
         DictLaconValue value = (DictLaconValue)state.popValue();
@@ -33,14 +33,14 @@ public class LaconBuiltInRemoveFunction extends FunctionLaconValue {
         return removedValue;
     }, LaconBuiltInType.ANY);
 
-    public LaconBuiltInRemoveFunction(@Nonnull List<LaconFunctionArgument> args,
+    public LaconBuiltInRemoveMethod(@Nonnull List<LaconFunctionArgument> args,
         @Nonnull Function<LaconProgramState, LaconValue<?>> function,
         @Nonnull LaconType returnType)
     {
         super(args, function, returnType);
     }
 
-    public static LaconBuiltInRemoveFunction getInstance() {
+    public static LaconBuiltInRemoveMethod getInstance() {
         return INSTANCE;
     }
 }

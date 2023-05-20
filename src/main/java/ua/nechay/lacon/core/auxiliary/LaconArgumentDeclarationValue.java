@@ -1,6 +1,6 @@
 package ua.nechay.lacon.core.auxiliary;
 
-import ua.nechay.lacon.core.LaconBuiltInType;
+import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 
 import javax.annotation.Nonnull;
@@ -12,7 +12,7 @@ import static ua.nechay.lacon.exception.LaconUnsupportedOperationException.unsup
  * @since 03.05.2023
  */
 public class LaconArgumentDeclarationValue extends LaconValue<String> {
-    public LaconArgumentDeclarationValue(@Nonnull String value, @Nonnull LaconBuiltInType type) {
+    public LaconArgumentDeclarationValue(@Nonnull String value, @Nonnull LaconType type) {
         super(value, type);
     }
 

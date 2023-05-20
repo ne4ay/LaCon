@@ -39,6 +39,11 @@ public enum LaconBuiltInType implements LaconType {
         this.representation = representation;
     }
 
+    @Override
+    public boolean isBuiltIn() {
+        return true;
+    }
+
     @Nullable
     public static LaconBuiltInType getForRepresentation(@Nonnull String representation) {
         return ACCESS_MAP.get(representation);

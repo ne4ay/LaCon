@@ -38,7 +38,7 @@ public class WhileCycleAST implements AST {
         LaconProgramState afterConditionState = condition.interpret(state);
         LaconValue<?> value = afterConditionState.popValue();
         if (value.getType() != LaconBuiltInType.BOOLEAN) {
-            throw new IllegalStateException("Unable to use not boolean type in while header: " + value.getValue());
+            value = value.castTo(LaconBuiltInType.BOOLEAN);
         }
         return new Pair<>((boolean)value.getValue(), afterConditionState);
     }

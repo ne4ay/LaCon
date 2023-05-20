@@ -6,11 +6,7 @@ import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.function.LaconFunctionArgument;
-import ua.nechay.lacon.core.function.built.LaconBuiltInPrintlnFunction;
-import ua.nechay.lacon.core.function.built.LaconBuiltInSizeFunction;
-import ua.nechay.lacon.core.val.IntLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
-import ua.nechay.lacon.core.var.LaconVariable;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -22,11 +18,11 @@ import static ua.nechay.lacon.core.function.LaconFunctionUtils.getMandatoryArgum
  * @author anechaev
  * @since 16.05.2023
  */
-public class LaconBuiltInSubstringFunction extends FunctionLaconValue {
+public class LaconBuiltInSubstringMethod extends FunctionLaconValue {
     private static final String BEGIN_ARGUMENT = "begin";
     private static final String END_ARGUMENT = "end";
 
-    private static final LaconBuiltInSubstringFunction INSTANCE = new LaconBuiltInSubstringFunction(
+    private static final LaconBuiltInSubstringMethod INSTANCE = new LaconBuiltInSubstringMethod(
         List.of(
             LaconFunctionArgument.create(BEGIN_ARGUMENT, LaconBuiltInType.INT),
             LaconFunctionArgument.create(END_ARGUMENT, LaconBuiltInType.INT)
@@ -43,7 +39,7 @@ public class LaconBuiltInSubstringFunction extends FunctionLaconValue {
 
     );
 
-    public LaconBuiltInSubstringFunction(@Nonnull List<LaconFunctionArgument> args,
+    public LaconBuiltInSubstringMethod(@Nonnull List<LaconFunctionArgument> args,
         @Nonnull Function<LaconProgramState, LaconValue<?>> function,
         @Nonnull LaconType returnType)
     {
@@ -51,7 +47,7 @@ public class LaconBuiltInSubstringFunction extends FunctionLaconValue {
     }
 
     @Nonnull
-    public static LaconBuiltInSubstringFunction getInstance() {
+    public static LaconBuiltInSubstringMethod getInstance() {
         return INSTANCE;
     }
 }

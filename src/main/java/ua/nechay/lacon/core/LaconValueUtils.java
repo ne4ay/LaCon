@@ -1,6 +1,7 @@
 package ua.nechay.lacon.core;
 
 import ua.nechay.lacon.LaconToken;
+import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.touch.SimpleTypeTouch;
 import ua.nechay.lacon.core.touch.TypeTouch;
@@ -90,9 +91,9 @@ public final class LaconValueUtils {
         return new BooleanLaconValue(val1.compareTo(val2) > -1);
     }
 
-    public static LaconBuiltInType determineType(@Nonnull LaconToken typeToken) {
+    public static LaconType determineType(@Nonnull LaconProgramState state, @Nonnull LaconToken typeToken) {
         String typeRepresentation = typeToken.getText();
-        LaconBuiltInType type = LaconBuiltInType.getForRepresentation(typeRepresentation);
+        LaconType type = state.getType(typeRepresentation);
         if (type == null) {
             throw new IllegalStateException("Unknown type: " + typeRepresentation);
         }
@@ -107,6 +108,7 @@ public final class LaconValueUtils {
             () -> new StringLaconValue(String.valueOf((boolean) value.getValue())),
             () -> new StringLaconValue(ListLaconValue.castToStrValue(value)),
             () -> FunctionLaconValue.castToStringValue((FunctionLaconValue) value),
+            () -> new StringLaconValue(value.getValue().toString()),
             () -> new StringLaconValue(value.getValue().toString())
         ));
     }

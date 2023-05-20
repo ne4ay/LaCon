@@ -1,12 +1,15 @@
 package ua.nechay.lacon.core.val;
 
 import ua.nechay.lacon.core.LaconBuiltInType;
+import ua.nechay.lacon.core.LaconType;
 import ua.nechay.lacon.core.LaconValue;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.function.LaconMethodName;
-import ua.nechay.lacon.core.function.built.LaconBuiltInSizeFunction;
-import ua.nechay.lacon.core.function.built.dict.LaconBuiltInPutFunction;
-import ua.nechay.lacon.core.function.built.dict.LaconBuiltInRemoveFunction;
+import ua.nechay.lacon.core.function.built.LaconBuiltInSizeMethod;
+import ua.nechay.lacon.core.function.built.dict.LaconBuiltInPutMethod;
+import ua.nechay.lacon.core.function.built.dict.LaconBuiltInRemoveMethod;
+import ua.nechay.lacon.core.touch.TypeTouch;
+import ua.nechay.lacon.core.touch.TypeTouchBuilder;
 import ua.nechay.lacon.utils.Pair;
 
 import javax.annotation.Nonnull;
@@ -15,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ua.nechay.lacon.core.function.LaconMethodName.toMap;
+import static ua.nechay.lacon.core.LaconOperation.CAST;
+import static ua.nechay.lacon.core.function.MethodName.toMap;
 
 /**
  * @author anechaev
@@ -23,9 +27,9 @@ import static ua.nechay.lacon.core.function.LaconMethodName.toMap;
  */
 public class DictLaconValue extends LaconValue<Map<LaconValue<?>, LaconValue<?>>> {
     private static final Map<String, FunctionLaconValue> METHODS = toMap(
-        new Pair<>(LaconMethodName.SIZE, LaconBuiltInSizeFunction.getInstance()),
-        new Pair<>(LaconMethodName.PUT, LaconBuiltInPutFunction.getInstance()),
-        new Pair<>(LaconMethodName.REMOVE, LaconBuiltInRemoveFunction.getInstance())
+        new Pair<>(LaconMethodName.SIZE, LaconBuiltInSizeMethod.getInstance()),
+        new Pair<>(LaconMethodName.PUT, LaconBuiltInPutMethod.getInstance()),
+        new Pair<>(LaconMethodName.REMOVE, LaconBuiltInRemoveMethod.getInstance())
     );
 
     public DictLaconValue(@Nonnull Map<LaconValue<?>, LaconValue<?>> value) {
@@ -58,6 +62,17 @@ public class DictLaconValue extends LaconValue<Map<LaconValue<?>, LaconValue<?>>
             .anyMatch(entry -> entry.getKey().equals(listValue.get(0))
                 && entry.getValue().equals(listValue.get(1))
             ));
+    }
+
+    @Nonnull
+    @Override
+    public LaconValue<?> castTo(@Nonnull LaconType type) {
+        return TypeTouch.touch(type, TypeTouchBuilder.<LaconValue<?>>create(() -> unsupported(CAST, type))
+            .setString(() -> new StringLaconValue(getValue().toString()))
+            .setList(() -> toList(this))
+            .setFunction(() -> FunctionLaconValue.createSupplier(this))
+            .setDict(() -> this)
+            .build());
     }
 
     @Override
