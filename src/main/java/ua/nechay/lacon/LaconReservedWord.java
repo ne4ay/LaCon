@@ -29,7 +29,9 @@ public enum LaconReservedWord {
     FOR("for"),
     RANGE("::"),
     IN("in"),
-    DOT(".")
+    DOT("."),
+    EXTERNAL_CALL_OPEN("#{"),
+    EXTERNAL_CALL_CLOSE("}#")
     ;
 
     private static final Map<String, LaconReservedWord> ACCESS_MAP = Arrays.stream(values())

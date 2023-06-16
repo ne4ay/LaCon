@@ -11,8 +11,8 @@ import javax.annotation.Nonnull;
  * @since 12.05.2023
  */
 public enum BuiltInFunction {
-    PRINT("print", LaconBuiltPrintFunction.getInstance()),
-    PRINTLN("println", LaconBuiltInPrintlnFunction.getInstance()),
+    PRINTLN("println", FunctionLaconValue.EMPTY), // SHOULD BE OVERRIDDEN 💅
+    PRINT("print", FunctionLaconValue.EMPTY), // SHOULD BE OVERRIDDEN 💅
     SEARCH("search", LaconBuiltInSearchFunction.getInstance()),
     FIND_ALL("find_all", LaconBuiltInFindAllFunction.getInstance())
     ;

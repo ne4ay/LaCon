@@ -3,6 +3,7 @@ package ua.nechay.lacon;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
+import ua.nechay.lacon.ast.ExternalCallAST;
 import ua.nechay.lacon.ast.ForCycleAST;
 import ua.nechay.lacon.ast.InAST;
 import ua.nechay.lacon.ast.RangeAST;
@@ -230,6 +231,12 @@ public class LaconParser implements Parser {
             }
             eat(LaconTokenType.RIGHT_CURLY_BRACKET);
             return new DictAST(entries);
+        }
+        if (type == LaconTokenType.EXTERNAL_CALL_OPEN) {
+            eat(LaconTokenType.EXTERNAL_CALL_OPEN);
+            AST command = expression();
+            eat(LaconTokenType.EXTERNAL_CALL_CLOSE);
+            return new ExternalCallAST(command);
         }
         return null;
     }

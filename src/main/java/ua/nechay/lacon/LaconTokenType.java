@@ -242,6 +242,18 @@ public enum LaconTokenType {
             return LaconUtils.matchesOperator(lexer, LaconReservedWord.GREATER_OR_EQUAL);
         }
     },
+    EXTERNAL_CALL_OPEN(LaconReservedWord.EXTERNAL_CALL_OPEN) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesOperator(lexer, LaconReservedWord.EXTERNAL_CALL_OPEN);
+        }
+    },
+    EXTERNAL_CALL_CLOSE(LaconReservedWord.EXTERNAL_CALL_CLOSE) {
+        @Override
+        public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {
+            return LaconUtils.matchesOperator(lexer, LaconReservedWord.EXTERNAL_CALL_CLOSE);
+        }
+    },
     NOT('!'),
     LESS('<'),
     GREATER('>'),

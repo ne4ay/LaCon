@@ -14,6 +14,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -114,9 +115,23 @@ public class LaconUtils {
         return new LaconToken(type, builder.toString(), position);
     }
 
+    /**
+     * Just for tests
+     *
+     * @param text
+     * @return result of program
+     */
     @Nonnull
     public static LaconProgramState exec(@Nonnull String text) {
-        return new LaconInterpreter(new LaconParser(new LaconLexer(text))).interpret();
+        return new LaconInterpreter(
+            System.out::print,
+            mock -> mock
+        ).interpret(new LaconParser(new LaconLexer(text)));
+    }
+
+    @Nonnull
+    public static LaconProgramState exec(@Nonnull String program, @Nonnull Consumer<String> prompter, @Nonnull Function<String, String> callReferrer) {
+        return new LaconInterpreter(prompter, callReferrer).interpret(new LaconParser(new LaconLexer(program)));
     }
 
     public static AST compose(@Nonnull AST identity, @Nonnull List<Function<AST, AST>> astHandlers) {

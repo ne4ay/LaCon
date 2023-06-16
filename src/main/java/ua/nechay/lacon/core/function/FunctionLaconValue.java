@@ -12,6 +12,7 @@ import ua.nechay.lacon.core.touch.TypeTouchBuilder;
 import ua.nechay.lacon.core.val.DictLaconValue;
 import ua.nechay.lacon.core.val.ListLaconValue;
 import ua.nechay.lacon.core.val.StringLaconValue;
+import ua.nechay.lacon.core.val.VoidLaconValue;
 import ua.nechay.lacon.core.var.LaconVariable;
 
 import javax.annotation.Nonnull;
@@ -30,7 +31,7 @@ import static ua.nechay.lacon.core.LaconOperation.PLUS;
  * @since 02.05.2023
  */
 public class FunctionLaconValue extends LaconValue<Function<LaconProgramState,LaconValue<?>>> {
-
+    public static final FunctionLaconValue EMPTY = createWithoutArgs(state -> VoidLaconValue.create(), LaconBuiltInType.VOID);
     private final List<LaconFunctionArgument> args;
     private final LaconType returnType;
 

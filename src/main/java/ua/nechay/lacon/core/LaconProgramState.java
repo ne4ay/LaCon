@@ -1,8 +1,8 @@
 package ua.nechay.lacon.core;
 
-import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.core.function.FunctionLaconValue;
 import ua.nechay.lacon.core.function.built.BuiltInFunction;
+import ua.nechay.lacon.core.function.built.external.LaconBuiltInStubExternalCallFunction;
 import ua.nechay.lacon.core.type.RegexType;
 import ua.nechay.lacon.core.var.LaconVariable;
 
@@ -19,18 +19,22 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author anechaev
  * @since 11.04.2023
  */
 public class LaconProgramState {
 
+    private final FunctionLaconValue externalCallFunction;
     private final Deque<LaconValue<?>> valueStack = new ArrayDeque<>();
     private final Map<String, LaconVariable> variables = new HashMap<>();
     private final Map<String, FunctionLaconValue> functions = new HashMap<>();
     private final Map<String, LaconType> types = new HashMap<>();
 
-    private LaconProgramState() {
+    private LaconProgramState(@Nonnull FunctionLaconValue externalCallFunction) {
+        this.externalCallFunction = requireNonNull(externalCallFunction, "externalCallFunction");
     }
 
     protected static List<LaconType> getBuiltInTypes() {
@@ -40,8 +44,14 @@ public class LaconProgramState {
         return result;
     }
 
+    @Nonnull
     public static LaconProgramState create() {
-        return new LaconProgramState()
+        return create(LaconBuiltInStubExternalCallFunction.getInstance());
+    }
+
+    @Nonnull
+    public static LaconProgramState create(@Nonnull FunctionLaconValue externalCallFunction) {
+        return new LaconProgramState(externalCallFunction)
             .addFunctions(Arrays.stream(BuiltInFunction.values())
                 .collect(Collectors.toMap(
                     BuiltInFunction::getName,
@@ -50,8 +60,9 @@ public class LaconProgramState {
             .addTypes(getBuiltInTypes());
     }
 
+    @Nonnull
     public static LaconProgramState createFromOuterScope(@Nonnull LaconProgramState state) {
-        return new LaconProgramState()
+        return new LaconProgramState(state.getExternalCallFunction())
             .addFunctions(state.getAllFunctions())
             .addTypes(state.getAllTypes());
     }
@@ -142,5 +153,15 @@ public class LaconProgramState {
     @Nullable
     public LaconType getType(@Nonnull String typeRepresentation) {
         return types.get(typeRepresentation);
+    }
+
+    @Nonnull
+    public FunctionLaconValue getExternalCallFunction() {
+        return externalCallFunction;
+    }
+
+    @Nonnull
+    public Map<String, LaconVariable> getVariables() {
+        return variables;
     }
 }
