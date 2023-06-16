@@ -283,6 +283,7 @@ public enum LaconTokenType {
     RETURN(LaconReservedWord.RETURN),
     FOR(LaconReservedWord.FOR),
     IN(LaconReservedWord.IN),
+    EXPORT(LaconReservedWord.EXPORT),
     RANGE(LaconReservedWord.RANGE) {
         @Override
         public boolean matches(@Nonnull Scanner lexer, @Nullable LaconToken previousToken) {

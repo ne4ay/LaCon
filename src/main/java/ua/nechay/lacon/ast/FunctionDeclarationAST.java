@@ -37,7 +37,7 @@ public class FunctionDeclarationAST implements AST {
     @Nonnull
     @Override
     public LaconProgramState interpret(@Nonnull LaconProgramState state) {
-        String functionName = identifier.getText();
+        String functionName = getFunctionName();
         FunctionLaconValue existingFunction = state.getFunction(functionName);
         if (existingFunction != null) {
             throw new IllegalStateException("Unable to declare function with non-unique name!!");
@@ -60,5 +60,10 @@ public class FunctionDeclarationAST implements AST {
             throw new IllegalStateException("Unable to declare non-string argument name!");
         }
         return new LaconFunctionArgument((String) obj, value.getType());
+    }
+
+    @Nonnull
+    public String getFunctionName() {
+        return identifier.getText();
     }
 }

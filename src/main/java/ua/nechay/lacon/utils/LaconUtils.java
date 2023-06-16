@@ -9,10 +9,13 @@ import ua.nechay.lacon.LaconTokenType;
 import ua.nechay.lacon.Scanner;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.core.LaconProgramState;
+import ua.nechay.lacon.core.function.FunctionLaconValue;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -124,14 +127,17 @@ public class LaconUtils {
     @Nonnull
     public static LaconProgramState exec(@Nonnull String text) {
         return new LaconInterpreter(
-            System.out::print,
-            mock -> mock
+            System.out::print, mock -> mock, Collections.emptyMap()
         ).interpret(new LaconParser(new LaconLexer(text)));
     }
 
     @Nonnull
-    public static LaconProgramState exec(@Nonnull String program, @Nonnull Consumer<String> prompter, @Nonnull Function<String, String> callReferrer) {
-        return new LaconInterpreter(prompter, callReferrer).interpret(new LaconParser(new LaconLexer(program)));
+    public static LaconProgramState exec(@Nonnull String program, @Nonnull Consumer<String> prompter,
+        @Nonnull Function<String, String> callReferrer,
+        @Nonnull Map<String, FunctionLaconValue> importedFunctions)
+    {
+        return new LaconInterpreter(prompter, callReferrer, importedFunctions)
+            .interpret(new LaconParser(new LaconLexer(program)));
     }
 
     public static AST compose(@Nonnull AST identity, @Nonnull List<Function<AST, AST>> astHandlers) {

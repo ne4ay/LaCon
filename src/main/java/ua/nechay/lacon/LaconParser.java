@@ -3,6 +3,7 @@ package ua.nechay.lacon;
 import ua.nechay.lacon.ast.AST;
 import ua.nechay.lacon.ast.AssignmentAST;
 import ua.nechay.lacon.ast.BinaryOperationAST;
+import ua.nechay.lacon.ast.ExportAST;
 import ua.nechay.lacon.ast.ExternalCallAST;
 import ua.nechay.lacon.ast.ForCycleAST;
 import ua.nechay.lacon.ast.InAST;
@@ -575,11 +576,21 @@ public class LaconParser implements Parser {
         return new StatementListAST(nodes);
     }
 
+    public AST export() {
+        eat(LaconTokenType.EXPORT);
+        return new ExportAST(function());
+    }
+
     public AST program() {
         eat(LaconTokenType.LEFT_CURLY_BRACKET);
         List<AST> result = new ArrayList<>();
-        while (getCurrentToken().getType() == LaconTokenType.DEF) {
-            result.add(function());
+        while (getCurrentToken().getType() == LaconTokenType.DEF || getCurrentToken().getType() == LaconTokenType.EXPORT) {
+            if (getCurrentToken().getType() == LaconTokenType.DEF) {
+                result.add(function());
+            }
+            if (getCurrentToken().getType() == LaconTokenType.EXPORT) {
+                result.add(export());
+            }
         }
         if (getCurrentToken().getType() == LaconTokenType.RIGHT_CURLY_BRACKET) {
             eat(LaconTokenType.RIGHT_CURLY_BRACKET);

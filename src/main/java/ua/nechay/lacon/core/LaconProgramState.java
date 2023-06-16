@@ -32,6 +32,7 @@ public class LaconProgramState {
     private final Map<String, LaconVariable> variables = new HashMap<>();
     private final Map<String, FunctionLaconValue> functions = new HashMap<>();
     private final Map<String, LaconType> types = new HashMap<>();
+    private final Map<String, FunctionLaconValue> functionsForExport = new HashMap<>();
 
     private LaconProgramState(@Nonnull FunctionLaconValue externalCallFunction) {
         this.externalCallFunction = requireNonNull(externalCallFunction, "externalCallFunction");
@@ -51,7 +52,14 @@ public class LaconProgramState {
 
     @Nonnull
     public static LaconProgramState create(@Nonnull FunctionLaconValue externalCallFunction) {
+        return create(externalCallFunction, new HashMap<>());
+
+    }
+
+    @Nonnull
+    public static LaconProgramState create(@Nonnull FunctionLaconValue externalCallFunction, @Nonnull Map<String, FunctionLaconValue> importedFunctions) {
         return new LaconProgramState(externalCallFunction)
+            .addFunctions(importedFunctions)
             .addFunctions(Arrays.stream(BuiltInFunction.values())
                 .collect(Collectors.toMap(
                     BuiltInFunction::getName,
@@ -163,5 +171,16 @@ public class LaconProgramState {
     @Nonnull
     public Map<String, LaconVariable> getVariables() {
         return variables;
+    }
+
+    @Nonnull
+    public Map<String, FunctionLaconValue> getFunctionsForExport() {
+        return functionsForExport;
+    }
+
+    @Nonnull
+    public LaconProgramState putFunctionForExport(@Nonnull String name, @Nonnull FunctionLaconValue function) {
+        functionsForExport.put(name, function);
+        return this;
     }
 }
